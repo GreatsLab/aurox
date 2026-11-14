@@ -19,7 +19,7 @@ if (!defined('WHMCS')) {
 class Settings
 {
     const MODULE = 'auroxadmin';
-    const VERSION = '2.0.0';
+    const VERSION = '2.1.0';
     const DEFAULT_ACCENT = '#2f6bff';
     const COUNTER_TTL = 60; // seconds the sidebar counters are cached per admin session
 

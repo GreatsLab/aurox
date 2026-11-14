@@ -78,14 +78,22 @@ class Companion
     }
 
     /**
-     * Is the Aurox template uploaded, complete, and is Blend still there?
+     * Is the Aurox template uploaded and complete (Aurox files plus the
+     * WHMCS core admin files copied in during installation)?
      */
     public static function templateStatus()
     {
         $templates = self::adminDir() . '/templates';
         $aurox = $templates . '/' . self::TEMPLATE;
-        $required = array('header.tpl', 'footer.tpl', 'nav.tpl', 'settings.tpl', 'aurox/icon.tpl',
-            'aurox/css/aurox-admin.css', 'aurox/css/aurox-template.css', 'aurox/js/aurox-admin.js', 'aurox/js/aurox-tools.js');
+        $required = array(
+            // Aurox
+            'header.tpl', 'footer.tpl', 'nav.tpl', 'homepage.tpl', 'settings.tpl', 'aurox/icon.tpl',
+            'aurox/css/aurox-admin.css', 'aurox/css/aurox-template.css', 'aurox/css/aurox-dark.css',
+            'aurox/js/aurox-admin.js', 'aurox/js/aurox-tools.js',
+            // WHMCS core admin files (copied from Blend during install)
+            'css/all.min.css', 'css/theme.min.css', 'js/vendor.min.js', 'js/scripts.min.js',
+            'sidebar.tpl', 'includes.tpl', 'intellisearch-results.tpl', 'clientssummary.tpl', 'viewticket.tpl',
+        );
         $missing = array();
         foreach ($required as $file) {
             if (!is_file($aurox . '/' . $file)) {
@@ -95,7 +103,7 @@ class Companion
         return array(
             'installed' => is_dir($aurox) && empty($missing),
             'missing'   => is_dir($aurox) ? $missing : $required,
-            'blend'     => is_file($templates . '/blend/header.tpl') && is_file($templates . '/blend/js/scripts.min.js'),
+            'core'      => is_file($aurox . '/js/scripts.min.js') && is_file($aurox . '/clientssummary.tpl'),
             'path'      => $aurox,
         );
     }
@@ -157,7 +165,7 @@ class Companion
             return 0;
         }
         $status = self::templateStatus();
-        if ($template === self::TEMPLATE && (!$status['installed'] || !$status['blend'])) {
+        if ($template === self::TEMPLATE && !$status['installed']) {
             return 0;
         }
         $query = Capsule::table('tbladmins');

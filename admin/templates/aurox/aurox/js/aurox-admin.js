@@ -1132,6 +1132,20 @@
     }, { passive: true });
   }
 
+  /* Wide tables scroll sideways inside their card instead of being cut off. */
+  function wrapWideTables() {
+    var tables = document.querySelectorAll('#contentarea table.datatable, #contentarea table.table, #contentarea .tablebg > table');
+    Array.prototype.forEach.call(tables, function (t) {
+      if (t.closest('.ax-scroll, .table-responsive, .modal, #ax-panel, .ax-overlay') || (t.parentNode && t.parentNode.closest && t.parentNode.closest('table'))) { return; }
+      var holder = t.parentNode;
+      if (!holder || t.scrollWidth <= holder.clientWidth + 2) { return; }
+      var wrap = document.createElement('div');
+      wrap.className = 'ax-scroll';
+      holder.insertBefore(wrap, t);
+      wrap.appendChild(t);
+    });
+  }
+
   /* ---------------------------------------------------------------- */
   /* Boot                                                              */
   /* ---------------------------------------------------------------- */
@@ -1143,10 +1157,14 @@
       trackRecent();
     }
     hideConfigured();
+    wrapWideTables();
+    var rt;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(wrapWideTables, 250); });
+    window.addEventListener('load', wrapWideTables);
   }
 
   window.AuroxUI = {
-    version: CFG.version || '2.0.0',
+    version: CFG.version || '2.1.0',
     open: openPalette,
     close: closePalette,
     help: openHelp,

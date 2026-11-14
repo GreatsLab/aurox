@@ -218,3 +218,192 @@ html.ax-tpl .ax-avatar img { position: absolute; inset: 0; width: 100%; height: 
 html.aurox[data-ax-mode="dark"] .selectize-input, html.aurox[data-ax-mode="dark"] .selectize-dropdown { background: var(--ax-surface-2) !important; color: var(--ax-text) !important; border-color: var(--ax-border-strong) !important; box-shadow: none !important; }
 html.aurox[data-ax-mode="dark"] .selectize-input > div, html.aurox[data-ax-mode="dark"] .selectize-input .item { background: var(--ax-surface-3) !important; color: var(--ax-text) !important; border-color: var(--ax-border-strong) !important; }
 html.aurox[data-ax-mode="dark"] .selectize-input input { color: var(--ax-text) !important; }
+
+/* ================================================================== */
+/* v2.1 - fixes and WHMCS components                                  */
+/* ================================================================== */
+
+/* Search field: Aurox icon, WHMCS spinner only while searching */
+html.ax-tpl .ax-topbar .intellisearch .loader.fa-search { display: none !important; }
+html.ax-tpl .ax-topbar .intellisearch .loader.fa-spin {
+  display: block !important; position: absolute; left: 13px; top: 50%; margin-top: -7px; transform: none;
+  width: 14px; height: 14px; padding: 0; line-height: 14px; color: var(--ax-accent); z-index: 3;
+}
+.ax-search-ico { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); display: flex; color: var(--ax-muted); pointer-events: none; z-index: 3; }
+.ax-search-ico .ax-svg { width: 17px; height: 17px; }
+html.ax-tpl .ax-topbar .intellisearch .loader.fa-spin ~ .ax-search-ico { display: none; }
+html.ax-tpl .ax-topbar .intellisearch.active .ax-search-ico { color: var(--ax-accent); }
+
+/* Form fields: consistent height, padding and joined input groups */
+html.aurox input[type="text"]:not(.form-control):not(.ax-input),
+html.aurox input[type="email"]:not(.form-control):not(.ax-input),
+html.aurox input[type="password"]:not(.form-control):not(.ax-input),
+html.aurox input[type="number"]:not(.form-control):not(.ax-input),
+html.aurox input[type="url"]:not(.form-control):not(.ax-input),
+html.aurox input[type="tel"]:not(.form-control):not(.ax-input),
+html.aurox select:not(.form-control):not(.ax-input) { min-height: 34px; padding: 5px 10px; line-height: 1.4; }
+html.aurox textarea:not(.form-control):not(.ax-input) { padding: 8px 10px; }
+html.aurox .input-group .form-control,
+html.aurox .input-group .input-group-addon,
+html.aurox .input-group .input-group-btn > .btn { height: var(--ax-ctrl-h); min-height: var(--ax-ctrl-h); }
+html.aurox .input-group .input-group-btn > .btn { box-shadow: none; padding-top: 0; padding-bottom: 0; }
+html.aurox .input-group .input-group-addon { padding-top: 0; padding-bottom: 0; line-height: calc(var(--ax-ctrl-h) - 2px); }
+html.aurox .input-group-sm .form-control, html.aurox .input-group-sm .input-group-btn > .btn, html.aurox .input-group-sm .input-group-addon { height: 30px; min-height: 30px; }
+html.aurox .form-inline .form-control { width: auto; display: inline-block; vertical-align: middle; }
+html.aurox select[multiple], html.aurox select[size] { height: auto !important; }
+html.aurox .checkbox-inline, html.aurox .radio-inline, html.aurox .checkbox label, html.aurox .radio label { font-weight: 500; }
+html.aurox[data-ax-mode="dark"] select option { background: var(--ax-surface); color: var(--ax-text); }
+
+/* Tables: rounded without clipping; wide tables scroll sideways (see aurox-admin.js) */
+html.aurox .datatable, html.aurox table.table { overflow: visible; }
+html.aurox .datatable tr:first-child th:first-child, html.aurox table.table > thead > tr > th:first-child { border-top-left-radius: var(--ax-radius); }
+html.aurox .datatable tr:first-child th:last-child, html.aurox table.table > thead > tr > th:last-child { border-top-right-radius: var(--ax-radius); }
+.ax-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 18px; border-radius: var(--ax-radius); }
+.ax-scroll > table { margin-bottom: 0 !important; }
+.ax-scroll::-webkit-scrollbar { height: 8px; }
+.ax-scroll::-webkit-scrollbar-thumb { background: var(--ax-border-strong); border-radius: 8px; }
+
+/* WHMCS settings forms stack on small screens */
+@media (max-width: 767px) {
+  html.aurox table.form, html.aurox table.form > tbody, html.aurox table.form > tbody > tr, html.aurox table.form > tbody > tr > td { display: block; width: 100% !important; }
+  html.aurox table.form td.fieldlabel { text-align: left; padding-bottom: 4px !important; min-width: 0; }
+  html.aurox table.form tr + tr td.fieldlabel { border-top: 1px solid var(--ax-border) !important; }
+  html.aurox table.form td.fieldarea { border-top: 0 !important; padding-top: 4px !important; }
+  html.ax-tpl #contentarea input:not([type="checkbox"]):not([type="radio"]), html.ax-tpl #contentarea select, html.ax-tpl #contentarea textarea { max-width: 100% !important; }
+  html.ax-tpl #contentarea .btn { white-space: normal; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Dashboard                                                           */
+/* ------------------------------------------------------------------ */
+html.ax-tpl .ax-home-h1 { display: none !important; }
+.ax-home { font-family: var(--ax-font); }
+.ax-home-hero { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin: 0 0 18px; }
+.ax-home-kicker { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--ax-accent); }
+.ax-home-hello h2 { margin: 6px 0 6px !important; font-size: 27px; font-weight: 800; letter-spacing: -.02em; color: var(--ax-text); }
+.ax-home-hello p { margin: 0; color: var(--ax-muted); }
+.ax-home-hello kbd { font: 600 11px var(--ax-font); padding: 2px 6px; border-radius: 5px; background: var(--ax-surface-3); color: var(--ax-text-2); border: 0; box-shadow: none; }
+.ax-home-customise { float: none !important; }
+.ax-home-customise .ax-btn { min-height: 38px; }
+.ax-home-customise .dropdown-menu { width: 260px; padding: 8px; max-height: 60vh; overflow-y: auto; }
+.ax-home-customise .dropdown-menu h4 { font-size: 12px !important; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--ax-muted) !important; text-align: left; padding: 4px 8px 8px; margin: 0; }
+.ax-home-customise .dropdown-menu li { border: 0 !important; border-radius: 8px; }
+.ax-home-customise .dropdown-menu li.active { background: var(--ax-accent-soft) !important; }
+.ax-home-customise .checkbox-inline { display: flex !important; align-items: center; gap: 8px; padding: 7px 8px !important; margin: 0 !important; color: var(--ax-text-2); }
+
+.ax-quick { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 0 0 22px; }
+.ax-quick-item {
+  display: flex; align-items: center; gap: 12px; padding: 13px 14px; min-width: 0;
+  border: 1px solid var(--ax-border); border-radius: 14px; background: var(--ax-surface);
+  color: var(--ax-text) !important; text-decoration: none !important; box-shadow: var(--ax-shadow-sm);
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+.ax-quick-item:hover { border-color: rgba(var(--ax-accent-rgb), .55); transform: translateY(-1px); box-shadow: var(--ax-shadow); filter: none; }
+.ax-quick-item b { display: block; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ax-quick-item small { display: block; font-size: 12px; color: var(--ax-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ax-quick-item > span:last-child { min-width: 0; }
+.ax-quick-ico { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 12px; display: grid; place-items: center; }
+.ax-quick-ico .ax-svg { width: 20px; height: 20px; }
+.is-blue { --ax-tone: 47, 107, 255; } .is-green { --ax-tone: 18, 161, 80; } .is-purple { --ax-tone: 124, 77, 255; }
+.is-red { --ax-tone: 224, 54, 75; } .is-orange { --ax-tone: 217, 138, 0; } .is-cyan { --ax-tone: 14, 143, 214; }
+.ax-quick-ico[class*="is-"] { background: rgba(var(--ax-tone), .12); color: rgb(var(--ax-tone)); }
+
+/* WHMCS status tiles (Pending orders, Tickets waiting, ...) become clean cards */
+html.aurox .home-status-badge-row, html.aurox .health-status-blocks .row {
+  display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 0 0 20px !important;
+}
+html.aurox .home-status-badge-row::before, html.aurox .home-status-badge-row::after,
+html.aurox .health-status-blocks .row::before, html.aurox .health-status-blocks .row::after { display: none !important; }
+html.aurox .home-status-badge-row > div, html.aurox .health-status-blocks .row > div { width: auto !important; float: none !important; padding: 0 !important; left: auto !important; right: auto !important; min-width: 0; }
+html.aurox .health-status-block {
+  --ax-tone: 47, 107, 255;
+  position: relative; display: flex !important; align-items: center; gap: 14px; margin: 0 !important; padding: 16px 16px 16px 18px;
+  min-height: 88px; border-radius: 16px; background: var(--ax-surface) !important; border: 1px solid var(--ax-border);
+  box-shadow: var(--ax-shadow); color: var(--ax-text) !important; overflow: hidden; transition: transform .15s ease, box-shadow .15s ease;
+}
+html.aurox .health-status-block:hover { transform: translateY(-1px); box-shadow: 0 10px 28px -14px rgba(var(--ax-tone), .55); }
+html.aurox .health-status-block::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 3px 3px 0; background: rgb(var(--ax-tone)); }
+html.aurox .health-status-block .icon {
+  float: none !important; display: grid !important; place-items: center; width: 48px !important; height: 48px !important; flex: 0 0 48px;
+  line-height: 1 !important; font-size: 20px !important; border-radius: 14px !important;
+  background: rgba(var(--ax-tone), .12) !important; color: rgb(var(--ax-tone)) !important;
+}
+html.aurox .health-status-block .icon a { display: grid !important; place-items: center; width: 100%; height: 100%; color: inherit !important; }
+html.aurox .health-status-block .detail { float: none !important; width: auto !important; height: auto !important; padding: 0 !important; background: transparent !important; border-radius: 0 !important; flex: 1; min-width: 0; }
+html.aurox .health-status-block .detail a { color: inherit !important; }
+html.aurox .health-status-block .detail .count { display: block; font-size: 28px !important; font-weight: 800; line-height: 1.1; color: var(--ax-text); letter-spacing: -.02em; }
+html.aurox .health-status-block .detail .desc { display: block; margin-top: 3px !important; font-size: 12.5px !important; color: var(--ax-muted); white-space: normal !important; }
+html.aurox .badge-shadow { text-shadow: none !important; }
+html.aurox .status-badge-green, html.aurox .health-status-block-success { --ax-tone: 18, 161, 80; }
+html.aurox .status-badge-pink { --ax-tone: 214, 51, 132; }
+html.aurox .status-badge-orange, html.aurox .health-status-block-warning { --ax-tone: 217, 138, 0; }
+html.aurox .status-badge-cyan { --ax-tone: 14, 143, 214; }
+html.aurox .health-status-block-danger { --ax-tone: 224, 54, 75; }
+@media (max-width: 1199px) { html.aurox .home-status-badge-row, html.aurox .health-status-blocks .row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) {
+  html.aurox .home-status-badge-row { gap: 10px; }
+  html.aurox .health-status-block { padding: 12px; gap: 10px; min-height: 0; }
+  html.aurox .health-status-block .icon { width: 38px !important; height: 38px !important; flex-basis: 38px; font-size: 16px !important; }
+  html.aurox .health-status-block .detail .count { font-size: 22px !important; }
+}
+
+/* Widgets */
+html.ax-tpl .home-widgets-container .panel, html.ax-tpl .ax-home-static .panel { border-radius: 16px !important; overflow: hidden; }
+html.ax-tpl .dashboard-panel-item, html.ax-tpl .dashboard-panel-static-item { padding-left: 7px; padding-right: 7px; }
+html.ax-tpl .home-widgets-container { margin-left: -7px; margin-right: -7px; }
+html.aurox .panel-heading .widget-tools { float: right; display: flex; gap: 2px; }
+html.aurox .panel-heading .widget-tools a { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 7px; color: var(--ax-muted) !important; text-decoration: none; }
+html.aurox .panel-heading .widget-tools a:hover { background: var(--ax-surface-3); color: var(--ax-text) !important; }
+html.aurox .icon-stats .number { color: var(--ax-text); font-weight: 700; }
+html.aurox .icon-stats .unit, html.aurox .widget-billing .item .note { color: var(--ax-muted); }
+html.aurox .widget-billing .item .data { color: var(--ax-text); font-weight: 700; }
+html.aurox .widget-billing .bordered-right, html.aurox .widget-billing .bordered-top,
+html.aurox .widget-activity .feed-element, html.aurox .widget-automation .col-sm-6 { border-color: var(--ax-border) !important; }
+
+/* Dark mode: things WHMCS sets with inline styles or images */
+html.aurox[data-ax-mode="dark"] [style*="background-color:#f"], html.aurox[data-ax-mode="dark"] [style*="background-color: #f"],
+html.aurox[data-ax-mode="dark"] [style*="background:#f"], html.aurox[data-ax-mode="dark"] [style*="background: #f"],
+html.aurox[data-ax-mode="dark"] [style*="background-color:#e"], html.aurox[data-ax-mode="dark"] [style*="background-color: #e"],
+html.aurox[data-ax-mode="dark"] [bgcolor] { background-color: var(--ax-surface-2) !important; }
+html.aurox[data-ax-mode="dark"] [style*="color:#000"], html.aurox[data-ax-mode="dark"] [style*="color: #000"],
+html.aurox[data-ax-mode="dark"] [style*="color:#333"], html.aurox[data-ax-mode="dark"] [style*="color: #333"] { color: var(--ax-text) !important; }
+html.aurox[data-ax-mode="dark"] .contentarea, html.aurox[data-ax-mode="dark"] .contentarea p, html.aurox[data-ax-mode="dark"] .contentarea td, html.aurox[data-ax-mode="dark"] .contentarea li, html.aurox[data-ax-mode="dark"] .contentarea label { color: var(--ax-text-2); }
+html.aurox[data-ax-mode="dark"] .contentarea h1, html.aurox[data-ax-mode="dark"] .contentarea h2, html.aurox[data-ax-mode="dark"] .contentarea h3, html.aurox[data-ax-mode="dark"] .contentarea h4, html.aurox[data-ax-mode="dark"] .contentarea strong, html.aurox[data-ax-mode="dark"] .contentarea b { color: var(--ax-text); }
+html.aurox[data-ax-mode="dark"] .contentarea a:not(.btn):not(.label):not(.ax-quick-item) { color: color-mix(in srgb, var(--ax-accent) 70%, white); }
+html.aurox[data-ax-mode="dark"] .label-default { background: var(--ax-surface-3); color: var(--ax-text-2); }
+html.aurox[data-ax-mode="dark"] .btn-default { background: var(--ax-surface-2); color: var(--ax-text); border-color: var(--ax-border-strong); }
+html.aurox[data-ax-mode="dark"] .btn-default:hover { background: var(--ax-surface-3); }
+html.aurox[data-ax-mode="dark"] img[src*="images/icons/"] { filter: brightness(1.15); }
+html.aurox[data-ax-mode="dark"] .table > tbody > tr > td, html.aurox[data-ax-mode="dark"] .datatable td { color: var(--ax-text-2); }
+html.aurox[data-ax-mode="dark"] .datatable tr:hover td, html.aurox[data-ax-mode="dark"] table.table > tbody > tr:hover > td { color: var(--ax-text); }
+html.aurox[data-ax-mode="dark"] .ax-topbar .intellisearch form .form-control { background: var(--ax-surface-2) !important; }
+html.aurox .health-status-block .icon svg { width: 22px; height: 22px; }
+html.aurox .icon-stats .icon-holder svg { width: 30px; height: 30px; }
+
+/* v2.1 polish */
+html.ax-tpl .ax-topbar .intellisearch form { position: relative; display: block; }
+html.ax-tpl .ax-topbar .intellisearch .input-group .form-control { float: none !important; width: 100% !important; display: block; }
+html.aurox table.form { overflow: visible !important; }
+html.aurox table.form td.fieldarea { overflow-wrap: anywhere; }
+html.aurox table.form td.fieldarea input[size] { max-width: 100%; }
+html.ax-tpl .dashboard-panel-static-item { padding-left: 0 !important; padding-right: 0 !important; }
+html.aurox .home-status-badge-row > div > .health-status-block { height: 100%; }
+html.aurox .widget-billing .item .data { font-size: 22px !important; letter-spacing: -.01em; }
+html.aurox .widget-billing .item { padding: 14px 4px !important; text-align: center; }
+.ax-scroll .datatable td, .ax-scroll .datatable th, .ax-scroll table.table td, .ax-scroll table.table th { white-space: nowrap; }
+@media (max-width: 767px) {
+  html.aurox .nav-tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  html.aurox .nav-tabs::-webkit-scrollbar { display: none; }
+  html.aurox .nav-tabs > li { float: none; flex: 0 0 auto; }
+  html.aurox .nav-tabs > li > a { white-space: nowrap; }
+}
+html.aurox table.form td.fieldarea textarea[cols], html.aurox table.form td.fieldarea textarea.form-control { width: 100% !important; max-width: 760px; box-sizing: border-box; }
+html.aurox table.form td.fieldarea input[size] { width: auto; max-width: min(100%, 520px); box-sizing: border-box; }
+html.aurox table.form { table-layout: fixed; width: 100% !important; }
+html.aurox table.form td.fieldarea input[size], html.aurox table.form td.fieldarea select { max-width: 100%; }
+@media (max-width: 1279px) { html.aurox table.form td.fieldlabel { width: 30%; min-width: 0; } html.ax-tpl { --ax-panel-w: 200px; } }
+/* Dashboard uses the full width; its shortcuts live in the quick actions */
+html.ax-tpl body.ax-dashboard #sidebar, html.ax-tpl body.ax-dashboard .sidebar-opener { display: none !important; }
+.ax-home-sys { margin-top: 6px !important; font-size: 12.5px; color: var(--ax-muted); }
+.ax-home-sys a { font-weight: 600; }
+html.aurox .widget-billing .item .data { font-size: 19px !important; }

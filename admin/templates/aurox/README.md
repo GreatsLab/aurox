@@ -2,14 +2,25 @@
 
 Designed and built by **Chimnadindu Great Chibueze** · https://github.com/GreatsLab/aurox
 
-Upload this `aurox` folder to your WHMCS `admin/templates/` folder, then go to
-**Configuration › Administrators**, edit your admin user and set **Template** to **aurox**.
+## Install in short
 
-- Your settings (brand name, logo, colour, theme, spacing) are in `settings.tpl`.
-- Aurox's own styles, scripts and icons are in the `aurox/` folder.
-- The one-line `.tpl` files point at WHMCS's built-in Blend template, so WHMCS
-  updates keep working without reinstalling Aurox. Keep Blend installed.
+1. In `admin/templates/`, copy the `blend` folder and name the copy `aurox`.
+2. Upload these Aurox files into `admin/templates/aurox/` and overwrite.
+3. In WHMCS: **Configuration › Administrators** › edit your user › **Template: aurox**.
 
-Full guide, screenshots and updates: https://github.com/GreatsLab/aurox
+The full guide is in INSTALL.md on GitHub.
+
+## Your files
+
+- `settings.tpl`: brand name, logo, colour, starting theme and spacing
+- `quicklinks.tpl`: your dashboard shortcuts
+- `menulinks.tpl`: your own menu links
+
+## After a WHMCS update
+
+Copy `css`, `js`, `fonts`, `img`, `images`, `affiliates` and every `.tpl` file
+except `header.tpl`, `footer.tpl`, `nav.tpl` and `homepage.tpl` from `blend`
+into `aurox`, overwrite, then empty the template cache
+(Utilities › System › System Cleanup).
 
 MIT License · Copyright (c) 2026 Chimnadindu Great Chibueze (GreatsLab)

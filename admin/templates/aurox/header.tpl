@@ -3,9 +3,9 @@
  * Layout: menu on the left, top bar (search, create, status, help, account),
  * the WHMCS page panel and the page content.
  *
- * Aurox is a "child" template: WHMCS's own styles, scripts and page files
- * are used live from the Blend template that ships with WHMCS, so updates
- * keep working. Aurox's own files live in the aurox/ folder.
+ * Aurox is a standalone admin template. Everything it needs lives in this
+ * folder: Aurox's own files are in aurox/, and WHMCS's core admin scripts,
+ * styles and page files sit in css/, js/, fonts/ and the other .tpl files.
  *
  * Author:  Chimnadindu Great Chibueze (https://github.com/GreatsLab)
  * Project: https://github.com/GreatsLab/aurox
@@ -19,7 +19,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="same-origin">
-    <meta name="generator" content="Aurox Admin 2.0.0 by Chimnadindu Great Chibueze - https://github.com/GreatsLab/aurox">
+    <meta name="generator" content="Aurox Admin 2.1.0 by Chimnadindu Great Chibueze - https://github.com/GreatsLab/aurox">
     <!-- Aurox Admin for WHMCS · designed and built by Chimnadindu Great Chibueze · https://github.com/GreatsLab/aurox -->
     <title>{$pagetitle} · {if !empty($auroxBrand)}{$auroxBrand|escape}{else}WHMCS{/if}</title>
 
@@ -44,20 +44,21 @@
     </script>
 
     {\WHMCS\View\Asset::fontCssInclude('open-sans-family.css')}
-    <link href="templates/blend/css/all.min.css?v={$versionHash}" rel="stylesheet" />
-    <link href="templates/blend/css/theme.min.css?v={$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/css/all.min.css?v={$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/css/theme.min.css?v={$versionHash}" rel="stylesheet" />
     <link href="{$WEB_ROOT}/assets/fonts/css/fontawesome.min.css" rel="stylesheet" />
     <link href="{$WEB_ROOT}/assets/fonts/css/fontawesome-solid.min.css" rel="stylesheet" />
     <link href="{$WEB_ROOT}/assets/fonts/css/fontawesome-regular.min.css" rel="stylesheet" />
     <link href="{$WEB_ROOT}/assets/fonts/css/fontawesome-light.min.css" rel="stylesheet" />
     <link href="{$WEB_ROOT}/assets/fonts/css/fontawesome-brands.min.css" rel="stylesheet" />
     <link href="{$WEB_ROOT}/assets/fonts/css/fontawesome-duotone.min.css" rel="stylesheet" />
-    <link href="templates/{$template}/aurox/css/aurox-admin.css?v=2.0.0-{$versionHash}" rel="stylesheet" />
-    <link href="templates/{$template}/aurox/css/aurox-template.css?v=2.0.0-{$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/aurox/css/aurox-dark.css?v=2.1.0-{$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/aurox/css/aurox-admin.css?v=2.1.0-{$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/aurox/css/aurox-template.css?v=2.1.0-{$versionHash}" rel="stylesheet" />
     {if !empty($auroxCustomCss)}<style id="aurox-custom">{$auroxCustomCss}</style>{/if}
 
-    <script type="text/javascript" src="templates/blend/js/vendor.min.js?v={$versionHash}"></script>
-    <script type="text/javascript" src="templates/blend/js/scripts.min.js?v={$versionHash}"></script>
+    <script type="text/javascript" src="templates/{$template}/js/vendor.min.js?v={$versionHash}"></script>
+    <script type="text/javascript" src="templates/{$template}/js/scripts.min.js?v={$versionHash}"></script>
     <script>
         var datepickerformat = "{$datepickerformat}",
             csrfToken="{$csrfToken}",
@@ -73,7 +74,7 @@
             {$jscode}
         {/if}
 
-        window.AuroxAdminConfig = {if !empty($auroxConfigJson)}{$auroxConfigJson}{else}{ldelim}"version":"2.0.0","brand":"WHMCS","palette":true,"shortcuts":true,"tools":true,"tableTools":true,"guard":true,"tour":true,"counters":{ldelim}{rdelim}{rdelim}{/if};
+        window.AuroxAdminConfig = {if !empty($auroxConfigJson)}{$auroxConfigJson}{else}{ldelim}"version":"2.1.0","brand":"WHMCS","palette":true,"shortcuts":true,"tools":true,"tableTools":true,"guard":true,"tour":true,"counters":{ldelim}{rdelim}{rdelim}{/if};
         window.AuroxAdminConfig.template = true;
         window.AuroxAdminConfig.adminPath = "{$ADMIN_WEB_ROOT}/";
         window.AuroxAdminConfig.routes = {ldelim}
@@ -87,7 +88,7 @@
     {$headoutput}
 
 </head>
-<body class="ax-app{if empty($sidebar)} no-sidebar{/if}{if !empty($globalAdminWarningMsg)} has-warning-banner{/if}" data-phone-cc-input="{if !empty($phoneNumberInputStyle)}{$phoneNumberInputStyle}{/if}">
+<body class="ax-app{if !empty($filename)} ax-page-{$filename|escape}{/if}{if $pagetitle == $_ADMINLANG.global.hometitle} ax-dashboard{/if}{if empty($sidebar)} no-sidebar{/if}{if !empty($globalAdminWarningMsg)} has-warning-banner{/if}" data-phone-cc-input="{if !empty($phoneNumberInputStyle)}{$phoneNumberInputStyle}{/if}">
 
     {$headeroutput}
 
@@ -108,6 +109,7 @@
                 <form method="post" action="{routePath('admin-search-intellisearch')}">
                     <input type="hidden" id="intelliSearchHideInactive" name="hide_inactive" value="1">
                     <i class="fas fa-search loader"></i>
+                    <span class="ax-search-ico" aria-hidden="true">{include file="$template/aurox/icon.tpl" i="search"}</span>
                     <div class="input-group">
                         <input type="text" name="searchterm" class="form-control" id="inputIntelliSearchValue" placeholder="Search clients, invoices, tickets, domains…" autocomplete="off">
                         <span class="input-group-btn">
@@ -186,7 +188,7 @@
 
             <div class="dropdown ax-dd">
                 <button type="button" class="ax-tb-account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="{$_ADMINLANG.account}">
-                    <span class="ax-tb-avatar">{include file="$template/aurox/icon.tpl" i="user"}<img src="https://www.gravatar.com/avatar/{$gravatarHash}?s=64&d=mp" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span>
+                    <span class="ax-tb-avatar">{include file="$template/aurox/icon.tpl" i="user"}<img src="https://www.gravatar.com/avatar/{$gravatarHash}?s=64&d=404" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span>
                     <span class="ax-tb-name">{$adminFullName}</span>
                     {include file="$template/aurox/icon.tpl" i="chev" c="ax-tb-chev"}
                 </button>
@@ -228,7 +230,7 @@
             <div class="{$contentAreaClasses}" id="contentarea">
                 <div style="float:left;width:100%;">
                     {if !$isCustomHeader}
-                        <h1{if $pagetitle == $_ADMINLANG.global.hometitle} class="pull-left"{/if}>{$pagetitle}</h1>
+                        <h1{if $pagetitle == $_ADMINLANG.global.hometitle} class="pull-left ax-home-h1"{/if}>{$pagetitle}</h1>
                     {/if}
                 </div>
                 <div class="clear"></div>

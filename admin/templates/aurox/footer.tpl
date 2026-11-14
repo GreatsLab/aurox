@@ -31,8 +31,8 @@
     {include file="$template/intellisearch-results.tpl"}
     {include file="$template/includes.tpl"}
 
-    <script src="templates/{$template}/aurox/js/aurox-admin.js?v=2.0.0-{$versionHash}"></script>
-    <script src="templates/{$template}/aurox/js/aurox-tools.js?v=2.0.0-{$versionHash}"></script>
+    <script src="templates/{$template}/aurox/js/aurox-admin.js?v=2.1.0-{$versionHash}"></script>
+    <script src="templates/{$template}/aurox/js/aurox-tools.js?v=2.1.0-{$versionHash}"></script>
 
     {$footeroutput}
 

@@ -29,7 +29,7 @@ jobs:
       - name: Build upload zip
         run: |
           mkdir -p dist
-          zip -r "dist/aurox-admin-${GITHUB_REF_NAME}.zip" admin modules README.md LICENSE CHANGELOG.md -x "*.DS_Store"
+          zip -r "dist/aurox-admin-${GITHUB_REF_NAME}.zip" admin modules README.md INSTALL.md LICENSE CHANGELOG.md -x "*.DS_Store"
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2

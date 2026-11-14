@@ -2,6 +2,30 @@
 
 All notable changes to this project are listed here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [2.1.0] - 2026-11-14
+
+Aurox is now a fully standalone admin template: it no longer reads anything from the Blend folder at runtime.
+
+### Added
+- **New dashboard**: a greeting with the date and WHMCS version, one-click quick actions (including Generate Due Invoices and Attempt CC Captures), and WHMCS's dashboard tiles and widgets redesigned as clean cards. The dashboard now uses the full page width.
+- **Complete dark mode** for WHMCS's own pages, widgets, forms and plugins, from a generated layer (`aurox/css/aurox-dark.css`, built by `tools/build-dark-css.py`).
+- `quicklinks.tpl` (your dashboard shortcuts) and `menulinks.tpl` (a "Your links" section in the menu).
+- **INSTALL.md**: full installation, update, troubleshooting and removal guide.
+- Wide tables scroll sideways inside their card instead of being cut off.
+- Tabs scroll sideways on phones instead of wrapping into several rows.
+
+### Fixed
+- The search icon sat above the search field. WHMCS's spinner now only shows while searching.
+- Fields with an add-on or button attached (input groups) were misaligned.
+- WHMCS settings forms overflowed on medium screens, and wide text boxes pushed past the card.
+- Plain WHMCS inputs and selects were cramped.
+- Uneven dashboard tile heights.
+- The avatar now falls back to an icon when there's no Gravatar.
+
+### Changed
+- The template ships only Aurox's own files. Installing means copying Blend to `aurox` once, then uploading Aurox over it (see INSTALL.md).
+- The companion addon checks for the complete template, including WHMCS's core files, before switching anyone to it.
+
 ## [2.0.0] - 2026-11-14
 
 Aurox is now a real WHMCS admin template: upload `admin/templates/aurox`, pick it under Configuration › Administrators, done.

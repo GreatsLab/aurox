@@ -194,12 +194,14 @@ function auroxadmin_output($vars)
         }
         echo '</li>';
     }
-    echo '<li>Blend (built into WHMCS): ' . ($status['blend'] ? 'present' : '<b style="color:#e0364b">missing. Aurox needs it, reinstall it from your WHMCS download</b>') . '</li>';
+    if (!$status['core']) {
+        echo '<li><b style="color:#e0364b">WHMCS core files missing.</b> Copy the <code>blend</code> folder to <code>aurox</code> first, then upload the Aurox files over it. See the install guide.</li>';
+    }
     echo '<li>You are using: <b>' . $e($mine !== '' ? $mine : 'unknown') . '</b></li>';
     echo '<li>Admins on Aurox: <b>' . $e(Companion::countUsing('aurox')) . '</b></li>';
     echo '</ul>';
     if ($canSwitch) {
-        $ready = $status['installed'] && $status['blend'];
+        $ready = $status['installed'];
         $form = function ($action, $label, $class, $disabled) use ($e, $nonce, $link) {
             return '<form method="post" action="' . $e($link) . '" style="display:inline-block;margin:0 6px 6px 0">'
                 . '<input type="hidden" name="aurox_nonce" value="' . $e($nonce) . '">'

@@ -327,12 +327,17 @@
                 </div>
             </div>
         </div>
+        {* ------------------------------------------------------------ *}
+        <div class="ax-group ax-your-links">
+            <div class="ax-section-title">Your links</div>
+            {include file="$template/menulinks.tpl"}
+        </div>
     </nav>
 
     <div class="ax-foot">
         <a class="ax-avatar" href="myaccount.php" title="{$_ADMINLANG.global.myaccount}">
             {include file="$template/aurox/icon.tpl" i="user"}
-            <img src="https://www.gravatar.com/avatar/{$gravatarHash}?s=64&d=mp" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'">
+            <img src="https://www.gravatar.com/avatar/{$gravatarHash}?s=64&d=404" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'">
         </a>
         <div class="ax-me">
             <b>{$adminFullName}</b>
