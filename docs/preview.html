@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clients - WHMCS</title>
+<!--
+  Offline preview of the Aurox Admin Theme.
+  The markup below is a simplified stand-in for WHMCS's Blend admin pages
+  (Bootstrap 3 classes, .datatable and table.form), so you can see the theme
+  without a WHMCS install. Open this file straight from the repository.
+-->
+<style>
+  /* Minimal Bootstrap 3 stand-ins so the mock page has a base to restyle. */
+  *{box-sizing:border-box} body{margin:0;font:14px/1.45 sans-serif}
+  .topbar{display:flex;align-items:center;gap:14px;padding:10px 24px;border-bottom:1px solid var(--ax-border,#ddd);background:var(--ax-surface,#fff)}
+  .topbar .crumb{color:var(--ax-muted,#777);font-size:13px}
+  .topbar input{width:280px;padding:0 12px;margin-left:auto}
+  .contentarea{padding:24px 28px 80px;max-width:1280px}
+  .row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:18px}.row>*{flex:1 1 200px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid transparent;cursor:pointer;font-size:14px;text-decoration:none;color:#fff}
+  .btn-sm{padding:4px 10px;font-size:12.5px}
+  .panel{border:1px solid}.panel-heading,.panel-body{padding:14px 16px}.panel-body{padding:16px}
+  .stat b{display:block;font-size:26px;letter-spacing:-.02em;color:var(--ax-text)}.stat span{color:var(--ax-muted);font-size:12.5px;text-transform:uppercase;letter-spacing:.08em}
+  .stat i{font-style:normal;font-size:12.5px;font-weight:600}
+  table{width:100%;border-collapse:collapse}
+  .form-control{width:100%;padding:0 10px}
+  textarea.form-control{padding:8px 10px;min-height:70px}
+  .nav-tabs{list-style:none;display:flex;padding:0;margin:0 0 16px}.nav-tabs a{display:block;text-decoration:none}
+  .label{display:inline-block;font-size:11px;color:#fff}
+  .alert{padding:12px 16px;margin-bottom:18px;border-style:solid}
+  .toolbar{display:flex;gap:8px;align-items:center;margin:0 0 14px}
+  .toolbar .spacer{flex:1}
+  h1{margin:0 0 4px}.sub{color:var(--ax-muted);margin:0 0 20px}
+</style>
+
+<!-- What the AdminAreaHeadOutput hook prints (with sample settings). -->
+<script>
+(function (d, w) {
+  var root = d.documentElement, s = null, cfg = {"mode":"light","density":"comfortable","sidebar":"docked"};
+  try { s = w.localStorage; } catch (e) {}
+  function get(k) { try { return s ? s.getItem('aurox:' + k) : null; } catch (e) { return null; } }
+  var q = w.location.search, m;
+  if ((m = q.match(/[?&]mode=(light|dark)/))) { try { s.setItem('aurox:mode', m[1]); } catch (e) {} }
+  if ((m = q.match(/[?&]density=(compact|comfortable)/))) { try { s.setItem('aurox:density', m[1]); } catch (e) {} }
+  if (/[?&]collapsed=1/.test(q)) { try { s.setItem('aurox:collapsed', '1'); } catch (e) {} }
+  if (/[?&]collapsed=0/.test(q)) { try { s.removeItem('aurox:collapsed'); } catch (e) {} }
+  if (/[?&]toured=1/.test(q)) { try { s.setItem('aurox:toured', '1'); } catch (e) {} }
+  var mode = get('mode') || cfg.mode;
+  if (mode === 'system') { mode = (w.matchMedia && w.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'; }
+  root.classList.add('aurox');
+  root.setAttribute('data-ax-mode', mode);
+  root.setAttribute('data-ax-density', get('density') || cfg.density);
+  root.classList.add(cfg.sidebar === 'drawer' ? 'ax-drawer' : 'ax-docked');
+  if (get('collapsed') === '1') { root.classList.add('ax-collapsed'); }
+})(document, window);
+</script>
+<link rel="stylesheet" href="../admin/templates/aurox/aurox/css/aurox-admin.css">
+<link rel="stylesheet" href="../admin/templates/aurox/aurox/css/aurox-pages.css">
+<link rel="stylesheet" href="../admin/templates/aurox/aurox/css/aurox-skin.css">
+<style id="aurox-vars">html.aurox{--ax-accent:#2f6bff;--ax-accent-rgb:47, 107, 255;}</style>
+<script>
+window.AuroxAdminConfig = {
+  version: "2.0.0",
+  adminPath: "/admin/",
+  demoUrl: "/admin/clients.php",
+  brand: "Demo Hosting",
+  logo: "",
+  sidebarMode: "docked",
+  palette: true,
+  shortcuts: true,
+  tools: true,
+  tableTools: true,
+  guard: true,
+  tour: true,
+  hideSelector: "",
+  extraLinks: [
+    { label: "Reseller Hub", url: "addonmodules.php?module=resellerhub", external: false },
+    { label: "Live chat", url: "https://example.com/chat", external: true }
+  ],
+  counters: { orders: 4, unpaid: 23, overdue: 7, tickets: 12, cancellations: 1 },
+  admin: { id: 1, name: "Alex Morgan" }
+};
+</script>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="crumb">Clients &rsaquo; View/Search Clients</span>
+  <input type="text" class="form-control" placeholder="Search clients, invoices, domains…">
+</div>
+
+<div class="contentarea" id="contentarea">
+  <h1>Clients</h1>
+  <p class="sub">Everyone with a Demo Hosting account. <em>(Offline preview of Aurox Admin by Chimnadindu Great Chibueze.)</em></p>
+
+  <div class="row">
+    <div class="panel"><div class="panel-body stat"><span>Active clients</span><b>1,284</b><i style="color:var(--ax-success)">▲ 3.2% this month</i></div></div>
+    <div class="panel"><div class="panel-body stat"><span>Pending orders</span><b>4</b><i style="color:var(--ax-warning)">2 need fraud check</i></div></div>
+    <div class="panel"><div class="panel-body stat"><span>Overdue invoices</span><b>7</b><i style="color:var(--ax-danger)">₦412,500 outstanding</i></div></div>
+    <div class="panel"><div class="panel-body stat"><span>Awaiting reply</span><b>12</b><i style="color:var(--ax-accent)">Oldest 3 h ago</i></div></div>
+  </div>
+
+  <div class="alert alert-info"><strong>Tip:</strong> press <code>Ctrl K</code> and type <code>c 1042</code> to jump straight to a client.</div>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#">All clients</a></li>
+    <li><a href="#">Active</a></li>
+    <li><a href="#">Inactive</a></li>
+    <li><a href="#">Closed</a></li>
+  </ul>
+
+  <div class="toolbar">
+    <a class="btn btn-primary" href="#">+ Add new client</a>
+    <a class="btn btn-default" href="#">Export</a>
+    <span class="spacer"></span>
+    <a class="btn btn-default btn-sm" href="#">Filters</a>
+  </div>
+
+  <div class="tablebg">
+  <table class="datatable">
+    <thead><tr><th><input type="checkbox"></th><th>ID</th><th>Name</th><th>Company</th><th>Email</th><th>Created</th><th>Services</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><input type="checkbox"></td><td><a href="#">1042</a></td><td><a href="#">Adaeze Okafor</a></td><td>Okafor Studios</td><td>ada@okafor.studio</td><td>11/11/2026</td><td>3</td><td><span class="label label-success">Active</span></td></tr>
+      <tr><td><input type="checkbox"></td><td><a href="#">1041</a></td><td><a href="#">Tunde Bakare</a></td><td>—</td><td>tunde.b@mail.ng</td><td>10/11/2026</td><td>1</td><td><span class="label label-success">Active</span></td></tr>
+      <tr><td><input type="checkbox"></td><td><a href="#">1040</a></td><td><a href="#">Ngozi Eze</a></td><td>Eze Logistics Ltd</td><td>it@ezelogistics.ng</td><td>09/11/2026</td><td>5</td><td><span class="label label-warning">Inactive</span></td></tr>
+      <tr><td><input type="checkbox"></td><td><a href="#">1039</a></td><td><a href="#">Samuel Mensah</a></td><td>Mensah Tech</td><td>sam@mensah.tech</td><td>08/11/2026</td><td>2</td><td><span class="label label-success">Active</span></td></tr>
+      <tr><td><input type="checkbox"></td><td><a href="#">1038</a></td><td><a href="#">Ifeoma Nwosu</a></td><td>—</td><td>ifeoma.n@mail.com</td><td>06/11/2026</td><td>0</td><td><span class="label label-danger">Closed</span></td></tr>
+      <tr><td><input type="checkbox"></td><td><a href="#">1037</a></td><td><a href="#">Kelechi Obi</a></td><td>Obi Ventures</td><td>k.obi@obiventures.com</td><td>05/11/2026</td><td>4</td><td><span class="label label-success">Active</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="margin:30px 0 12px">Settings form</h3>
+  <table class="form">
+    <tr><td class="fieldlabel">Company name</td><td class="fieldarea"><input class="form-control" type="text" value="Demo Hosting" style="max-width:360px"></td></tr>
+    <tr><td class="fieldlabel">Default country</td><td class="fieldarea"><select class="form-control" style="max-width:360px"><option>Nigeria</option></select></td></tr>
+    <tr><td class="fieldlabel">Maintenance mode</td><td class="fieldarea"><label><input type="checkbox"> Tick to stop client area access</label></td></tr>
+    <tr><td class="fieldlabel">Notes</td><td class="fieldarea"><textarea class="form-control" style="max-width:520px">Billing runs at 09:00 WAT.</textarea></td></tr>
+  </table>
+  <h3 style="margin:30px 0 12px">Reply box</h3>
+  <form method="post" onsubmit="return false"><textarea class="form-control" id="demo-reply" rows="5" placeholder="Click here, then pick a snippet from the sidebar…"></textarea></form>
+  <p style="margin-top:14px"><a class="btn btn-primary" href="#">Save changes</a> <a class="btn btn-default" href="#">Cancel</a></p>
+</div>
+
+<!-- What the AdminAreaFooterOutput hook prints. -->
+<script>
+  // Preview only: links point at /admin/... which does not exist here.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (a && !/^https?:/.test(a.getAttribute('href'))) { e.preventDefault(); }
+  }, true);
+</script>
+<script src="../admin/templates/aurox/aurox/js/aurox-admin.js"></script>
+<script src="../admin/templates/aurox/aurox/js/aurox-tools.js"></script>
+<script src="../admin/templates/aurox/aurox/js/aurox-pages.js"></script>
+</body>
+</html>

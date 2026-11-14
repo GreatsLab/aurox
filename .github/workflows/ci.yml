@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ["7.4", "8.1", "8.2"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+      - name: Lint PHP
+        run: find admin modules -name "*.php" -print0 | xargs -0 -n1 php -l
+      - name: Check icon set is up to date
+        run: python3 tools/build-icons.py && git diff --exit-code admin/templates/aurox/aurox/icon.tpl
+      - name: Check JavaScript syntax
+        run: for f in admin/templates/aurox/aurox/js/*.js; do node --check "$f"; done

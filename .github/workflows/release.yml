@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+
+      - name: Lint PHP
+        run: find admin modules -name "*.php" -print0 | xargs -0 -n1 php -l
+
+      - name: Check JavaScript syntax
+        run: for f in admin/templates/aurox/aurox/js/*.js; do node --check "$f"; done
+
+      - name: Build upload zip
+        run: |
+          mkdir -p dist
+          zip -r "dist/aurox-admin-${GITHUB_REF_NAME}.zip" admin modules README.md LICENSE CHANGELOG.md -x "*.DS_Store"
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+          generate_release_notes: true

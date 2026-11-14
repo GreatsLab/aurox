@@ -1,0 +1,24 @@
+{
+    "schema": "1.0",
+    "type": "whmcs-addons",
+    "name": "auroxadmin",
+    "license": "MIT",
+    "category": "utilities",
+    "description": {
+        "name": "Aurox Admin Theme",
+        "tagline": "A modern, easy-to-navigate WHMCS admin with search, page guides, a toolbox and dark mode."
+    },
+    "logo": {
+        "filename": "logo.png"
+    },
+    "authors": [
+        {
+            "name": "Chimnadindu Great Chibueze",
+            "homepage": "https://github.com/GreatsLab"
+        }
+    ],
+    "support": {
+        "homepage": "https://github.com/GreatsLab/aurox",
+        "docs_url": "https://github.com/GreatsLab/aurox#readme"
+    }
+}
