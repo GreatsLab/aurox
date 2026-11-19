@@ -1,0 +1,175 @@
+/*!
+ * Aurox Admin for WHMCS - phones and small tablets
+ * App-style layout: compact top bar, full-screen search, bottom tab bar,
+ * a "Create new" sheet and table rows shown as cards.
+ *
+ * Author:  Chimnadindu Great Chibueze (https://github.com/GreatsLab)
+ * Project: https://github.com/GreatsLab/aurox
+ * License: MIT
+ */
+
+/* Phone-only pieces stay hidden on larger screens */
+.ax-tb-logo, .ax-tb-title, .ax-tb-search, .ax-search-cancel, .ax-search-scrim, .ax-tabbar, .ax-sheet, .ax-drawer-close { display: none; }
+
+/* Breadcrumbs (all sizes) */
+.ax-crumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: -4px 0 6px; font: 600 12px var(--ax-font); color: var(--ax-muted); }
+.ax-crumbs a { color: var(--ax-muted) !important; text-decoration: none !important; }
+.ax-crumbs a:hover { color: var(--ax-accent) !important; }
+.ax-crumbs .ax-svg { width: 12px; height: 12px; opacity: .6; }
+.ax-crumbs span[aria-current] { color: var(--ax-text-2); }
+
+/* Theme button in the top bar */
+.ax-tb-theme .ax-svg { width: 19px; height: 19px; }
+
+@media (max-width: 767px) {
+  html.ax-tpl { --ax-topbar-h: 56px; --ax-tabbar-h: 62px; }
+  html.ax-tpl body { padding-bottom: calc(var(--ax-tabbar-h) + env(safe-area-inset-bottom, 0px)) !important; }
+
+  /* ---------------- Top bar ---------------- */
+  .ax-topbar { height: var(--ax-topbar-h) !important; flex-wrap: nowrap !important; gap: 2px !important; padding: 0 6px 0 12px !important; }
+  .ax-tb-menu, .ax-tb-spacer, .ax-dd-new, .ax-dd-help, .ax-tb-name, .ax-tb-chev { display: none !important; }
+  .ax-topbar a.ax-tb-btn[href="automationstatus.php"]:not(.is-hot):not(.is-warn) { display: none !important; }
+  .ax-tb-logo { display: grid; width: 32px; height: 32px; flex: 0 0 32px; border-radius: 9px; overflow: hidden; }
+  .ax-tb-logo svg, .ax-tb-logo img { width: 100%; height: 100%; display: block; object-fit: contain; }
+  .ax-tb-title { display: block; flex: 1; min-width: 0; margin: 0 6px 0 10px; font: 700 16px var(--ax-font); color: var(--ax-text); letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ax-tb-search { display: inline-flex; }
+  .ax-tb-btn { min-width: 40px; height: 40px; padding: 0; }
+  .ax-tb-account { padding: 0 2px !important; }
+
+  /* Search: hidden until the search button is tapped, then full width */
+  html.ax-tpl .ax-topbar .intellisearch { display: none !important; }
+  html.ax-tpl.ax-search-open .ax-topbar .intellisearch {
+    display: flex !important; align-items: center; gap: 8px; position: fixed !important;
+    top: 0 !important; left: 0 !important; right: 0 !important; width: auto !important; height: var(--ax-topbar-h);
+    padding: 8px 10px 8px 12px; background: var(--ax-surface); border-bottom: 1px solid var(--ax-border); z-index: 1066;
+  }
+  html.ax-tpl.ax-search-open .ax-topbar .intellisearch form { flex: 1; min-width: 0; }
+  html.ax-tpl.ax-search-open .ax-search-cancel {
+    display: inline-flex; align-items: center; height: 38px; padding: 0 6px; border: 0; background: none;
+    color: var(--ax-accent); font: 600 14px var(--ax-font); cursor: pointer;
+  }
+  html.ax-tpl.ax-search-open .ax-search-scrim { display: block; position: fixed; inset: var(--ax-topbar-h) 0 0 0; background: rgba(4, 8, 20, .5); z-index: 1049; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+  html.ax-tpl .intellisearchresults, html.ax-tpl.ax-collapsed .intellisearchresults {
+    top: var(--ax-topbar-h) !important; left: 0 !important; width: 100vw !important; border-radius: 0 0 16px 16px;
+    max-height: calc(100vh - var(--ax-topbar-h) - 20px);
+  }
+
+  /* ---------------- Content ---------------- */
+  .ax-body-wrap { padding: 10px 10px 4px !important; gap: 10px !important; }
+  html.ax-tpl #contentarea.contentarea { padding: 16px 14px 20px !important; border-radius: 16px; }
+  html.ax-tpl #contentarea > div > h1 { font-size: 21px !important; margin-bottom: 14px !important; }
+  html.ax-tpl .footerbar.ax-footer { justify-content: center; text-align: center; padding: 12px 14px 16px; }
+  html.ax-tpl .footerbar.ax-footer .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 8px; }
+  html.ax-tpl #sidebar.sidebar { border-radius: 14px; }
+  html.ax-tpl #sidebar .sidebar-collapse-expand { min-height: 48px; }
+  html.aurox .btn:not(.btn-xs):not(.btn-sm) { min-height: 40px; }
+  html.aurox .modal-dialog { margin: 10px; }
+
+  /* ---------------- Bottom tab bar ---------------- */
+  .ax-tabbar {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 1036;
+    height: calc(var(--ax-tabbar-h) + env(safe-area-inset-bottom, 0px));
+    padding: 4px 6px env(safe-area-inset-bottom, 0px); align-items: stretch; justify-content: space-around;
+    background: rgba(255, 255, 255, .92); -webkit-backdrop-filter: saturate(1.4) blur(12px); backdrop-filter: saturate(1.4) blur(12px);
+    border-top: 1px solid var(--ax-border); font-family: var(--ax-font);
+  }
+  html.aurox[data-ax-mode="dark"] .ax-tabbar { background: rgba(10, 14, 26, .9); }
+  .ax-tab {
+    appearance: none; position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    border: 0; background: none; padding: 0; border-radius: 12px; color: var(--ax-muted) !important; font: 600 10.5px var(--ax-font);
+    text-decoration: none !important; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .ax-tab .ax-svg { width: 22px; height: 22px; }
+  .ax-tab.is-on { color: var(--ax-accent) !important; }
+  .ax-tab.is-on::before { content: ""; position: absolute; top: 0; width: 22px; height: 3px; border-radius: 0 0 3px 3px; background: var(--ax-accent); }
+  .ax-tab:active { background: var(--ax-surface-3); }
+  .ax-tab-new { flex: 0 0 68px; }
+  .ax-tab-new:active { background: none; }
+  .ax-tab-plus {
+    width: 50px; height: 50px; border-radius: 17px; display: grid; place-items: center; color: #fff; transform: translateY(-12px);
+    background: linear-gradient(135deg, var(--ax-accent), #6a4dff); box-shadow: 0 12px 24px -10px rgba(var(--ax-accent-rgb), .9), 0 0 0 4px var(--ax-bg);
+    transition: transform .15s ease;
+  }
+  .ax-tab-new:active .ax-tab-plus { transform: translateY(-10px) scale(.95); }
+  .ax-tab-plus .ax-svg { width: 24px; height: 24px; stroke-width: 2.2; }
+  .ax-tab-badge {
+    position: absolute; top: 3px; left: calc(50% + 5px); min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+    display: grid; place-items: center; background: var(--ax-danger); color: #fff; font: 700 10px var(--ax-font); font-style: normal;
+    box-shadow: 0 0 0 2px var(--ax-surface);
+  }
+  .ax-tab-dot { position: absolute; top: 8px; left: calc(50% + 8px); width: 9px; height: 9px; border-radius: 50%; background: var(--ax-danger); box-shadow: 0 0 0 2px var(--ax-surface); }
+
+  /* ---------------- Create sheet ---------------- */
+  .ax-sheet { display: block; position: fixed; inset: 0; z-index: 1070; pointer-events: none; font-family: var(--ax-font); visibility: hidden; overflow: hidden; transition: visibility 0s linear .26s; }
+  .ax-sheet-scrim { position: absolute; inset: 0; background: rgba(4, 8, 20, .5); opacity: 0; transition: opacity .2s ease; }
+  .ax-sheet-panel {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 6px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+    background: var(--ax-surface); color: var(--ax-text); border-radius: 22px 22px 0 0; box-shadow: var(--ax-shadow-lg);
+    transform: translateY(105%); transition: transform .26s cubic-bezier(.2, .8, .2, 1);
+  }
+  html.ax-sheet-open .ax-sheet { pointer-events: auto; visibility: visible; transition: none; }
+  html.ax-sheet-open .ax-sheet-scrim { opacity: 1; }
+  html.ax-sheet-open .ax-sheet-panel { transform: none; }
+  .ax-sheet-grip { width: 40px; height: 5px; margin: 6px auto 12px; border-radius: 3px; background: var(--ax-border-strong); }
+  html.aurox .ax-sheet-title { margin: 0 0 14px !important; text-align: center; font-size: 16px !important; font-weight: 700 !important; color: var(--ax-text) !important; }
+  .ax-sheet-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .ax-sheet-item {
+    display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 6px 12px; border-radius: 15px;
+    background: var(--ax-surface-2); border: 1px solid var(--ax-border); color: var(--ax-text) !important;
+    font: 600 12.5px var(--ax-font); text-align: center; text-decoration: none !important; line-height: 1.25;
+  }
+  .ax-sheet-item:active { transform: scale(.97); }
+  .ax-sheet-item .ax-action-ico { width: 44px; height: 44px; flex-basis: 44px; }
+  .ax-sheet-item .ax-action-ico .ax-svg { width: 20px; height: 20px; }
+  .ax-sheet-cancel { width: 100%; height: 48px; margin-top: 12px; border: 0; border-radius: 13px; background: var(--ax-surface-3); color: var(--ax-text); font: 600 15px var(--ax-font); }
+
+  /* ---------------- Menu drawer ---------------- */
+  html.ax-tpl #ax-sidebar { width: min(86vw, 320px) !important; z-index: 1068; }
+  html.ax-tpl.ax-open #ax-scrim { z-index: 1067; }
+  .ax-drawer-close { display: inline-grid !important; margin-left: 2px; }
+  html.ax-tpl #ax-sidebar .ax-link { min-height: 42px; }
+  html.ax-tpl #ax-sidebar .ax-sub .ax-link { min-height: 38px; }
+
+  /* Things that float above the tab bar */
+  #ax-top { bottom: calc(var(--ax-tabbar-h) + 14px + env(safe-area-inset-bottom, 0px)) !important; right: 14px !important; }
+  .ax-toast { bottom: calc(var(--ax-tabbar-h) + 18px + env(safe-area-inset-bottom, 0px)) !important; }
+  .ax-welcome { left: 12px !important; right: 12px !important; width: auto !important; bottom: calc(var(--ax-tabbar-h) + 14px) !important; }
+  .ax-overlay { padding: 10px !important; }
+  .ax-pal-list { max-height: 62vh; }
+  .ax-pal-foot { display: none; }
+  #ax-panel { z-index: 1069; }
+
+  /* Breadcrumbs: the top bar already shows the page */
+  .ax-crumbs { display: none; }
+}
+
+/* ---------------- Tables become cards on phones ---------------- */
+@media (max-width: 639px) {
+  html.aurox table.ax-cardify, html.aurox table.ax-cardify > tbody, html.aurox table.ax-cardify > tbody > tr,
+  html.aurox table.ax-cardify > tbody > tr > td { display: block; width: 100% !important; }
+  html.aurox table.ax-cardify { border: 0 !important; box-shadow: none !important; background: transparent !important; border-radius: 0; }
+  html.aurox table.ax-cardify > thead, html.aurox table.ax-cardify tr.ax-head-row { display: none !important; }
+  html.aurox table.ax-cardify > tbody > tr {
+    position: relative; margin: 0 0 10px; padding: 8px 14px; border: 1px solid var(--ax-border); border-radius: 14px;
+    background: var(--ax-surface); box-shadow: var(--ax-shadow-sm);
+  }
+  html.aurox table.ax-cardify > tbody > tr > td {
+    display: flex; justify-content: space-between; align-items: center; gap: 14px; min-height: 32px;
+    padding: 6px 0 !important; border: 0 !important; text-align: right; white-space: normal !important; background: transparent !important;
+    overflow-wrap: anywhere;
+  }
+  html.aurox table.ax-cardify > tbody > tr > td + td { border-top: 1px dashed var(--ax-border) !important; }
+  html.aurox table.ax-cardify > tbody > tr > td::before {
+    content: attr(data-label); flex: 0 0 auto; max-width: 46%; text-align: left;
+    font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ax-muted);
+  }
+  html.aurox table.ax-cardify > tbody > tr > td[data-label=""]::before { display: none; }
+  html.aurox table.ax-cardify > tbody > tr > td[data-label=""] { justify-content: flex-start; text-align: left; }
+  html.aurox table.ax-cardify > tbody > tr > td.ax-cell-check { position: absolute; top: 10px; right: 12px; width: auto !important; min-height: 0; padding: 0 !important; border: 0 !important; }
+  html.aurox table.ax-cardify > tbody > tr > td.ax-cell-check + td { border-top: 0 !important; }
+  html.aurox table.ax-cardify > tbody > tr.ax-has-check > td:not(.ax-cell-check):first-of-type,
+  html.aurox table.ax-cardify > tbody > tr.ax-has-check > td.ax-cell-check + td { padding-right: 36px !important; }
+  html.aurox table.ax-cardify > tbody > tr > td.ax-cell-first { font-weight: 700; font-size: 14.5px; }
+  html.aurox table.ax-cardify > tbody > tr:hover > td { background: transparent !important; }
+  html.aurox table.ax-cardify .ax-tabletools { margin-bottom: 8px; }
+}

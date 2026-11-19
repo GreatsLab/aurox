@@ -17,6 +17,7 @@ if (!defined('WHMCS')) {
 
 require_once __DIR__ . '/lib/Settings.php';
 require_once __DIR__ . '/lib/Companion.php';
+require_once __DIR__ . '/lib/Dashboard.php';
 
 use AuroxAdmin\Companion;
 use AuroxAdmin\Settings;
@@ -69,6 +70,12 @@ function auroxadmin_config()
                 'Type'         => 'yesno',
                 'Default'      => 'yes',
                 'Description'  => 'Pending orders, overdue/unpaid invoices, tickets awaiting reply and cancellation requests in the menu.',
+            ),
+            'dashboard_stats' => array(
+                'FriendlyName' => 'Live dashboard',
+                'Type'         => 'yesno',
+                'Default'      => 'yes',
+                'Description'  => 'Income chart and trends, what needs attention, recent orders and tickets waiting on the Aurox dashboard. Each part only shows to admins whose role allows it.',
             ),
             'enable_palette' => array(
                 'FriendlyName' => 'Jump to page (Ctrl/Cmd + K)',

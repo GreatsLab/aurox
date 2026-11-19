@@ -2,6 +2,28 @@
 
 All notable changes to this project are listed here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [3.0.0] - 2026-11-20
+
+A new dashboard and a phone experience that works like an app. Aurox now has its own look from top to bottom instead of restyled Blend parts.
+
+### Added
+- **Live dashboard** (with the companion addon): income today with a 30-day sparkline, this month against the same point last month, pending orders, tickets waiting, overdue invoices and active clients.
+- **Revenue chart** with 7, 14 and 30-day views and a hover/tap tooltip. No chart library, so nothing extra to load.
+- **Needs attention** card (pending orders, tickets waiting, overdue invoices, cancellations, failed module actions, domains expiring soon), **Tickets waiting** (oldest first) and **Recent orders**.
+- New `Dashboard.php` in the addon. Read-only queries, cached for 60 seconds, and every query fails safe. Income figures respect the *View Income Totals* permission. Turn it off with the new **Live dashboard** setting.
+- **Phone layout:** bottom tab bar (Home, Clients, +, Support, Menu), a "Create new" sheet, full-screen search with Cancel, a slide-in menu drawer with a close button, and tables shown as labelled cards.
+- Breadcrumbs on every page, and a light/dark switch in the top bar.
+
+### Changed
+- Quick actions and your `quicklinks.tpl` shortcuts are now compact chips with coloured icons.
+- WHMCS's own dashboard widgets sit below the live dashboard under "More from WHMCS".
+- INSTALL.md now includes emptying the template cache, which fixes "it still looks like the old version".
+
+### Fixed
+- The search icon was hidden behind the field on phones.
+- The Customise button was pulled up into the header by a WHMCS style.
+- Nothing scrolls sideways at any screen width from 360px to 1920px, in light or dark mode.
+
 ## [2.1.0] - 2026-11-14
 
 Aurox is now a fully standalone admin template: it no longer reads anything from the Blend folder at runtime.

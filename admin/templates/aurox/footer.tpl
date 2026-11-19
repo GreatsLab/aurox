@@ -23,7 +23,7 @@
                 <span aria-hidden="true">·</span>
                 <a href="https://www.whmcs.com/contact" target="_blank">Contact Us</a>
                 <span aria-hidden="true">·</span>
-                <span class="ax-credit-line">Aurox Admin by <a href="https://github.com/GreatsLab" target="_blank" rel="noopener">Chimnadindu Great Chibueze</a></span>
+                <span class="ax-credit-line">Aurox Admin 3.0.0 by <a href="https://github.com/GreatsLab" target="_blank" rel="noopener">Chimnadindu Great Chibueze</a></span>
             </div>
         </footer>
     </div>{* /.ax-main *}
@@ -31,8 +31,9 @@
     {include file="$template/intellisearch-results.tpl"}
     {include file="$template/includes.tpl"}
 
-    <script src="templates/{$template}/aurox/js/aurox-admin.js?v=2.1.0-{$versionHash}"></script>
-    <script src="templates/{$template}/aurox/js/aurox-tools.js?v=2.1.0-{$versionHash}"></script>
+    <script src="templates/{$template}/aurox/js/aurox-admin.js?v=3.0.0-{$versionHash}"></script>
+    <script src="templates/{$template}/aurox/js/aurox-tools.js?v=3.0.0-{$versionHash}"></script>
+    <script src="templates/{$template}/aurox/js/aurox-dashboard.js?v=3.0.0-{$versionHash}"></script>
 
     {$footeroutput}
 

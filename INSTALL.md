@@ -61,13 +61,14 @@ Check that these files exist:
 2. Go to **Configuration** (wrench icon) › **System Settings** › **Administrators**. On older versions it's **Setup › Staff Management › Administrator Users**.
 3. Click **Edit** next to your user.
 4. Set **Template** to **aurox** and click **Save Changes**.
-5. Refresh the page.
+5. Go to **Utilities › System › System Cleanup** and click **Empty Template Cache**. WHMCS keeps compiled copies of templates, and this makes sure you see the new files.
+6. Hard refresh your browser (Ctrl + F5, or Cmd + Shift + R on a Mac). The footer should say **Aurox Admin 3.0.0**.
 
 Start with just your own account. Once you're happy, move your team over, either from each user's Edit page or in one click with the companion addon (next step).
 
 ## Step 5 (optional): Turn on the companion addon
 
-The template works on its own. The addon adds live counters in the menu, a settings screen and one-click switching for your whole team.
+The template works on its own. The addon adds the **live dashboard** (income, revenue chart, what needs attention, tickets waiting, recent orders), live counters in the menu, a settings screen and one-click switching for your whole team. It only reads from your database.
 
 1. The zip already put it at `modules/addons/auroxadmin/`.
 2. Go to **Configuration › System Settings › Addon Modules**.
@@ -127,8 +128,15 @@ Your Aurox files and settings aren't touched, because those four `.tpl` files an
 **The page is blank, or shows a Smarty error about a missing file.**
 Step 2 was skipped or didn't finish, so WHMCS's page files aren't in `admin/templates/aurox/`. Copy them from `blend` as described under "When WHMCS releases an update".
 
-**It still looks like Blend.**
-Your admin user is still set to Blend (see step 4), or the browser is showing a cached copy. Try a hard refresh (Ctrl + F5) or a private window.
+**It still looks like Blend, or like an older Aurox.**
+Check the footer: it shows the Aurox version you're running. If it's old or missing:
+1. Make sure your admin user is set to **aurox** (step 4).
+2. Empty the template cache: **Utilities › System › System Cleanup › Empty Template Cache**.
+3. Hard refresh (Ctrl + F5) or open a private window.
+4. Still old? The new files didn't land. Check that `admin/templates/aurox/aurox/css/aurox-dashboard.css` exists on the server.
+
+**The dashboard has no income chart or "Needs attention" card.**
+Those come from the companion addon. Activate it (step 5) and make sure **Live dashboard** is ticked in its settings. Your admin role also needs the *View Income Totals* permission to see income figures.
 
 **My changes to settings.tpl don't show.**
 If the companion addon is active, its settings win over `settings.tpl`. Otherwise, empty the template cache (see Updating).

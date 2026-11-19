@@ -25,7 +25,7 @@ class Companion
      * Variables for the Aurox template (AdminAreaPage hook).
      * The template falls back to settings.tpl when these are missing.
      */
-    public static function templateVars()
+    public static function templateVars(array $vars = array())
     {
         $config = array(
             'version'    => Settings::VERSION,
@@ -50,6 +50,7 @@ class Companion
             'auroxDensity'    => Settings::choice('density', array('comfortable', 'compact'), 'comfortable'),
             'auroxCustomCss'  => Settings::customCss(),
             'auroxCounters'   => Settings::counters(),
+            'auroxDash'       => (Settings::enabled('dashboard_stats') && Dashboard::isDashboard($vars)) ? Dashboard::data() : null,
             'auroxConfigJson' => json_encode(
                 $config,
                 JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES

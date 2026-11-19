@@ -17,10 +17,11 @@ if (!defined('WHMCS')) {
 
 require_once __DIR__ . '/lib/Settings.php';
 require_once __DIR__ . '/lib/Companion.php';
+require_once __DIR__ . '/lib/Dashboard.php';
 
 add_hook('AdminAreaPage', 1, function ($vars) {
     try {
-        return \AuroxAdmin\Companion::templateVars();
+        return \AuroxAdmin\Companion::templateVars(is_array($vars) ? $vars : array());
     } catch (\Throwable $e) {
         return array();
     }

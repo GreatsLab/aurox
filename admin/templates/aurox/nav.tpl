@@ -22,6 +22,7 @@
             <span class="ax-brand-sub">Admin</span>
         </span>
         <button type="button" class="ax-icon-btn" data-ax-action="pin" aria-label="Pin this page" title="Pin this page">{include file="$template/aurox/icon.tpl" i="star"}</button>
+        <button type="button" class="ax-icon-btn ax-drawer-close" data-ax-action="drawer" aria-label="Close menu">{include file="$template/aurox/icon.tpl" i="x"}</button>
     </div>
 
     <button type="button" class="ax-search" data-ax-action="palette" data-tip="Jump to a page">

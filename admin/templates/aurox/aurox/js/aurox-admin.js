@@ -675,7 +675,7 @@
 
   function refreshModeButtons() {
     var dark = root.getAttribute('data-ax-mode') === 'dark';
-    var nodes = document.querySelectorAll('#ax-sidebar [data-ax-action="mode"]');
+    var nodes = document.querySelectorAll('#ax-sidebar [data-ax-action="mode"], .ax-tb-theme');
     for (var i = 0; i < nodes.length; i++) {
       swapIcon(nodes[i], dark ? 'sun' : 'moon');
     }
@@ -881,6 +881,7 @@
 
   function openPalette(prefill) {
     if (CFG.palette === false) { return; }
+    closeSheet();
     if (!pal) { buildPalette(); }
     closeHelp();
     pal.lastFocus = document.activeElement;
@@ -1055,6 +1056,8 @@
     }
     if (mod && e.shiftKey && key === 'l') { e.preventDefault(); toggleMode(); return; }
     if (key === 'escape') {
+      if (root.classList.contains('ax-sheet-open')) { closeSheet(); return; }
+      if (root.classList.contains('ax-search-open')) { closeSearch(); return; }
       if (helpBox && helpBox.classList.contains('is-open')) { closeHelp(); return; }
       if (root.classList.contains('ax-open')) { closeDrawer(); return; }
     }
@@ -1100,8 +1103,12 @@
       'mode-dark': function () { setMode('dark'); },
       'mode-system': function () { setMode('system'); },
       'density-comfortable': function () { setDensity('comfortable'); },
-      'density-compact': function () { setDensity('compact'); }
+      'density-compact': function () { setDensity('compact'); },
+      search: openSearch,
+      'search-close': closeSearch,
+      'new-sheet': toggleSheet
     };
+    if (a !== 'new-sheet' && btn.closest && btn.closest('.ax-sheet')) { closeSheet(); }
     Object.keys(builtIn).forEach(function (k) { if (!actions[k]) { actions[k] = builtIn[k]; } });
     if (actions[a]) { e.preventDefault(); actions[a](); }
   });
@@ -1132,11 +1139,116 @@
     }, { passive: true });
   }
 
+  /* ---------------------------------------------------------------- */
+  /* Phones: search, create sheet, tab bar                             */
+  /* ---------------------------------------------------------------- */
+  function openSearch() {
+    root.classList.add('ax-search-open');
+    var input = document.getElementById('inputIntelliSearchValue');
+    if (input) { setTimeout(function () { input.focus(); }, 30); }
+  }
+  function closeSearch() {
+    root.classList.remove('ax-search-open');
+    var input = document.getElementById('inputIntelliSearchValue');
+    if (input) { input.blur(); }
+    var closeBtn = document.getElementById('btnIntelliSearchClose');
+    if (closeBtn && document.querySelector('.intellisearch.active')) { try { closeBtn.click(); } catch (e) {} }
+  }
+  function toggleSheet() { root.classList.contains('ax-sheet-open') ? closeSheet() : openSheet(); }
+  function openSheet() {
+    var sheet = document.getElementById('axNewSheet');
+    if (!sheet) { return; }
+    closeDrawer();
+    root.classList.add('ax-sheet-open');
+    sheet.setAttribute('aria-hidden', 'false');
+  }
+  function closeSheet() {
+    var sheet = document.getElementById('axNewSheet');
+    root.classList.remove('ax-sheet-open');
+    if (sheet) { sheet.setAttribute('aria-hidden', 'true'); }
+  }
+  function markTab() {
+    var tab = 'menu';
+    if (HERE.page === 'index.php' && !HERE.params.rp) { tab = 'home'; }
+    else if (/^(clients|users)/.test(HERE.page) || /^\/admin\/(users|services|domains|addons)/.test(HERE.params.rp || '')) { tab = 'clients'; }
+    else if (/^(support|networkissues)/.test(HERE.page)) { tab = 'support'; }
+    var el = document.querySelector('.ax-tabbar [data-ax-tab="' + tab + '"]') || document.querySelector('.ax-tabbar [data-ax-tab="menu"]');
+    if (el) { el.classList.add('is-on'); el.setAttribute('aria-current', 'page'); }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Breadcrumbs above the page title                                  */
+  /* ---------------------------------------------------------------- */
+  function breadcrumbs() {
+    if (!sidebar || document.querySelector('.ax-crumbs') || document.body.classList.contains('ax-dashboard')) { return; }
+    var area = document.getElementById('contentarea');
+    if (!area) { return; }
+    var active = sidebar.querySelector('.ax-nav a.ax-link[aria-current="page"]') ||
+      sidebar.querySelector('.ax-nav > .ax-group:not(.ax-pins) .ax-item.is-active > .ax-link');
+    if (!active) { return; }
+    var parts = [];
+    var section = active.closest('.ax-group') && active.closest('.ax-group').querySelector('.ax-section-title');
+    if (section) { parts.push({ t: section.textContent.trim() }); }
+    var sub = active.closest('.ax-sub');
+    if (sub) {
+      var parent = sub.parentNode.querySelector('.ax-link');
+      var first = sub.querySelector('a.ax-link');
+      parts.push({ t: (parent.querySelector('.ax-label') || parent).textContent.trim(), u: first ? first.getAttribute('href') : null });
+    }
+    if (active.tagName === 'A') { parts.push({ t: (active.querySelector('.ax-label') || active).textContent.trim(), u: active.getAttribute('href'), here: true }); }
+    if (parts.length < 2) { return; }
+    var nav = h('nav', { class: 'ax-crumbs', 'aria-label': 'You are here' });
+    parts.forEach(function (p, i) {
+      if (i) { nav.appendChild(icon('chev')); }
+      if (p.here) { nav.appendChild(h('span', { 'aria-current': 'page', text: p.t })); }
+      else if (p.u) { nav.appendChild(h('a', { href: p.u, text: p.t })); }
+      else { nav.appendChild(h('span', { text: p.t })); }
+    });
+    area.insertBefore(nav, area.firstChild);
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Phones: simple data tables turn into cards (labels from headers)  */
+  /* ---------------------------------------------------------------- */
+  function cardifyTables() {
+    var tables = document.querySelectorAll('#contentarea table.datatable');
+    Array.prototype.forEach.call(tables, function (t) {
+      if (t.classList.contains('ax-cardify') || (t.parentNode && t.parentNode.closest && t.parentNode.closest('table'))) { return; }
+      var rows = Array.prototype.filter.call(t.querySelectorAll('tr'), function (r) { return r.closest('table') === t; });
+      var head = null;
+      rows.forEach(function (r) { if (!head && r.querySelector('th')) { head = r; } });
+      if (!head) { return; }
+      var labels = Array.prototype.map.call(head.children, function (c) { return c.textContent.replace(/\s+/g, ' ').trim(); });
+      if (labels.length < 2 || labels.length > 12) { return; }
+      var body = rows.filter(function (r) { return r !== head && !r.querySelector('th'); });
+      if (!body.length) { return; }
+      var ok = body.every(function (r) {
+        if (r.cells.length === 1) { return true; } // "no records" rows
+        if (r.cells.length !== labels.length) { return false; }
+        for (var i = 0; i < r.cells.length; i++) { if (r.cells[i].colSpan > 1) { return false; } }
+        return true;
+      });
+      if (!ok) { return; }
+      head.classList.add('ax-head-row');
+      body.forEach(function (r) {
+        var firstData = true;
+        Array.prototype.forEach.call(r.cells, function (c, i) {
+          var onlyCheck = c.querySelector('input[type="checkbox"]') && !c.textContent.trim();
+          if (onlyCheck) { c.classList.add('ax-cell-check'); r.classList.add('ax-has-check'); c.setAttribute('data-label', ''); return; }
+          c.setAttribute('data-label', r.cells.length === 1 ? '' : (labels[i] || ''));
+          if (firstData && r.cells.length > 1) { c.classList.add('ax-cell-first'); c.setAttribute('data-label', ''); firstData = false; }
+        });
+      });
+      t.classList.add('ax-cardify');
+    });
+  }
+
   /* Wide tables scroll sideways inside their card instead of being cut off. */
   function wrapWideTables() {
     var tables = document.querySelectorAll('#contentarea table.datatable, #contentarea table.table, #contentarea .tablebg > table');
     Array.prototype.forEach.call(tables, function (t) {
       if (t.closest('.ax-scroll, .table-responsive, .modal, #ax-panel, .ax-overlay') || (t.parentNode && t.parentNode.closest && t.parentNode.closest('table'))) { return; }
+      if (t.classList.contains('ax-cardify') && window.innerWidth < 640) { return; }
       var holder = t.parentNode;
       if (!holder || t.scrollWidth <= holder.clientWidth + 2) { return; }
       var wrap = document.createElement('div');
@@ -1157,6 +1269,8 @@
       trackRecent();
     }
     hideConfigured();
+    if (!FRAMED) { markTab(); breadcrumbs(); }
+    cardifyTables();
     wrapWideTables();
     var rt;
     window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(wrapWideTables, 250); });
@@ -1164,7 +1278,7 @@
   }
 
   window.AuroxUI = {
-    version: CFG.version || '2.1.0',
+    version: CFG.version || '3.0.0',
     open: openPalette,
     close: closePalette,
     help: openHelp,

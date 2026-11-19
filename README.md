@@ -1,6 +1,6 @@
 # Aurox Admin for WHMCS
 
-![WHMCS 8](https://img.shields.io/badge/WHMCS-8.x-2f6bff) ![Version 2.1.0](https://img.shields.io/badge/version-2.1.0-7c4dff) ![PHP 7.4+](https://img.shields.io/badge/PHP-7.4%2B-777bb4) ![License: MIT](https://img.shields.io/badge/license-MIT-12a150)
+![WHMCS 8](https://img.shields.io/badge/WHMCS-8.x-2f6bff) ![Version 3.0.0](https://img.shields.io/badge/version-3.0.0-7c4dff) ![PHP 7.4+](https://img.shields.io/badge/PHP-7.4%2B-777bb4) ![License: MIT](https://img.shields.io/badge/license-MIT-12a150)
 
 I run a hosting company, so a big part of my day is spent inside the WHMCS admin area. It works, but finding your way around it is slow: menus inside menus, settings you only find if you already know where they are, and a lot of clicking just to open one invoice.
 
@@ -10,7 +10,15 @@ Aurox is the admin template I wanted to use every day. One clean menu with every
 
 ## What you get
 
-**A dashboard that tells you what needs you.** A greeting, one-click quick actions, and WHMCS's dashboard widgets redesigned as clean cards: pending orders, tickets waiting, billing, activity and more. Add your own shortcuts with `quicklinks.tpl`, and choose which widgets show with **Customise**.
+**A dashboard that tells you what needs you.** Open WHMCS and the first thing you see is a greeting and one sentence: how many things need you today. Below it:
+
+- **Live numbers:** income today (with a 30-day sparkline), this month against the same point last month, pending orders, tickets waiting, overdue invoices and active clients. Cards that need action get a coloured edge.
+- **Revenue chart** for the last 7, 14 or 30 days. Hover or tap any day to see what came in.
+- **Needs attention:** pending orders, tickets waiting, overdue invoices, cancellation requests, failed module actions and domains expiring soon, each one click from the right page.
+- **Tickets waiting** (oldest first, with priority) and **recent orders**, so you can jump straight in.
+- One-click quick actions, your own shortcuts from `quicklinks.tpl`, and all of WHMCS's widgets below, restyled. Choose which show with **Customise**.
+
+The live parts come from the companion addon (it only reads, and caches for a minute). Without it you still get the greeting, actions and WHMCS's widgets.
 
 ![Dashboard in dark mode](docs/screenshots/dashboard-dark.png)
 
@@ -53,13 +61,15 @@ Aurox is the admin template I wanted to use every day. One clean menu with every
 
 **It looks after you.** It warns you before you leave a form you haven't saved, and new admins get a short welcome tour the first time.
 
-**Works on every screen.** On phones the menu slides in from the side. The top bar fits on two rows, settings forms stack neatly, and wide tables scroll sideways instead of being cut off.
+**Built for your phone too.** On a phone Aurox works like an app: a bottom tab bar (Home, Clients, Support, Menu) with a big **+** button that opens a "Create new" sheet, full-screen search with a Cancel button, the full menu as a slide-in drawer, and tables that turn into easy-to-read cards. Settings forms stack neatly and nothing spills off the side of the screen. Every page shows where you are with a small breadcrumb.
 
 **Your look.** Light, dark or follow your device. Dark mode reaches WHMCS's own pages, widgets and forms too, not just the menu. Comfortable or compact spacing. Pin the pages you use most with the star at the top. One accent colour carries through the whole thing, so it matches your brand.
 
-| Phone menu | Collapsed menu | Settings form on a phone |
-|---|---|---|
-| ![Mobile](docs/screenshots/mobile.png) | ![Collapsed](docs/screenshots/collapsed.png) | ![Settings on a phone](docs/screenshots/settings-mobile.png) |
+![Aurox on a phone: dashboard, Create new sheet and a table as cards](docs/screenshots/mobile.png)
+
+| Collapsed menu | Settings form on a phone |
+|---|---|
+| ![Collapsed](docs/screenshots/collapsed.png) | ![Settings on a phone](docs/screenshots/settings-mobile.png) |
 
 ## Install
 
