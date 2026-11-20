@@ -251,6 +251,7 @@ function auroxadmin_output($vars)
     echo '</div>';
     echo '<p class="ax-credit">Aurox Admin v' . $e(Settings::VERSION) . ' · Designed and built by '
         . '<a href="https://github.com/GreatsLab" target="_blank" rel="noopener">Chimnadindu Great Chibueze</a>'
-        . ' · <a href="https://github.com/GreatsLab/aurox" target="_blank" rel="noopener">Updates on GitHub</a></p>';
+        . ' · <a href="https://github.com/GreatsLab/aurox" target="_blank" rel="noopener">Updates on GitHub</a>'
+        . ' · <a href="https://whatsapp.com/channel/0029VbE0FCREKyZAE4SW1u3H" target="_blank" rel="noopener">WhatsApp channel</a></p>';
     echo '</div>';
 }

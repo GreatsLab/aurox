@@ -186,6 +186,7 @@
                     <li><a href="#" data-ax-action="tour">{include file="$template/aurox/icon.tpl" i="compass"} Take the tour</a></li>
                     <li><a href="#" data-ax-action="layout-check">{include file="$template/aurox/icon.tpl" i="layout"} Check page layout</a></li>
                     <li><a href="https://github.com/GreatsLab/aurox" target="_blank" rel="noopener" class="ax-about">{include file="$template/aurox/icon.tpl" i="star"} <span>About Aurox<small>by Chimnadindu Great Chibueze</small></span></a></li>
+                    <li><a href="https://whatsapp.com/channel/0029VbE0FCREKyZAE4SW1u3H" target="_blank" rel="noopener" class="ax-about">{include file="$template/aurox/icon.tpl" i="bell"} <span>Aurox on WhatsApp<small>Updates and tips from the author</small></span></a></li>
                     <li role="separator" class="divider"></li>
                     <li class="dropdown-header">WHMCS</li>
                     <li><a href="https://docs.whmcs.com/{$helplink}" target="_blank" rel="noopener">{include file="$template/aurox/icon.tpl" i="external"} {$_ADMINLANG.help.docs}</a></li>

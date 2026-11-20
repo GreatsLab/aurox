@@ -190,6 +190,7 @@ Designed and built by **Chimnadindu Great Chibueze**, founder of AuroxHost.
 - GitHub: [@GreatsLab](https://github.com/GreatsLab)
 - X: [@JustDeGreat](https://x.com/JustDeGreat)
 - LinkedIn: [chimnadindu](https://www.linkedin.com/in/chimnadindu)
+- WhatsApp channel: [Aurox updates and tips](https://whatsapp.com/channel/0029VbE0FCREKyZAE4SW1u3H), follow it to hear about new versions first
 
 If Aurox makes your day in WHMCS a little easier, a star on the repo means a lot.
 
