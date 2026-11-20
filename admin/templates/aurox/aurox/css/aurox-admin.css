@@ -13,8 +13,8 @@
 /* 1. Design tokens                                                    */
 /* ------------------------------------------------------------------ */
 html.aurox {
-  --ax-accent: #2f6bff;
-  --ax-accent-rgb: 47, 107, 255;
+  --ax-accent: #6d4aff;
+  --ax-accent-rgb: 109, 74, 255;
   --ax-accent-soft: rgba(var(--ax-accent-rgb), .10);
   --ax-accent-ring: rgba(var(--ax-accent-rgb), .28);
 

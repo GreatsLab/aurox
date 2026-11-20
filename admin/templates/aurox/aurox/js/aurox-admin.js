@@ -89,17 +89,41 @@
     shield: '<path d="M12 3 4 6v6c0 4.5 3.4 7.8 8 9 4.6-1.2 8-4.5 8-9V6z"/>',
     list: '<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>',
     bell: '<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
-    panel: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/>'
+    panel: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/>',
+    check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+    checkcircle: '<circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16.5 9.5"/>',
+    card: '<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h3"/>',
+    wallet: '<path d="M19 7V5.5A1.5 1.5 0 0 0 17.5 4H6a2 2 0 0 0 0 4h13a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6"/><path d="M16 14h.01"/>',
+    login: '<path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="m9 17 5-5-5-5M14 12H4"/>',
+    userplus: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M19 8v6M16 11h6"/>',
+    ban: '<circle cx="12" cy="12" r="9"/><path d="m5.7 5.7 12.6 12.6"/>',
+    merge: '<circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="12" r="2"/><path d="M6 7v10M6 9c0 3 3 3 6 3h4"/>',
+    upload: '<path d="M12 16V5M7 10l5-5 5 5M5 20h14"/>',
+    file: '<path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5"/>',
+    phone: '<path d="M5 4h3.5l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5l1.5-2 4 1.5V19a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/>',
+    share: '<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.3M8.2 13.2l7.6 4.3"/>',
+    coins: '<ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v4c0 1.7 2.7 3 6 3s6-1.3 6-3V7"/><path d="M9 14v3c0 1.7 2.7 3 6 3s6-1.3 6-3v-4c0-1.6-2.4-2.9-5.5-3"/>',
+    alert: '<path d="M12 3.5 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/>',
+    tag: '<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+    arrowright: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    history: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>',
+    inbox: '<path d="M3 13h5l1.5 3h5L16 13h5"/><path d="M5.5 5h13L21 13v6H3v-6z"/>',
+    eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    chevdown: '<path d="m6 9 6 6 6-6"/>',
+    pencil: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13 7 4 4"/>',
+    bin: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+    send: '<path d="M21 3 10 14"/><path d="M21 3 14 21l-4-7-7-4z"/>',
+    layout: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>'
   };
 
-  var MARK = '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="axg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f8bff"/><stop offset="1" stop-color="#1d4fe0"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#axg)"/><path d="M20 46 32 16l12 30M24.5 35h15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 40c6 9 30 12 44-6" fill="none" stroke="#bcd3ff" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="54" cy="34" r="3.5" fill="#fff"/></svg>';
+  var MARK = '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="axg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:color-mix(in srgb, var(--ax-accent) 78%, #fff)"/><stop offset="1" style="stop-color:color-mix(in srgb, var(--ax-accent) 82%, #000)"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#axg)"/><path d="M20 46 32 16l12 30M24.5 35h15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 40c6 9 30 12 44-6" fill="none" stroke="#bcd3ff" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="54" cy="34" r="3.5" fill="#fff"/></svg>';
 
+  /* Every icon carries the ax-svg class and a size, so it can never blow up
+     to full width (even if a stylesheet hasn't loaded yet). */
   function icon(name, cls) {
     var span = document.createElement('span');
-    span.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + (ICONS[name] || ICONS.link) + '</svg>';
-    var svg = span.firstChild;
-    if (cls) { svg.setAttribute('class', cls); }
-    return svg;
+    span.innerHTML = '<svg class="ax-svg' + (cls ? ' ' + cls : '') + '" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + (ICONS[name] || ICONS.link) + '</svg>';
+    return span.firstChild;
   }
 
   /* Replace the icon inside a button (works for server-rendered markup too). */
@@ -1208,57 +1232,6 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /* Phones: simple data tables turn into cards (labels from headers)  */
-  /* ---------------------------------------------------------------- */
-  function cardifyTables() {
-    var tables = document.querySelectorAll('#contentarea table.datatable');
-    Array.prototype.forEach.call(tables, function (t) {
-      if (t.classList.contains('ax-cardify') || (t.parentNode && t.parentNode.closest && t.parentNode.closest('table'))) { return; }
-      var rows = Array.prototype.filter.call(t.querySelectorAll('tr'), function (r) { return r.closest('table') === t; });
-      var head = null;
-      rows.forEach(function (r) { if (!head && r.querySelector('th')) { head = r; } });
-      if (!head) { return; }
-      var labels = Array.prototype.map.call(head.children, function (c) { return c.textContent.replace(/\s+/g, ' ').trim(); });
-      if (labels.length < 2 || labels.length > 12) { return; }
-      var body = rows.filter(function (r) { return r !== head && !r.querySelector('th'); });
-      if (!body.length) { return; }
-      var ok = body.every(function (r) {
-        if (r.cells.length === 1) { return true; } // "no records" rows
-        if (r.cells.length !== labels.length) { return false; }
-        for (var i = 0; i < r.cells.length; i++) { if (r.cells[i].colSpan > 1) { return false; } }
-        return true;
-      });
-      if (!ok) { return; }
-      head.classList.add('ax-head-row');
-      body.forEach(function (r) {
-        var firstData = true;
-        Array.prototype.forEach.call(r.cells, function (c, i) {
-          var onlyCheck = c.querySelector('input[type="checkbox"]') && !c.textContent.trim();
-          if (onlyCheck) { c.classList.add('ax-cell-check'); r.classList.add('ax-has-check'); c.setAttribute('data-label', ''); return; }
-          c.setAttribute('data-label', r.cells.length === 1 ? '' : (labels[i] || ''));
-          if (firstData && r.cells.length > 1) { c.classList.add('ax-cell-first'); c.setAttribute('data-label', ''); firstData = false; }
-        });
-      });
-      t.classList.add('ax-cardify');
-    });
-  }
-
-  /* Wide tables scroll sideways inside their card instead of being cut off. */
-  function wrapWideTables() {
-    var tables = document.querySelectorAll('#contentarea table.datatable, #contentarea table.table, #contentarea .tablebg > table');
-    Array.prototype.forEach.call(tables, function (t) {
-      if (t.closest('.ax-scroll, .table-responsive, .modal, #ax-panel, .ax-overlay') || (t.parentNode && t.parentNode.closest && t.parentNode.closest('table'))) { return; }
-      if (t.classList.contains('ax-cardify') && window.innerWidth < 640) { return; }
-      var holder = t.parentNode;
-      if (!holder || t.scrollWidth <= holder.clientWidth + 2) { return; }
-      var wrap = document.createElement('div');
-      wrap.className = 'ax-scroll';
-      holder.insertBefore(wrap, t);
-      wrap.appendChild(t);
-    });
-  }
-
-  /* ---------------------------------------------------------------- */
   /* Boot                                                              */
   /* ---------------------------------------------------------------- */
   function boot() {
@@ -1269,16 +1242,94 @@
       trackRecent();
     }
     hideConfigured();
-    if (!FRAMED) { markTab(); breadcrumbs(); }
-    cardifyTables();
-    wrapWideTables();
-    var rt;
-    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(wrapWideTables, 250); });
-    window.addEventListener('load', wrapWideTables);
+    if (!FRAMED) { markTab(); breadcrumbs(); progressBar(); recentInDrawer(); swipeToClose(); }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* A thin loading bar while the next page loads (helps on slow data) */
+  /* ---------------------------------------------------------------- */
+  function progressBar() {
+    var bar = h('div', { id: 'ax-progress', 'aria-hidden': 'true' });
+    document.body.appendChild(bar);
+    var timer = null, giveUp = null, w = 0;
+    function start() {
+      clearInterval(timer); clearTimeout(giveUp);
+      w = 12; bar.style.width = w + '%'; bar.classList.add('is-on');
+      timer = setInterval(function () { w += (88 - w) * 0.08; bar.style.width = w.toFixed(1) + '%'; }, 120);
+      giveUp = setTimeout(stop, 12000); // the page stayed (download, cancelled leave prompt...)
+    }
+    function stop() { clearInterval(timer); clearTimeout(giveUp); bar.classList.remove('is-on'); bar.style.width = '0'; }
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) { return; }
+      var a = e.target.closest ? e.target.closest('a[href]') : null;
+      if (!a || a.target && a.target !== '_self' || a.hasAttribute('download') || a.hasAttribute('data-toggle') || a.classList.contains('open-modal')) { return; }
+      var href = a.getAttribute('href') || '';
+      if (!href || href.charAt(0) === '#' || /^(javascript|mailto|tel|sms):/i.test(href)) { return; }
+      var url; try { url = new URL(a.href, window.location.href); } catch (err) { return; }
+      if (url.origin !== window.location.origin) { return; }
+      if (url.pathname === window.location.pathname && url.search === window.location.search && url.hash) { return; }
+      start();
+    });
+    document.addEventListener('submit', function (e) {
+      var f = e.target;
+      if (e.defaultPrevented || !f || (f.target && f.target !== '_self')) { return; }
+      setTimeout(function () { if (!e.defaultPrevented) { start(); } }, 0);
+    });
+    window.addEventListener('pageshow', stop);
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Phones: recent pages at the top of the menu                       */
+  /* ---------------------------------------------------------------- */
+  function recentInDrawer() {
+    if (!sidebar) { return; }
+    var here = currentUrl();
+    var list = store.get('recent', []);
+    if (!Array.isArray(list)) { return; }
+    list = list.filter(function (r) { return r && r.u && r.t && r.u !== here; }).slice(0, 6);
+    if (!list.length) { return; }
+    var box = h('div', { class: 'ax-recent', 'aria-label': 'Recent pages' }, [h('div', { class: 'ax-recent-title' }, [icon('history'), h('span', { text: 'Recent' })])]);
+    var row = h('div', { class: 'ax-recent-row' });
+    list.forEach(function (r) { row.appendChild(h('a', { class: 'ax-recent-chip', href: resolve(r.u), title: r.t, text: r.t })); });
+    box.appendChild(row);
+    var anchor = sidebar.querySelector('.ax-quickgrid') || sidebar.querySelector('.ax-search');
+    if (anchor && anchor.parentNode) { anchor.parentNode.insertBefore(box, anchor.nextSibling); }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Phones: swipe the menu left / the create sheet down to close them  */
+  /* ---------------------------------------------------------------- */
+  function swipe(el, axis, done, when) {
+    if (!el || !('ontouchstart' in window)) { return; }
+    var x0 = null, y0 = null, d = 0, lock = null;
+    el.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1 || (when && !when())) { x0 = null; return; }
+      if (axis === 'y' && el.scrollTop > 0) { x0 = null; return; }
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; d = 0; lock = null; el.style.transition = 'none';
+    }, { passive: true });
+    el.addEventListener('touchmove', function (e) {
+      if (x0 === null) { return; }
+      var dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0;
+      if (!lock) { if (Math.abs(dx) < 8 && Math.abs(dy) < 8) { return; } lock = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; }
+      if (lock !== axis) { return; }
+      d = axis === 'x' ? Math.min(0, dx) : Math.max(0, dy);
+      el.style.transform = axis === 'x' ? 'translateX(' + d + 'px)' : 'translateY(' + d + 'px)';
+    }, { passive: true });
+    el.addEventListener('touchend', function () {
+      if (x0 === null) { return; }
+      el.style.transition = ''; el.style.transform = '';
+      if (Math.abs(d) > 80) { done(); }
+      x0 = null;
+    });
+  }
+  function swipeToClose() {
+    swipe(sidebar, 'x', closeDrawer, function () { return root.classList.contains('ax-open'); });
+    var panel = document.querySelector('#axNewSheet .ax-sheet-panel');
+    swipe(panel, 'y', closeSheet, function () { return root.classList.contains('ax-sheet-open'); });
   }
 
   window.AuroxUI = {
-    version: CFG.version || '3.0.0',
+    version: CFG.version || '3.1.0',
     open: openPalette,
     close: closePalette,
     help: openHelp,

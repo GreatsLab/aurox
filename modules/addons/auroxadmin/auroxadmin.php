@@ -49,8 +49,8 @@ function auroxadmin_config()
                 'FriendlyName' => 'Accent colour',
                 'Type'         => 'text',
                 'Size'         => '10',
-                'Default'      => '#2f6bff',
-                'Description'  => 'Hex colour for buttons, links and highlights, e.g. #2f6bff.',
+                'Default'      => '#6d4aff',
+                'Description'  => 'Hex colour for buttons, links and highlights, e.g. #6d4aff.',
             ),
             'default_mode' => array(
                 'FriendlyName' => 'Default theme',

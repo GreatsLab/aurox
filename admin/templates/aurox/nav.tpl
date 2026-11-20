@@ -14,7 +14,7 @@
             {if !empty($auroxLogo)}
                 <img src="{$auroxLogo|escape}" alt="">
             {else}
-                <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="axg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f8bff"/><stop offset="1" stop-color="#1d4fe0"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#axg)"/><path d="M20 46 32 16l12 30M24.5 35h15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 40c6 9 30 12 44-6" fill="none" stroke="#bcd3ff" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="54" cy="34" r="3.5" fill="#fff"/></svg>
+                <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="axg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:color-mix(in srgb, var(--ax-accent) 78%, #fff)"/><stop offset="1" style="stop-color:color-mix(in srgb, var(--ax-accent) 82%, #000)"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#axg)"/><path d="M20 46 32 16l12 30M24.5 35h15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 40c6 9 30 12 44-6" fill="none" stroke="#bcd3ff" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="54" cy="34" r="3.5" fill="#fff"/></svg>
             {/if}
         </a>
         <span class="ax-brand-text">
@@ -30,6 +30,16 @@
         <span>Jump to page…</span>
         <kbd class="ax-kbd-mod">Ctrl K</kbd>
     </button>
+
+    {* Phones: one-tap shortcuts at the top of the menu (permission-aware) *}
+    <div class="ax-quickgrid" aria-label="Shortcuts">
+        {if in_array("View Orders", $admin_perms)}<a class="ax-qg" href="orders.php?status=Pending">{include file="$template/aurox/icon.tpl" i="cart"}<span>Orders</span>{if !empty($auroxCounters.orders)}<em>{$auroxCounters.orders}</em>{/if}</a>{/if}
+        {if in_array("List Invoices", $admin_perms)}<a class="ax-qg" href="invoices.php">{include file="$template/aurox/icon.tpl" i="receipt"}<span>Invoices</span>{if !empty($auroxCounters.overdue)}<em>{$auroxCounters.overdue}</em>{/if}</a>{/if}
+        {if in_array("List Support Tickets", $admin_perms)}<a class="ax-qg" href="supporttickets.php">{include file="$template/aurox/icon.tpl" i="support"}<span>Tickets</span>{if !empty($auroxCounters.tickets)}<em>{$auroxCounters.tickets}</em>{/if}</a>{/if}
+        {if in_array("List Services", $admin_perms)}<a class="ax-qg" href="{routePath('admin-services-index')}">{include file="$template/aurox/icon.tpl" i="server"}<span>Services</span></a>{/if}
+        {if in_array("List Domains", $admin_perms)}<a class="ax-qg" href="{routePath('admin-domains-index')}">{include file="$template/aurox/icon.tpl" i="globe"}<span>Domains</span></a>{/if}
+        {if in_array("List Transactions", $admin_perms)}<a class="ax-qg" href="transactions.php">{include file="$template/aurox/icon.tpl" i="coins"}<span>Payments</span></a>{/if}
+    </div>
 
     <nav class="ax-nav">
 

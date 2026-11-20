@@ -19,8 +19,8 @@
    Example: https://example.com/logo.png *}
 {if empty($auroxLogo)}{assign var="auroxLogo" value="" scope="parent"}{/if}
 
-{* Your brand colour as a hex code, e.g. #2f6bff *}
-{if empty($auroxAccent)}{assign var="auroxAccent" value="#2f6bff" scope="parent"}{/if}
+{* Your brand colour as a hex code, e.g. #6d4aff *}
+{if empty($auroxAccent)}{assign var="auroxAccent" value="#6d4aff" scope="parent"}{/if}
 
 {* Starting theme for new admins: system, light or dark *}
 {if empty($auroxMode)}{assign var="auroxMode" value="system" scope="parent"}{/if}

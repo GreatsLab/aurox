@@ -135,6 +135,15 @@ Check the footer: it shows the Aurox version you're running. If it's old or miss
 3. Hard refresh (Ctrl + F5) or open a private window.
 4. Still old? The new files didn't land. Check that `admin/templates/aurox/aurox/css/aurox-dashboard.css` exists on the server.
 
+**On a phone the admin looks like a shrunk computer screen.**
+Chrome's **Desktop site** is switched on for your WHMCS site. Tap Chrome's **⋮** menu and untick **Desktop site** to get the phone layout.
+
+**A page doesn't fit on my phone.**
+Open **Menu › Help & tools › Check page layout** and tap **Copy report**, then [open an issue](https://github.com/GreatsLab/aurox/issues) and paste it. It says exactly what was too wide.
+
+**Income shows 0 but invoices are paid.**
+Like WHMCS's reports, Aurox counts payments (transactions). An invoice marked paid without a payment added has nothing to count. If no payments were recorded in the last 30 days, the dashboard shows paid invoices instead and says so under the chart.
+
 **The dashboard has no income chart or "Needs attention" card.**
 Those come from the companion addon. Activate it (step 5) and make sure **Live dashboard** is ticked in its settings. Your admin role also needs the *View Income Totals* permission to see income figures.
 

@@ -21,6 +21,17 @@
 /* Theme button in the top bar */
 .ax-tb-theme .ax-svg { width: 19px; height: 19px; }
 
+/* Loading bar while the next page loads */
+#ax-progress {
+  position: fixed; top: 0; left: 0; z-index: 2000; width: 0; height: 3px; pointer-events: none; opacity: 0;
+  background: linear-gradient(90deg, var(--ax-accent), #8a5cff); box-shadow: 0 0 10px rgba(var(--ax-accent-rgb), .55);
+  border-radius: 0 3px 3px 0; transition: width .25s ease, opacity .35s ease;
+}
+#ax-progress.is-on { opacity: 1; }
+
+/* Phone menu: shortcuts and recent pages (hidden on larger screens) */
+.ax-quickgrid, .ax-recent { display: none; }
+
 @media (max-width: 767px) {
   html.ax-tpl { --ax-topbar-h: 56px; --ax-tabbar-h: 62px; }
   html.ax-tpl body { padding-bottom: calc(var(--ax-tabbar-h) + env(safe-area-inset-bottom, 0px)) !important; }
@@ -129,6 +140,23 @@
   .ax-drawer-close { display: inline-grid !important; margin-left: 2px; }
   html.ax-tpl #ax-sidebar .ax-link { min-height: 42px; }
   html.ax-tpl #ax-sidebar .ax-sub .ax-link { min-height: 38px; }
+  html.ax-tpl #ax-sidebar { overscroll-behavior: contain; }
+  .ax-quickgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 4px 12px 10px; }
+  .ax-qg {
+    position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 68px;
+    padding: 10px 4px; border-radius: 14px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .08);
+    color: var(--ax-side-text, #dfe6ff) !important; font: 600 12px var(--ax-font); text-decoration: none !important; -webkit-tap-highlight-color: transparent;
+  }
+  .ax-qg:active { transform: scale(.97); background: rgba(255, 255, 255, .1); }
+  .ax-qg .ax-svg { width: 20px; height: 20px; color: #9db8ff; }
+  .ax-qg em { position: absolute; top: 6px; right: 8px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; display: grid; place-items: center; background: var(--ax-danger); color: #fff; font: 700 10px var(--ax-font); font-style: normal; }
+  .ax-recent { display: block; margin: 2px 12px 10px; }
+  .ax-recent-title { display: flex; align-items: center; gap: 6px; margin: 0 4px 6px; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(223, 230, 255, .55); }
+  .ax-recent-title .ax-svg { width: 13px; height: 13px; }
+  .ax-recent-row { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+  .ax-recent-row::-webkit-scrollbar { display: none; }
+  .ax-recent-chip { flex: 0 0 auto; max-width: 180px; padding: 7px 11px; border-radius: 999px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .08); color: #dfe6ff !important; font: 600 12px var(--ax-font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: none !important; }
+  .ax-recent-chip:active { background: rgba(255, 255, 255, .12); }
 
   /* Things that float above the tab bar */
   #ax-top { bottom: calc(var(--ax-tabbar-h) + 14px + env(safe-area-inset-bottom, 0px)) !important; right: 14px !important; }
@@ -141,35 +169,4 @@
 
   /* Breadcrumbs: the top bar already shows the page */
   .ax-crumbs { display: none; }
-}
-
-/* ---------------- Tables become cards on phones ---------------- */
-@media (max-width: 639px) {
-  html.aurox table.ax-cardify, html.aurox table.ax-cardify > tbody, html.aurox table.ax-cardify > tbody > tr,
-  html.aurox table.ax-cardify > tbody > tr > td { display: block; width: 100% !important; }
-  html.aurox table.ax-cardify { border: 0 !important; box-shadow: none !important; background: transparent !important; border-radius: 0; }
-  html.aurox table.ax-cardify > thead, html.aurox table.ax-cardify tr.ax-head-row { display: none !important; }
-  html.aurox table.ax-cardify > tbody > tr {
-    position: relative; margin: 0 0 10px; padding: 8px 14px; border: 1px solid var(--ax-border); border-radius: 14px;
-    background: var(--ax-surface); box-shadow: var(--ax-shadow-sm);
-  }
-  html.aurox table.ax-cardify > tbody > tr > td {
-    display: flex; justify-content: space-between; align-items: center; gap: 14px; min-height: 32px;
-    padding: 6px 0 !important; border: 0 !important; text-align: right; white-space: normal !important; background: transparent !important;
-    overflow-wrap: anywhere;
-  }
-  html.aurox table.ax-cardify > tbody > tr > td + td { border-top: 1px dashed var(--ax-border) !important; }
-  html.aurox table.ax-cardify > tbody > tr > td::before {
-    content: attr(data-label); flex: 0 0 auto; max-width: 46%; text-align: left;
-    font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ax-muted);
-  }
-  html.aurox table.ax-cardify > tbody > tr > td[data-label=""]::before { display: none; }
-  html.aurox table.ax-cardify > tbody > tr > td[data-label=""] { justify-content: flex-start; text-align: left; }
-  html.aurox table.ax-cardify > tbody > tr > td.ax-cell-check { position: absolute; top: 10px; right: 12px; width: auto !important; min-height: 0; padding: 0 !important; border: 0 !important; }
-  html.aurox table.ax-cardify > tbody > tr > td.ax-cell-check + td { border-top: 0 !important; }
-  html.aurox table.ax-cardify > tbody > tr.ax-has-check > td:not(.ax-cell-check):first-of-type,
-  html.aurox table.ax-cardify > tbody > tr.ax-has-check > td.ax-cell-check + td { padding-right: 36px !important; }
-  html.aurox table.ax-cardify > tbody > tr > td.ax-cell-first { font-weight: 700; font-size: 14.5px; }
-  html.aurox table.ax-cardify > tbody > tr:hover > td { background: transparent !important; }
-  html.aurox table.ax-cardify .ax-tabletools { margin-bottom: 8px; }
 }

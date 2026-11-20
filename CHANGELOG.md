@@ -2,6 +2,30 @@
 
 All notable changes to this project are listed here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [3.1.0] - 2026-11-20
+
+Every WHMCS page now has a proper phone layout, and the dashboard opens with what's waiting on you.
+
+### Added
+- **Page layer** (`aurox/js/aurox-pages.js`, `aurox/css/aurox-pages.css`): data tables become cards on phones (including tables nested in forms and DataTables tables, which are re-labelled after every redraw), group headings and totals inside tables, status words as coloured pills, Aurox icons in place of WHMCS's old GIF/PNG icons, invoice totals as tiles, a "Go to" picker for long tab rows, and an overflow guard that makes anything wider than a phone screen fit.
+- **Client profile header**: name, status, tap-to-email, tap-to-call, one-tap actions (log in as client, new invoice/order/ticket, send email, notes) and tap-to-switch chips for tax exempt, auto charge, reminders and late fees. Sections fold on phones and remember their state. Two summary columns, four when there's room.
+- **Dashboard priority area**: pending orders (paid first, with what was ordered and the gateway) and tickets waiting (oldest first, with wait time and department) at the top. Overdue amounts per currency, latest payments, and "also needs attention" (overdue, cancellations, failed module actions, domains pending or expiring).
+- Income falls back to invoices marked paid when no payments were recorded in the last 30 days, and says so.
+- Phone menu: one-tap shortcuts (orders, invoices, tickets, services, domains, payments) and recent pages. A loading bar while pages load. Swipe to close the menu and the Create new sheet.
+- **Help > Check page layout** (also in the phone menu and Ctrl+K): reports whether the page fits the screen, with a report you can copy.
+- Ticket replies use the full width on phones.
+
+### Changed
+- New default accent colour (violet, `#6d4aff`), and the built-in logo now follows whatever accent you choose. Installs that set their own colour keep it.
+- README screenshots use demo data only.
+
+### Fixed
+- The client profile was twice as wide as a phone screen (its Products/Services, Addons, Domains and Quotes tables sit inside another table).
+- Breadcrumb arrows drew at full width. Every Aurox icon now has a default size.
+- On/off switches were clipped on phones. "Bulk Actions" showed twice on the client profile.
+- Four-column WHMCS forms squeezed their last column on tablets.
+- Chart showed made-up fractions (₦0.25) when there was no income; the sparkline sat mid-card at zero.
+
 ## [3.0.0] - 2026-11-20
 
 A new dashboard and a phone experience that works like an app. Aurox now has its own look from top to bottom instead of restyled Blend parts.

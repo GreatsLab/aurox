@@ -393,7 +393,11 @@ html.aurox table.form td.fieldarea textarea[cols], html.aurox table.form td.fiel
 html.aurox table.form td.fieldarea input[size] { width: auto; max-width: min(100%, 520px); box-sizing: border-box; }
 html.aurox table.form { table-layout: fixed; width: 100% !important; }
 html.aurox table.form td.fieldarea input[size], html.aurox table.form td.fieldarea select { max-width: 100%; }
-@media (max-width: 1279px) { html.aurox table.form td.fieldlabel { width: 30%; min-width: 0; } html.ax-tpl { --ax-panel-w: 200px; } }
+@media (max-width: 1279px) {
+  /* Two-column forms (label + field) get a wider label; four-column forms keep WHMCS's widths */
+  html.aurox table.form tr > td.fieldlabel:first-child:nth-last-child(2) { width: 30%; min-width: 0; }
+  html.ax-tpl { --ax-panel-w: 200px; }
+}
 /* Dashboard uses the full width; its shortcuts live in the quick actions */
 html.ax-tpl body.ax-dashboard #sidebar, html.ax-tpl body.ax-dashboard .sidebar-opener { display: none !important; }
 .ax-home-sys { margin-top: 6px !important; font-size: 12.5px; color: var(--ax-muted); }

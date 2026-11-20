@@ -55,7 +55,8 @@
     var W = Math.max(260, box.clientWidth), H = Math.max(160, box.clientHeight || 220);
     var padL = 44, padR = 10, padT = 12, padB = 26;
     var iw = W - padL - padR, ih = H - padT - padB;
-    var max = niceMax(Math.max.apply(null, pts.map(function (p) { return p.v; })) * 1.08);
+    var top = Math.max.apply(null, pts.map(function (p) { return p.v; }));
+    var max = niceMax(top * 1.08);
     var x = function (i) { return padL + (pts.length === 1 ? iw / 2 : i / (pts.length - 1) * iw); };
     var y = function (v) { return padT + ih - (Math.max(0, v) / max) * ih; };
 
@@ -71,6 +72,7 @@
     for (var g = 0; g <= 4; g++) {
       var gv = max / 4 * g, gy = y(gv);
       svg.appendChild(el('line', { x1: padL, x2: W - padR, y1: gy, y2: gy, class: 'ax-chart-grid' }));
+      if (top <= 0 && g > 0) { continue; } // nothing came in: no made-up scale, just the zero line
       var t = el('text', { x: padL - 8, y: gy + 4, class: 'ax-chart-ylabel', 'text-anchor': 'end' });
       t.textContent = money(gv, true);
       svg.appendChild(t);

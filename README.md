@@ -1,6 +1,6 @@
 # Aurox Admin for WHMCS
 
-![WHMCS 8](https://img.shields.io/badge/WHMCS-8.x-2f6bff) ![Version 3.0.0](https://img.shields.io/badge/version-3.0.0-7c4dff) ![PHP 7.4+](https://img.shields.io/badge/PHP-7.4%2B-777bb4) ![License: MIT](https://img.shields.io/badge/license-MIT-12a150)
+![WHMCS 8 and 9](https://img.shields.io/badge/WHMCS-8.x%20%7C%209.x-6d4aff) ![Version 3.1.0](https://img.shields.io/badge/version-3.1.0-7c4dff) ![PHP 7.4+](https://img.shields.io/badge/PHP-7.4%2B-777bb4) ![License: MIT](https://img.shields.io/badge/license-MIT-12a150)
 
 I run a hosting company, so a big part of my day is spent inside the WHMCS admin area. It works, but finding your way around it is slow: menus inside menus, settings you only find if you already know where they are, and a lot of clicking just to open one invoice.
 
@@ -10,13 +10,13 @@ Aurox is the admin template I wanted to use every day. One clean menu with every
 
 ## What you get
 
-**A dashboard that tells you what needs you.** Open WHMCS and the first thing you see is a greeting and one sentence: how many things need you today. Below it:
+**A dashboard that tells you what needs you.** Open WHMCS and the first thing you see is a greeting and one sentence: how many things need you today. Then, in order:
 
-- **Live numbers:** income today (with a 30-day sparkline), this month against the same point last month, pending orders, tickets waiting, overdue invoices and active clients. Cards that need action get a coloured edge.
+- **What's waiting on you:** pending orders (paid ones first, with what was ordered and the payment method) and tickets waiting for a reply (oldest first, with how long each customer has waited). One tap opens the order or ticket.
+- **Key numbers:** income today (with a sparkline), this month against the same point last month, overdue invoices with the amount owed in each currency, and active clients.
 - **Revenue chart** for the last 7, 14 or 30 days. Hover or tap any day to see what came in.
-- **Needs attention:** pending orders, tickets waiting, overdue invoices, cancellation requests, failed module actions and domains expiring soon, each one click from the right page.
-- **Tickets waiting** (oldest first, with priority) and **recent orders**, so you can jump straight in.
-- One-click quick actions, your own shortcuts from `quicklinks.tpl`, and all of WHMCS's widgets below, restyled. Choose which show with **Customise**.
+- **Also needs attention:** overdue invoices, cancellation requests, failed module actions, and domains pending or expiring soon.
+- **Latest payments** and **recent orders**, then all of WHMCS's widgets below, restyled. Choose which show with **Customise**.
 
 The live parts come from the companion addon (it only reads, and caches for a minute). Without it you still get the greeting, actions and WHMCS's widgets.
 
@@ -31,6 +31,10 @@ The live parts come from the companion addon (it only reads, and caches for a mi
 - Update notice, the Help menu and your account menu
 
 ![New menu](docs/screenshots/new-menu.png)
+
+**Client profiles at a glance.** Every client page opens with a header card: name, status, how long they've been a client, tap-to-email, tap-to-call, and one-tap actions (log in as the client, new invoice, new order, new ticket, send email, notes). Tax exempt, auto charge, overdue reminders and late fees are chips you click to switch.
+
+![Client profile](docs/screenshots/client-profile.png)
 
 **The page panel stays.** WHMCS shows useful details beside some pages, like a ticket's owner, department, status and tags. Aurox keeps that panel, restyled as a neat card next to the page. You can hide it when you don't need it, and on the dashboard it steps aside so the dashboard gets the full width.
 
@@ -61,11 +65,17 @@ The live parts come from the companion addon (it only reads, and caches for a mi
 
 **It looks after you.** It warns you before you leave a form you haven't saved, and new admins get a short welcome tour the first time.
 
-**Built for your phone too.** On a phone Aurox works like an app: a bottom tab bar (Home, Clients, Support, Menu) with a big **+** button that opens a "Create new" sheet, full-screen search with a Cancel button, the full menu as a slide-in drawer, and tables that turn into easy-to-read cards. Settings forms stack neatly and nothing spills off the side of the screen. Every page shows where you are with a small breadcrumb.
+**Built for your phone too, on every page.** On a phone Aurox works like an app: a bottom tab bar (Home, Clients, Support, Menu) with a big **+** button for creating things, full-screen search, and a menu with one-tap shortcuts and your recent pages. Swipe the menu or the **+** panel away to close them. And every WHMCS page gets a layout that fits:
 
-**Your look.** Light, dark or follow your device. Dark mode reaches WHMCS's own pages, widgets and forms too, not just the menu. Comfortable or compact spacing. Pin the pages you use most with the star at the top. One accent colour carries through the whole thing, so it matches your brand.
+- Tables become easy-to-read cards, including WHMCS's DataTables (sorted and paged cards keep their labels), group headings and totals.
+- Forms stack, invoice items and order items are editable cards, and ticket replies use the full width.
+- Client profile sections fold open and closed, and remember how you left them. Long tab rows get a "Go to" list.
+- Status words become coloured pills, and WHMCS's old icons are replaced with clean ones.
+- Anything still wider than the screen is made to fit. **Help › Check page layout** tells you if a page fits and gives you a report to copy.
 
-![Aurox on a phone: dashboard, Create new sheet and a table as cards](docs/screenshots/mobile.png)
+![Aurox on a phone: dashboard, client profile, invoices and a ticket](docs/screenshots/mobile.png)
+
+**Your look.** Light, dark or follow your device. Dark mode reaches WHMCS's own pages, widgets and forms too, not just the menu. Comfortable or compact spacing. Pin the pages you use most with the star at the top. One accent colour carries through the whole thing, logo included, so it matches your brand (the default is violet; set your own in `settings.tpl` or the addon).
 
 | Collapsed menu | Settings form on a phone |
 |---|---|
@@ -98,8 +108,8 @@ All three are in `admin/templates/aurox/`, and each one explains itself at the t
 
 ## Updating
 
-- **WHMCS update:** copy WHMCS's refreshed files from `blend` into `aurox` again. Leave out `header.tpl`, `footer.tpl`, `nav.tpl` and `homepage.tpl` so your Aurox files stay. [Exact steps](INSTALL.md#when-whmcs-releases-an-update).
-- **Aurox update:** upload the new version over the old one, keeping your `settings.tpl`, `quicklinks.tpl` and `menulinks.tpl`. [Exact steps](INSTALL.md#when-a-new-aurox-version-comes-out).
+- **WHMCS update:** copy WHMCS's refreshed files from `blend` into `aurox` again. Leave out `header.tpl`, `footer.tpl`, `nav.tpl` and `homepage.tpl` so your Aurox files stay. Then empty WHMCS's template cache. [Exact steps](INSTALL.md#when-whmcs-releases-an-update).
+- **Aurox update:** upload the new version over the old one, keeping your `settings.tpl`, `quicklinks.tpl` and `menulinks.tpl`, then empty WHMCS's template cache (Utilities › System › System Cleanup). [Exact steps](INSTALL.md#when-a-new-aurox-version-comes-out).
 
 ## If something goes wrong
 
