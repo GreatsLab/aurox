@@ -62,7 +62,7 @@ Check that these files exist:
 3. Click **Edit** next to your user.
 4. Set **Template** to **aurox** and click **Save Changes**.
 5. Go to **Utilities › System › System Cleanup** and click **Empty Template Cache**. WHMCS keeps compiled copies of templates, and this makes sure you see the new files.
-6. Hard refresh your browser (Ctrl + F5, or Cmd + Shift + R on a Mac). The footer should say **Aurox Admin 3.0.0**.
+6. Hard refresh your browser (Ctrl + F5, or Cmd + Shift + R on a Mac). The footer should say **Aurox Admin 3.1.1**.
 
 Start with just your own account. Once you're happy, move your team over, either from each user's Edit page or in one click with the companion addon (next step).
 

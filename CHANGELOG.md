@@ -2,6 +2,18 @@
 
 All notable changes to this project are listed here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [3.1.1] - 2026-11-20
+
+### Fixed
+- Popups (Generate Due Invoices, the password generator on Add User and every other WHMCS modal) opened under their backdrop and blocked the whole screen. The page fade-in that caused it is removed, and Aurox now frees any modal that a page or addon places inside a container that would trap it.
+- WHMCS slide-out trays opened at the top of the page, out of sight when the page was scrolled. They now open on screen.
+- Action dropdowns inside tables and panels were cut off. They now open in full, flip up near the bottom of the screen and stay clear of the phone tab bar.
+- Restored menu entries missing since 3.0: service lists by type, all invoice statuses, Billable Items and Quotes views, ticket statuses, network issue views, WHMCS Connect, Sitejet Builder and PHP Version Compatibility, each behind WHMCS's admin permissions.
+- Client names in lists stay on one line; sort arrows use Aurox icons.
+
+### Changed
+- New visual layer (`aurox-skin.css`): condensed display face for headings and figures, status lights, flat bordered panels, and a plain-language status line on the dashboard.
+
 ## [3.1.0] - 2026-11-20
 
 Every WHMCS page now has a proper phone layout, and the dashboard opens with what's waiting on you.

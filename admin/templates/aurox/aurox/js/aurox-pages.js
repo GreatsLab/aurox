@@ -90,7 +90,8 @@
     'add.png': 'plus', 'reports.png': 'chart', 'ticketsopen.png': 'support', 'ticketsother.png': 'inbox', 'affiliates.png': 'share',
     'clients.png': 'merge', 'csvexports.png': 'download', 'email.png': 'mail', 'emails.png': 'mail', 'search.png': 'search',
     'notes.png': 'note', 'products.png': 'box', 'domains.png': 'globe', 'tick.png': 'check', 'ticks.png': 'check', 'cross.png': 'x',
-    'logs.png': 'list', 'transactions.png': 'coins', 'printer.png': 'file', 'quote.png': 'message', 'attachment.png': 'file'
+    'logs.png': 'list', 'transactions.png': 'coins', 'printer.png': 'file', 'quote.png': 'message', 'attachment.png': 'file',
+    'asc.gif': 'chevdown', 'desc.gif': 'chevdown'
   };
   function swapIcons(scope) {
     each(scope.querySelectorAll('img[src*="images/"]'), function (img) {
@@ -101,7 +102,9 @@
       img.setAttribute('data-ax-swapped', '1');
       var link = img.closest('a');
       if (link && (link.id === 'btnCloseClient')) { name = 'ban'; }
-      var svg = icon(name, 'ax-legacy-ico' + (name === 'bin' ? ' is-danger' : ''));
+      var sort = file === 'asc.gif' || file === 'desc.gif';
+      var svg = icon(name, 'ax-legacy-ico' + (name === 'bin' ? ' is-danger' : '') + (sort ? ' is-sort' : '') + (file === 'asc.gif' ? ' is-flip' : ''));
+      if (sort && !img.getAttribute('alt')) { img.setAttribute('alt', file === 'asc.gif' ? 'Sorted ascending' : 'Sorted descending'); }
       var label = img.getAttribute('alt') || img.getAttribute('title') || '';
       if (label) { svg.setAttribute('aria-label', label); svg.removeAttribute('aria-hidden'); svg.setAttribute('role', 'img'); }
       img.parentNode.insertBefore(svg, img);
@@ -421,6 +424,11 @@
       store.set('recent', recent);
     }
 
+    // Four summary columns once the profile is wide enough (measured, so no CSS containment is needed)
+    function fitColumns() { wrap.classList.toggle('ax-cs-wide', wrap.clientWidth >= 1120); }
+    fitColumns();
+    if (window.ResizeObserver) { new window.ResizeObserver(fitColumns).observe(wrap); } else { window.addEventListener('resize', fitColumns); }
+
     // Section titles for the services / addons / domains / quotes tables
     each(wrap.querySelectorAll('table.form'), function (f) {
       var first = f.rows[0];
@@ -526,8 +534,10 @@
       var inner = Array.prototype.some.call(el.children, function (c) { return c.textContent.indexOf('Unpaid:') >= 0 && c.textContent.indexOf('Overdue:') >= 0 && c.textContent.indexOf('Paid:') >= 0 && c.tagName !== 'FONT' && c.tagName !== 'B' && c.tagName !== 'STRONG'; });
       if (inner) { return; }
       el.setAttribute('data-ax-totals', '1');
+      // Parse each line in an inert <template>: nothing in it loads or runs.
       var lines = el.innerHTML.split(/<br\s*\/?>/i).map(function (html) {
-        var d = document.createElement('div'); d.innerHTML = html; return txt(d);
+        var tpl = document.createElement('template'); tpl.innerHTML = html;
+        return (tpl.content.textContent || '').replace(/\s+/g, ' ').trim();
       }).filter(Boolean);
       var groups = [];
       lines.forEach(function (line) { var mm = line.match(re); if (mm) { groups.push(mm); } });
@@ -561,7 +571,7 @@
       opener.setAttribute('data-ax', '1');
       opener.textContent = '';
       opener.appendChild(h('b', { text: 'Page shortcuts' }));
-      if (heads.length) { opener.appendChild(h('small', { text: heads.join(' · ') })); }
+      if (heads.length) { opener.appendChild(h('small', { text: heads.join(', ') })); }
     }
     var min = sb.querySelector('.btn-min-sidebar');
     if (min && !min.getAttribute('data-ax')) {
@@ -688,6 +698,152 @@
   }
 
   /* ---------------------------------------------------------------- */
+  /* Popups (Bootstrap modals) always sit above the dark backdrop       */
+  /* ---------------------------------------------------------------- */
+  // A modal inside an element that has a transform, filter, animation, containment
+  // or its own z-index layer gets trapped under the backdrop and the screen "blanks
+  // out". While a modal is open, Aurox lifts any such ancestor and puts it back after.
+  var LIFT = ['transform', 'filter', 'backdrop-filter', '-webkit-backdrop-filter', 'perspective', 'contain', 'container-type', 'will-change', 'animation', 'opacity', 'isolation', 'mix-blend-mode', 'z-index', 'clip-path', 'mask', '-webkit-mask'];
+  function traps(cs) {
+    return (cs.transform && cs.transform !== 'none') || (cs.filter && cs.filter !== 'none') ||
+      ((cs.backdropFilter || cs.webkitBackdropFilter || 'none') !== 'none') || (cs.perspective && cs.perspective !== 'none') ||
+      (cs.contain && cs.contain !== 'none') || (cs.containerType && cs.containerType !== 'normal') ||
+      (cs.willChange && /transform|opacity|filter|perspective/.test(cs.willChange)) || (cs.animationName && cs.animationName !== 'none') ||
+      parseFloat(cs.opacity) < 1 || cs.isolation === 'isolate' || (cs.mixBlendMode && cs.mixBlendMode !== 'normal') ||
+      (cs.position !== 'static' && cs.zIndex !== 'auto') || (cs.clipPath && cs.clipPath !== 'none') ||
+      ((cs.maskImage || cs.webkitMaskImage || 'none') !== 'none');
+  }
+  function liftFor(modal) {
+    var lifted = [];
+    for (var n = modal.parentElement; n && n !== document.body && n !== document.documentElement; n = n.parentElement) {
+      if (!traps(window.getComputedStyle(n))) { continue; }
+      var saved = {};
+      LIFT.forEach(function (p) { saved[p] = [n.style.getPropertyValue(p), n.style.getPropertyPriority(p)]; });
+      ['transform', 'filter', 'backdrop-filter', '-webkit-backdrop-filter', 'perspective', 'contain', 'container-type', 'will-change', 'animation', 'isolation', 'mix-blend-mode', 'clip-path', 'mask', '-webkit-mask'].forEach(function (p) { n.style.setProperty(p, p === 'container-type' ? 'normal' : (p === 'isolation' ? 'auto' : (p === 'mix-blend-mode' ? 'normal' : (p === 'will-change' ? 'auto' : 'none'))), 'important'); });
+      n.style.setProperty('opacity', '1', 'important');
+      n.style.setProperty('z-index', 'auto', 'important');
+      lifted.push([n, saved]);
+    }
+    modal._axLifted = lifted;
+  }
+  function dropFor(modal) {
+    (modal._axLifted || []).forEach(function (pair) {
+      var n = pair[0], saved = pair[1];
+      Object.keys(saved).forEach(function (p) { if (saved[p][0]) { n.style.setProperty(p, saved[p][0], saved[p][1]); } else { n.style.removeProperty(p); } });
+    });
+    modal._axLifted = null;
+  }
+  function guardModals() {
+    var $ = window.jQuery;
+    if (!$ || !$.fn) { return; }
+    $(document).on('show.bs.modal', '.modal', function (e) {
+      if (e.target !== this) { return; }
+      if (_.closeOverlays) { _.closeOverlays(); }          // the phone menu sits above popups
+      root.classList.remove('ax-sheet-open', 'ax-search-open');
+      liftFor(this);
+    });
+    $(document).on('hidden.bs.modal', '.modal', function (e) { if (e.target === this) { dropFor(this); } });
+    // WHMCS slide-out trays get the same treatment: close Aurox's own layers first
+    // and free the tray from any ancestor that would trap it under its backdrop.
+    $(document).on('click', '[data-toggle="slide-tray"]', function () {
+      if (_.closeOverlays) { _.closeOverlays(); }
+      root.classList.remove('ax-sheet-open', 'ax-search-open');
+      var tray = document.querySelector($(this).data('target'));
+      if (tray) { dropFor(tray); liftFor(tray); openTray = tray; }
+    });
+    var openTray = null;
+    $(document).on('click', '[data-dismiss="slide-tray"], #slide-tray-backdrop', function () {
+      var tray = openTray; openTray = null;
+      if (tray) { setTimeout(function () { dropFor(tray); }, 800); }   // after Blend's slide and fade
+    });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Dropdowns that would be cut off                                   */
+  /* ---------------------------------------------------------------- */
+  // A Bootstrap dropdown inside a scrolling table, a panel with hidden overflow,
+  // or near the phone tab bar opens partly out of reach. When that happens the
+  // menu is pinned to the screen beside its button, and flips up if needed.
+  function floatDropdowns() {
+    var $ = window.jQuery;
+    if (!$ || !$.fn || !$.fn.dropdown) { return; }
+    var open = null;   // { menu, toggle }
+    function edges() {
+      var top = 0, bottom = window.innerHeight;
+      var bar = document.querySelector('.ax-topbar');
+      var pos = bar ? window.getComputedStyle(bar).position : '';
+      if (pos === 'fixed' || pos === 'sticky') { top = Math.max(0, bar.getBoundingClientRect().bottom); }
+      var tabs = document.querySelector('.ax-tabbar');
+      if (tabs && tabs.getClientRects().length && getComputedStyle(tabs).display !== 'none') { bottom = Math.min(bottom, tabs.getBoundingClientRect().top); }
+      return { top: top, bottom: bottom };
+    }
+    function cutOff(menu) {
+      var r = menu.getBoundingClientRect(), e = edges();
+      if (r.bottom > e.bottom + 1) { return true; }
+      for (var n = menu.parentElement; n && n !== document.body; n = n.parentElement) {
+        var cs = window.getComputedStyle(n);
+        if (cs.overflowX === 'visible' && cs.overflowY === 'visible') { continue; }
+        var pr = n.getBoundingClientRect();
+        if (r.left < pr.left - 1 || r.right > pr.right + 1 || r.top < pr.top - 1 || r.bottom > pr.bottom + 1) { return true; }
+      }
+      return false;
+    }
+    var PROPS = ['position', 'top', 'left', 'right', 'bottom', 'max-height', 'overflow-y', 'z-index', 'margin'];
+    function place() {
+      if (!open) { return; }
+      var menu = open.menu, t = open.toggle.getBoundingClientRect(), e = edges();
+      if (t.bottom < e.top || t.top > e.bottom) { close(); return; }      // button scrolled away
+      menu.style.setProperty('position', 'fixed', 'important');
+      menu.style.setProperty('margin', '0', 'important');
+      menu.style.setProperty('right', 'auto', 'important');
+      menu.style.setProperty('bottom', 'auto', 'important');
+      menu.style.setProperty('max-height', 'none', 'important');
+      menu.style.setProperty('z-index', menu.closest('.modal') ? '1070' : '1060', 'important');
+      var mw = menu.offsetWidth, mh = menu.scrollHeight, vw = document.documentElement.clientWidth;
+      var right = menu.classList.contains('dropdown-menu-right') || menu.classList.contains('pull-right');
+      var left = right ? t.right - mw : t.left;
+      left = Math.max(8, Math.min(left, vw - mw - 8));
+      var below = e.bottom - t.bottom - 8, above = t.top - e.top - 8, top, room;
+      if (mh + 2 <= below || below >= above) { top = t.bottom + 2; room = below; }
+      else { room = above; top = t.top - 2 - Math.min(mh, room); }
+      menu.style.setProperty('top', Math.round(top) + 'px', 'important');
+      menu.style.setProperty('left', Math.round(left) + 'px', 'important');
+      if (mh > room) {
+        menu.style.setProperty('max-height', Math.max(120, Math.floor(room)) + 'px', 'important');
+        menu.style.setProperty('overflow-y', 'auto', 'important');
+      }
+    }
+    function reset(menu) { PROPS.forEach(function (p) { menu.style.removeProperty(p); }); }
+    function close() {
+      if (!open) { return; }
+      var t = open.toggle; open = null;
+      if ($(t).parent().hasClass('open')) { $(t).dropdown('toggle'); }
+    }
+    function onMove() { try { if (open) { place(); } } catch (e) { open = null; } }
+    $(document).on('shown.bs.dropdown', function (ev) {
+      try {
+        var parent = ev.target;
+        if (!parent || parent.nodeType !== 1 || !(area.contains(parent) || parent.closest('.modal'))) { return; }
+        var menu = $(parent).children('.dropdown-menu')[0];
+        var toggle = $(parent).children('[data-toggle="dropdown"]')[0] || parent.querySelector('[data-toggle="dropdown"]');
+        if (!menu || !toggle || !cutOff(menu)) { return; }
+        open = { menu: menu, toggle: toggle };
+        place();
+        window.addEventListener('scroll', onMove, true);
+        window.addEventListener('resize', onMove);
+      } catch (e) { open = null; if (window.console) { console.warn('[Aurox] dropdown:', e); } }
+    });
+    $(document).on('hide.bs.dropdown', function (ev) {
+      try {
+        var menu = ev.target && ev.target.nodeType === 1 ? $(ev.target).children('.dropdown-menu')[0] : null;
+        if (open && menu === open.menu) { open = null; }
+        if (menu && menu.style.getPropertyValue('position') === 'fixed') { reset(menu); }
+        if (!open) { window.removeEventListener('scroll', onMove, true); window.removeEventListener('resize', onMove); }
+      } catch (e) { if (window.console) { console.warn('[Aurox] dropdown:', e); } }
+    });
+  }
+
+  /* ---------------------------------------------------------------- */
   /* Run                                                               */
   /* ---------------------------------------------------------------- */
   var busy = false, timer = null, observer = null;
@@ -718,6 +874,7 @@
     try { totals(); pagePanel(); pageTitle(); } catch (e2) { if (window.console) { console.warn('[Aurox] page layer:', e2); } }
     enhance(area);
     watchDataTables();
+    guardModals(); floatDropdowns();
     guard();
     watch();
     window.addEventListener('load', schedule);

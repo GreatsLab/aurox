@@ -13,11 +13,9 @@
 /* Every Aurox icon has a sensible size, even where no other rule sets one */
 :where(.ax-svg) { width: 1.25em; height: 1.25em; flex: none; vertical-align: middle; overflow: visible; }
 
-/* Smooth page entrance (skipped for people who prefer less motion) */
-@keyframes axPageIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: no-preference) {
-  html.ax-tpl #contentarea { animation: axPageIn .24s ease-out both; }
-}
+/* No animation, transform, filter or containment on #contentarea or its wrappers:
+   WHMCS puts its popups (modals) inside the page, and any of those properties
+   would trap them under the page-wide dark backdrop. */
 
 /* ------------------------------------------------------------------ */
 /* Status pills                                                        */
@@ -113,9 +111,8 @@ html.aurox[data-ax-mode="dark"] .ax-toggle strong.textgreen { color: #3dd68c !im
 html.aurox[data-ax-mode="dark"] .ax-toggle strong.textred { color: #ff6b7d !important; }
 
 /* Summary columns: two side by side, four once there's room for them */
-html.aurox #clientsummarycontainer { container-type: inline-size; container-name: axcs; }
 @media (min-width: 768px) { html.aurox #clientsummarycontainer .client-summary-panels > [class*="col-"] { width: 50%; } }
-@container axcs (min-width: 1120px) { html.aurox #clientsummarycontainer .client-summary-panels > [class*="col-"] { width: 25%; } }
+html.aurox #clientsummarycontainer.ax-cs-wide .client-summary-panels > [class*="col-"] { width: 25%; }
 
 /* Summary boxes become clean cards */
 html.aurox #clientsummarycontainer .client-summary-panels { margin-left: -6px; margin-right: -6px; }
@@ -376,4 +373,19 @@ html.aurox .ax-pick-title { margin: 0 0 8px !important; text-align: center; font
   html.aurox td.ax-has-cards { padding-left: 0 !important; padding-right: 0 !important; }
   html.aurox #contentarea .tablebg { overflow: visible; }
   html.aurox #contentarea .dataTables_wrapper .listtable:has(> table.ax-cardify) { overflow: visible; }
+}
+
+/* WHMCS slide-out trays: pin to the screen, not the page. Stock Blend positions the
+   tray at the top of the page, so opening one from further down showed only the dark
+   backdrop with the tray scrolled out of sight. */
+html.ax-tpl .slide-tray { position: fixed !important; top: 0 !important; bottom: 0 !important; height: auto !important; max-width: min(450px, 100vw); z-index: 2000 !important; overscroll-behavior: contain; padding-bottom: env(safe-area-inset-bottom); }
+html.ax-tpl #slide-tray-backdrop { position: fixed !important; inset: 0 !important; height: auto !important; z-index: 1990 !important; }
+
+/* Sort direction next to a list heading (replaces WHMCS asc.gif / desc.gif) */
+html.ax-tpl .ax-legacy-ico.is-sort { width: 12px; height: 12px; margin-left: 3px; vertical-align: -1px; color: var(--ax-accent); }
+html.ax-tpl .ax-legacy-ico.is-flip { transform: rotate(180deg); }
+
+/* Keep a client's name on one line in lists; only a company name below it wraps */
+@media (min-width: 768px) {
+  html.ax-tpl #contentarea table.datatable td:has(> a[href*="clientssummary.php"]) { min-width: 10.5em; }
 }

@@ -1,6 +1,6 @@
 # Aurox Admin for WHMCS
 
-![WHMCS 8 and 9](https://img.shields.io/badge/WHMCS-8.x%20%7C%209.x-6d4aff) ![Version 3.1.0](https://img.shields.io/badge/version-3.1.0-7c4dff) ![PHP 7.4+](https://img.shields.io/badge/PHP-7.4%2B-777bb4) ![License: MIT](https://img.shields.io/badge/license-MIT-12a150)
+![WHMCS 8 and 9](https://img.shields.io/badge/WHMCS-8.x%20%7C%209.x-6d4aff) ![Version 3.1.1](https://img.shields.io/badge/version-3.1.1-7c4dff) ![PHP 7.4+](https://img.shields.io/badge/PHP-7.4%2B-777bb4) ![License: MIT](https://img.shields.io/badge/license-MIT-12a150)
 
 I run a hosting company, so a big part of my day is spent inside the WHMCS admin area. It works, but finding your way around it is slow: menus inside menus, settings you only find if you already know where they are, and a lot of clicking just to open one invoice.
 
@@ -166,6 +166,7 @@ INSTALL.md                    the full installation guide
 - Every PHP file refuses to run if it's opened directly.
 - The addon only *reads* from the WHMCS database, except when you click one of its template-switch buttons. Those are protected against cross-site requests, and only Full Administrators can switch everyone.
 - It won't switch anyone to Aurox unless the template folder is complete, so nobody gets locked out.
+- Anything a client can type, such as names, company names and ticket subjects, is escaped before the dashboard shows it, so it can't run as code in your admin area.
 - Settings are checked before they reach the page: colours must be real hex colours, links can't be `javascript:` links, and custom CSS can't break out of its style tag.
 - Snippets, notes, pins and the toolbox run entirely in your browser. Nothing is sent to me or anyone else.
 

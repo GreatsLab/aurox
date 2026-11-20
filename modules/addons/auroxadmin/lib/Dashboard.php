@@ -335,7 +335,8 @@ class Dashboard
                     'initials' => self::initials($name),
                     'userid'   => (int) $p->userid,
                     'amount'   => self::money((float) $p->amountin, $c['prefix'], $c['suffix'], $c['code']),
-                    'meta'     => trim((isset($gatewayNames[$gw]) ? $gatewayNames[$gw] : ucfirst($gw)) . ((int) $p->invoiceid ? ' · Invoice #' . (int) $p->invoiceid : ''), ' ·'),
+                    'gateway'  => isset($gatewayNames[$gw]) ? $gatewayNames[$gw] : ucfirst($gw),
+                    'invoice'  => (int) $p->invoiceid ? 'Invoice #' . (int) $p->invoiceid : '',
                     'url'      => (int) $p->invoiceid ? 'invoices.php?action=edit&id=' . (int) $p->invoiceid : 'transactions.php',
                     'ago'      => self::ago(strtotime((string) $p->date), $now),
                 );
@@ -358,7 +359,8 @@ class Dashboard
                     'initials' => self::initials($name),
                     'userid'   => (int) $p->userid,
                     'amount'   => self::money((float) $p->total, $c['prefix'], $c['suffix'], $c['code']),
-                    'meta'     => 'Invoice #' . (int) $p->id . ($gw !== '' ? ' · ' . (isset($gatewayNames[$gw]) ? $gatewayNames[$gw] : ucfirst($gw)) : ''),
+                    'gateway'  => $gw !== '' ? (isset($gatewayNames[$gw]) ? $gatewayNames[$gw] : ucfirst($gw)) : '',
+                    'invoice'  => 'Invoice #' . (int) $p->id,
                     'url'      => 'invoices.php?action=edit&id=' . (int) $p->id,
                     'ago'      => self::ago(strtotime((string) $p->datepaid), $now),
                 );
@@ -487,7 +489,7 @@ class Dashboard
         return $sum;
     }
 
-    /** "Business Hosting · example.com +1 more" for each order id. */
+    /** "Business Hosting (example.com) +1 more" for each order id. */
     private static function orderItems(array $orderIds)
     {
         $orderIds = array_values(array_filter(array_unique($orderIds)));
@@ -503,7 +505,7 @@ class Dashboard
         }, array())) as $s) {
             $label = trim((string) $s->name);
             if ((string) $s->domain !== '') {
-                $label .= ($label !== '' ? ' · ' : '') . (string) $s->domain;
+                $label = $label !== '' ? $label . ' (' . (string) $s->domain . ')' : (string) $s->domain;
             }
             $lines[(int) $s->orderid][] = $label !== '' ? $label : 'Service';
         }
@@ -513,7 +515,7 @@ class Dashboard
                 ->get(array('orderid', 'domain', 'type'));
         }, array())) as $d) {
             $type = strtolower((string) $d->type) === 'transfer' ? 'Domain transfer' : 'Domain registration';
-            $lines[(int) $d->orderid][] = $type . ' · ' . (string) $d->domain;
+            $lines[(int) $d->orderid][] = $type . ' (' . (string) $d->domain . ')';
         }
         $out = array();
         foreach ($lines as $id => $list) {

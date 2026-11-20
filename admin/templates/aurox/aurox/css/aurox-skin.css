@@ -1,0 +1,345 @@
+/*!
+ * Aurox Admin for WHMCS - the Aurox look
+ * An operations console for a hosting business: quiet surfaces, one action
+ * colour, status shown as small indicator lamps, and condensed figures for
+ * every number. Loaded last; it sets the look on top of the layout files.
+ *
+ * Author:  Chimnadindu Great Chibueze (https://github.com/GreatsLab)
+ * Project: https://github.com/GreatsLab/aurox
+ * License: MIT. Aurox Condensed: GUST Font License, see aurox/fonts/LICENSE-fonts.txt
+ */
+
+@font-face { font-family: "Aurox Condensed"; src: url("../fonts/aurox-condensed-400.woff") format("woff"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Aurox Condensed"; src: url("../fonts/aurox-condensed-700.woff") format("woff"); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* ------------------------------------------------------------------ */
+/* Tokens                                                              */
+/* ------------------------------------------------------------------ */
+html.aurox {
+  --ax-bg: #edf0f4;
+  --ax-surface: #ffffff;
+  --ax-surface-2: #f5f7f9;
+  --ax-surface-3: #e9edf2;
+  --ax-border: #dbe0e7;
+  --ax-border-strong: #c5ccd6;
+  --ax-text: #131b27;
+  --ax-text-2: #3b4555;
+  --ax-muted: #677182;
+  --ax-success: #138049;
+  --ax-warning: #ad6800;
+  --ax-danger: #c3303f;
+  --ax-info: #2268b8;
+  --ax-side-bg: #132034;
+  --ax-side-bg-2: #132034;
+  --ax-side-text: #cdd5e1;
+  --ax-side-muted: #8592a6;
+  --ax-side-hover: rgba(255, 255, 255, .06);
+  --ax-side-border: rgba(255, 255, 255, .08);
+  --ax-radius: 8px;
+  --ax-radius-sm: 6px;
+  --ax-shadow-sm: none;
+  --ax-shadow: none;
+  --ax-shadow-lg: 0 18px 48px -12px rgba(10, 18, 32, .34), 0 2px 6px rgba(10, 18, 32, .08);
+  /* Reading text uses the device's own font (Roboto on Android, San Francisco on Apple, Segoe on Windows):
+     nothing extra to download on mobile data. Headings and figures use Aurox Condensed. */
+  --ax-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --ax-display: "Aurox Condensed", "Roboto Condensed", "Arial Narrow", var(--ax-font);
+  --ax-lamp-go: #19a35c;
+  --ax-lamp-wait: #e39400;
+  --ax-lamp-stop: #e03a47;
+  --ax-lamp-info: var(--ax-accent);
+  --ax-lamp-off: #a4adbb;
+}
+html.aurox[data-ax-mode="dark"] {
+  --ax-bg: #0c121b;
+  --ax-surface: #131a25;
+  --ax-surface-2: #17202c;
+  --ax-surface-3: #1e2835;
+  --ax-border: #263141;
+  --ax-border-strong: #344052;
+  --ax-text: #e6eaf0;
+  --ax-text-2: #b8c1ce;
+  --ax-muted: #8691a2;
+  --ax-success: #3cc27e;
+  --ax-warning: #f0a83a;
+  --ax-danger: #f0646f;
+  --ax-side-bg: #0f1826;
+  --ax-side-bg-2: #0f1826;
+  --ax-shadow-lg: 0 18px 48px -12px rgba(0, 0, 0, .6);
+  --ax-lamp-off: #556173;
+}
+
+/* ------------------------------------------------------------------ */
+/* Type                                                                */
+/* ------------------------------------------------------------------ */
+html.aurox body { font-family: var(--ax-font); }
+html.ax-tpl #contentarea > div > h1, html.ax-tpl #contentarea h1,
+html.aurox .ax-card-title, html.aurox .ax-prio-title h3, html.aurox .ax-ch-name, html.aurox .ax-status,
+html.aurox .ax-section-head h3, html.aurox .ax-tb-title, html.aurox .ax-pick-title, html.aurox .ax-sheet-title,
+html.aurox #clientsummarycontainer tr.ax-cs-section-title > td {
+  font-family: var(--ax-display) !important; font-weight: 700 !important; letter-spacing: 0 !important;
+}
+html.ax-tpl #contentarea > div > h1 { font-size: 30px !important; line-height: 1.1; }
+html.aurox .ax-kpi-value, html.aurox .ax-amount, html.aurox .ax-prio-count, html.aurox .ax-card-sub b,
+html.aurox .ax-totals-tile b, html.aurox .ax-todo b, html.aurox .ax-ch-id, html.aurox .ax-wait, html.aurox .ax-age {
+  font-family: var(--ax-display) !important; font-variant-numeric: tabular-nums lining-nums; letter-spacing: 0 !important;
+}
+html.aurox .ax-list-main small, html.aurox .ax-meta, html.aurox td { font-variant-numeric: tabular-nums; }
+
+/* Labels are sentence case, never tracked capitals */
+html.aurox .ax-brand-sub, html.aurox .ax-section-title, html.aurox .ax-pal-group, html.aurox .datatable th,
+html.aurox table.table > thead > tr > th, html.aurox .ax-h4, html.aurox .ax-table th, html.aurox .ax-guide-kicker,
+html.aurox .ax-tour-step, html.aurox .ax-dd .dropdown-header, html.ax-tpl .intellisearchresults h5,
+html.ax-tpl #sidebar .sidebar-header, html.aurox .ax-home-customise .dropdown-menu h4, html.aurox .ax-recent-title,
+html.aurox .ax-totals-tile small, html.aurox #clientsummarycontainer table.clientssummarystats td[colspan] strong,
+html.aurox table.ax-cardify > tbody > tr > td::before, html.aurox .ax-hero-kicker {
+  text-transform: none !important; letter-spacing: 0 !important;
+}
+html.aurox .ax-section-title { font-size: 12px; font-weight: 600; color: var(--ax-side-muted); }
+html.aurox .ax-brand-sub { font-size: 11.5px; }
+html.aurox .datatable th, html.aurox table.table > thead > tr > th { font-size: 12.5px !important; font-weight: 600 !important; color: var(--ax-muted) !important; }
+html.ax-tpl #sidebar .sidebar-header { font-size: 12px; font-weight: 600; color: var(--ax-muted); }
+html.aurox table.ax-cardify > tbody > tr > td::before { font-size: 12.5px !important; font-weight: 500 !important; color: var(--ax-muted); }
+
+/* No hover lifts; motion is kept for things that open and close */
+html.aurox .ax-action:hover, html.aurox .ax-action:focus-visible, html.aurox .ax-kpi:hover, html.aurox .ax-kpi:focus-visible,
+html.aurox .ax-ch-btn:hover, html.aurox .ax-quick-item:hover, html.aurox .health-status-block:hover, html.aurox .ax-prio-count:hover { transform: none !important; box-shadow: none !important; }
+
+/* ------------------------------------------------------------------ */
+/* Shell                                                               */
+/* ------------------------------------------------------------------ */
+html.aurox #ax-sidebar { background: var(--ax-side-bg); }
+html.aurox .ax-item.is-active > .ax-link { background: rgba(255, 255, 255, .08); box-shadow: inset 3px 0 0 var(--ax-accent); }
+html.aurox .ax-sub .ax-item.is-active > .ax-link { background: rgba(255, 255, 255, .07); }
+html.aurox .ax-badge { background: rgba(255, 255, 255, .12); color: #fff; font-family: var(--ax-display); font-size: 12px; border-radius: 6px; }
+html.aurox .ax-badge.is-hot { background: #b8303d; }
+html.aurox .ax-badge.is-warn { background: #9b6200; }
+html.aurox .ax-avatar, html.aurox .ax-tb-avatar { background: #2b3a52; }
+html.aurox[data-ax-mode="dark"] .ax-tb-avatar { background: #2b3a52; }
+html.ax-tpl .ax-topbar { background: var(--ax-surface); -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.aurox[data-ax-mode="dark"] .ax-topbar { background: var(--ax-surface); }
+html.aurox .ax-tb-new { box-shadow: none; border-radius: var(--ax-radius-sm); }
+html.aurox .ax-tb-btn, html.aurox .ax-tb-account { border-radius: var(--ax-radius-sm); }
+html.ax-tpl .ax-topbar .intellisearch form .form-control { border-radius: var(--ax-radius-sm) !important; }
+#ax-progress { background: var(--ax-accent); box-shadow: none; }
+html.aurox .ax-qg { border-radius: var(--ax-radius); background: rgba(255, 255, 255, .05); }
+html.aurox .ax-qg .ax-svg { color: #c4d1ea; }
+html.aurox .ax-qg em, html.aurox .ax-tab-badge { border-radius: 6px; font-family: var(--ax-display); font-size: 11px; }
+html.aurox .ax-recent-chip { border-radius: var(--ax-radius-sm); }
+@media (max-width: 767px) {
+  html.aurox .ax-tabbar { background: var(--ax-surface); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  html.aurox .ax-tab-plus { width: 48px; height: 48px; border-radius: 14px; background: var(--ax-accent); box-shadow: 0 0 0 4px var(--ax-bg); transform: translateY(-10px); }
+  html.aurox .ax-tab-new:active .ax-tab-plus { transform: translateY(-10px) scale(.96); }
+  html.aurox .ax-tab.is-on::before { width: 18px; height: 2px; border-radius: 0 0 2px 2px; }
+  html.aurox .ax-sheet-panel, html.aurox .ax-pick-panel { border-radius: 16px 16px 0 0; }
+  html.aurox .ax-sheet-item { border-radius: var(--ax-radius); background: var(--ax-surface); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Surfaces: panels with rules, not floating cards                     */
+/* ------------------------------------------------------------------ */
+html.ax-tpl #contentarea.contentarea { border-radius: var(--ax-radius) !important; box-shadow: none !important; }
+html.ax-tpl #sidebar.sidebar { border-radius: var(--ax-radius) !important; box-shadow: none !important; }
+html.aurox .ax-card, html.aurox .ax-prio-card, html.aurox .ax-client-head, html.aurox #clientsummarycontainer .clientssummarybox,
+html.aurox .home-widgets-container .panel, html.aurox .ax-home-static .panel, html.aurox .panel {
+  border-radius: var(--ax-radius) !important; box-shadow: none !important;
+}
+html.aurox .ax-prio-card::before { display: none; }
+
+/* Indicator lamps: state is a small light, the words stay calm */
+html.aurox .ax-lamp { display: inline-block; flex: 0 0 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--ax-lamp, var(--ax-lamp-off)); }
+html.aurox .ax-lamp.is-green { --ax-lamp: var(--ax-lamp-go); }
+html.aurox .ax-lamp.is-orange { --ax-lamp: var(--ax-lamp-wait); }
+html.aurox .ax-lamp.is-red { --ax-lamp: var(--ax-lamp-stop); }
+html.aurox .ax-lamp.is-blue { --ax-lamp: var(--ax-lamp-info); }
+html.aurox .ax-lamp.is-gray { --ax-lamp: var(--ax-lamp-off); }
+html.aurox .ax-pill, html.aurox .label.ax-pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 0 !important; border-radius: 0 !important; background: transparent !important;
+  color: var(--ax-text-2) !important; font-size: 12.5px !important; font-weight: 600 !important; line-height: 1.4; text-shadow: none;
+}
+html.aurox .ax-pill::before { content: ""; flex: 0 0 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--ax-lamp, var(--ax-lamp-off)); }
+html.aurox .ax-pill.is-green { --ax-lamp: var(--ax-lamp-go); }
+html.aurox .ax-pill.is-orange { --ax-lamp: var(--ax-lamp-wait); }
+html.aurox .ax-pill.is-red { --ax-lamp: var(--ax-lamp-stop); }
+html.aurox .ax-pill.is-blue { --ax-lamp: var(--ax-lamp-info); }
+html.aurox .ax-pill.is-purple { --ax-lamp: #7a5af0; }
+html.aurox .ax-pill.is-gray { --ax-lamp: var(--ax-lamp-off); color: var(--ax-muted) !important; }
+
+/* Icon bubbles go: icons are plain and quiet */
+html.aurox .ax-action-ico, html.aurox .ax-todo-ico, html.aurox .ax-prio-ico, html.aurox .ax-quick-ico[class*="is-"] {
+  background: transparent !important; color: var(--ax-muted) !important; width: 18px !important; height: 18px !important; flex: 0 0 18px !important; border-radius: 0 !important;
+}
+html.aurox .ax-action-ico .ax-svg { width: 17px; height: 17px; }
+
+/* Buttons and chips: rectangles with a rule */
+html.aurox .ax-action, html.aurox .ax-ch-btn {
+  height: 38px; padding: 0 13px 0 11px; gap: 8px; border-radius: var(--ax-radius-sm); box-shadow: none;
+  background: var(--ax-surface); border: 1px solid var(--ax-border); color: var(--ax-text) !important; font-weight: 600;
+}
+html.aurox .ax-action:hover, html.aurox .ax-ch-btn:hover { border-color: var(--ax-border-strong); background: var(--ax-surface-2); }
+html.aurox .ax-ch-btn .ax-action-ico .ax-svg { width: 16px; height: 16px; }
+html.aurox .ax-btn, html.aurox .ax-seg, html.aurox .ax-seg-btn { border-radius: var(--ax-radius-sm); }
+html.aurox .ax-seg-btn.is-on { box-shadow: none; }
+
+/* ------------------------------------------------------------------ */
+/* Dashboard                                                           */
+/* ------------------------------------------------------------------ */
+html.aurox .ax-hero { align-items: flex-start; margin-bottom: 18px; }
+html.aurox .ax-hello { margin: 0 0 6px; font-size: 14px; color: var(--ax-muted); }
+html.aurox .ax-status { margin: 0 !important; max-width: 34ch; font-size: clamp(26px, 3.1vw, 40px) !important; line-height: 1.08; color: var(--ax-text) !important; font-weight: 400 !important; }
+html.aurox .ax-status { display: flex; flex-wrap: wrap; align-items: baseline; }
+html.aurox .ax-status b { font-weight: 700; font-variant-numeric: tabular-nums lining-nums; }
+html.aurox .ax-status .ax-sp { white-space: pre-wrap; }
+html.aurox .ax-status .ax-sp::after { content: ", "; }
+html.aurox .ax-status .ax-sp:nth-last-of-type(2)::after { content: " and "; }
+html.aurox .ax-status .ax-sp:last-of-type::after { content: "."; }
+html.aurox .ax-status .ax-sp-none { display: none; font-style: normal; }
+html.aurox .ax-status:not(:has(.ax-sp)) .ax-sp-none, html.aurox .ax-status .ax-sp-none.is-on { display: inline; }
+html.aurox .ax-hero-meta { display: block; margin: 8px 0 0; font-size: 12.5px; color: var(--ax-muted); }
+html.aurox .ax-chips-row { gap: 8px; margin-bottom: 18px; }
+
+/* What's waiting on you */
+html.aurox .ax-priority { gap: 14px; }
+html.aurox .ax-prio-card { border: 1px solid var(--ax-border); background: var(--ax-surface); }
+html.aurox .ax-prio-head { align-items: flex-start; padding: 16px 16px 10px; border-bottom: 1px solid var(--ax-border); }
+html.aurox .ax-prio-title h3 { font-size: 19px !important; }
+html.aurox .ax-prio-title p { margin-top: 3px; font-size: 13px; color: var(--ax-muted); }
+html.aurox .ax-prio-count {
+  min-width: 0; height: auto; padding: 0; border-radius: 0; background: none !important; box-shadow: none !important;
+  font-size: 40px; line-height: .9; font-weight: 700; color: var(--ax-text) !important;
+}
+html.aurox .ax-prio-card.is-clear .ax-prio-count { color: var(--ax-muted) !important; background: none !important; }
+html.aurox .ax-prio-list { padding: 0; }
+html.aurox .ax-prio-list li + li { border-top: 1px solid var(--ax-border); }
+html.aurox .ax-prio-list a { align-items: flex-start; gap: 12px; min-height: 0; padding: 12px 16px; border-radius: 0; }
+html.aurox .ax-prio-list a:hover { background: var(--ax-surface-2); }
+html.aurox .ax-prio-list .ax-lamp { margin-top: 6px; }
+html.aurox .ax-prio-card.is-tickets .ax-lamp.is-green { --ax-lamp: var(--ax-lamp-info); } /* waiting, but not for long */
+html.aurox .ax-list-main b { font-size: 14px; font-weight: 600; }
+html.aurox .ax-list-main small { font-size: 12.5px; }
+html.aurox .ax-list-main small.ax-list-what { color: var(--ax-text-2); }
+html.aurox .ax-meta { display: flex !important; flex-wrap: wrap; gap: 2px 12px; color: var(--ax-muted); white-space: normal !important; }
+html.aurox .ax-meta > span { white-space: nowrap; }
+html.aurox .ax-meta .is-high { color: var(--ax-danger); font-weight: 600; }
+html.aurox .ax-list-side { gap: 3px; }
+html.aurox .ax-amount { font-size: 17px; font-weight: 700; color: var(--ax-text); }
+html.aurox .ax-amount.is-in { color: var(--ax-text); }
+html.aurox .ax-state { font-size: 12.5px; color: var(--ax-muted); }
+html.aurox .ax-wait { padding: 0; background: none !important; font-size: 16px; font-weight: 700; }
+html.aurox .ax-wait.is-green { color: var(--ax-text-2) !important; }
+html.aurox .ax-wait.is-orange { color: var(--ax-warning) !important; }
+html.aurox .ax-wait.is-red { color: var(--ax-danger) !important; }
+html.aurox .ax-prio-foot { justify-content: flex-start; margin: 0; padding: 12px 16px; border-top: 1px solid var(--ax-border); border-radius: 0; background: none; color: var(--ax-accent) !important; font-size: 13.5px; }
+html.aurox .ax-prio-foot:hover { background: var(--ax-surface-2); color: var(--ax-accent) !important; text-decoration: underline !important; }
+html.aurox .ax-prio-empty { margin: 0; padding: 14px 16px; border-radius: 0; background: none; color: var(--ax-muted); font-size: 13.5px; }
+
+/* Key numbers: one readout strip with ruled cells */
+html.aurox .ax-kpis { gap: 1px !important; padding: 0; margin-bottom: 16px; border: 1px solid var(--ax-border); border-radius: var(--ax-radius); background: var(--ax-border); overflow: hidden; }
+html.aurox .ax-kpi { min-height: 0; padding: 14px 16px 13px; gap: 4px; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: var(--ax-surface); }
+html.aurox .ax-kpi:hover { background: var(--ax-surface-2); }
+html.aurox .ax-kpi-label { gap: 7px; font-size: 13px; font-weight: 500; color: var(--ax-muted); }
+html.aurox .ax-kpi-value { font-size: 36px; font-weight: 700; line-height: 1; color: var(--ax-text); }
+html.aurox .ax-kpi.is-alert .ax-kpi-value { color: var(--ax-danger); }
+html.aurox .ax-kpi-foot { font-size: 12.5px; }
+html.aurox .ax-spark { display: none; }
+html.aurox .ax-trend { padding: 0; margin-right: 4px; border-radius: 0; background: none !important; font-weight: 700; }
+html.aurox .ax-trend.is-up { color: var(--ax-success) !important; }
+html.aurox .ax-trend.is-down { color: var(--ax-danger) !important; }
+html.aurox .ax-trend.is-flat { color: var(--ax-muted) !important; }
+
+/* Cards */
+html.aurox .ax-card { padding: 16px; border: 1px solid var(--ax-border); }
+html.aurox .ax-card-title { font-size: 19px !important; }
+html.aurox .ax-card-sub b { font-size: 24px; font-weight: 700; }
+html.aurox .ax-card-link { font-weight: 600; }
+html.aurox .ax-card-note { display: block; font-size: 12.5px; }
+html.aurox .ax-chart-line { stroke-width: 2; }
+html.aurox .ax-chart-tip { border-radius: var(--ax-radius-sm); background: #131b27; }
+html.aurox .ax-chart-ylabel, html.aurox .ax-chart-xlabel { font-family: var(--ax-display); font-size: 12px; }
+html.aurox .ax-todo { gap: 0; }
+html.aurox .ax-todo li + li { border-top: 1px solid var(--ax-border); }
+html.aurox .ax-todo a { gap: 12px; padding: 10px 2px; border-radius: 0; }
+html.aurox .ax-todo a:hover { background: none; }
+html.aurox .ax-todo a:hover .ax-todo-text { color: var(--ax-accent); }
+html.aurox .ax-todo a:not(.is-on) { opacity: 1; }
+html.aurox .ax-todo a:not(.is-on) .ax-todo-text { color: var(--ax-muted); }
+html.aurox .ax-todo-text { font-weight: 600; }
+html.aurox .ax-todo b { min-width: 0; padding: 0; border-radius: 0; background: none !important; font-size: 22px; color: var(--ax-muted) !important; }
+html.aurox .ax-todo a.is-on b { color: var(--ax-text) !important; }
+html.aurox .ax-list { margin: 0 -16px; }
+html.aurox .ax-list a { padding: 11px 16px; border-radius: 0; }
+html.aurox .ax-list a:hover { background: var(--ax-surface-2); }
+html.aurox .ax-empty-state { display: block; margin: 0; padding: 8px 0 4px; color: var(--ax-muted); font-size: 13.5px; text-align: left; }
+html.aurox .ax-tipcard { border-radius: var(--ax-radius); border-style: solid; background: var(--ax-surface); }
+html.aurox .ax-section-head h3 { font-size: 20px !important; }
+
+/* WHMCS's own dashboard tiles and widgets */
+html.aurox .health-status-block { border-radius: var(--ax-radius); box-shadow: none !important; }
+html.aurox .health-status-block::before { display: none; }
+html.aurox .health-status-block .icon { background: transparent !important; color: var(--ax-muted) !important; width: 28px !important; height: 28px !important; flex-basis: 28px; }
+html.aurox .health-status-block .detail .count { font-family: var(--ax-display); font-weight: 700; font-size: 32px !important; }
+html.aurox .widget-billing .item .data { font-family: var(--ax-display); }
+
+/* ------------------------------------------------------------------ */
+/* Pages                                                               */
+/* ------------------------------------------------------------------ */
+html.aurox .ax-client-head { padding: 18px; border: 1px solid var(--ax-border); }
+html.aurox .ax-ch-avatar { border-radius: var(--ax-radius); background: #2b3a52; box-shadow: none; font-family: var(--ax-display); font-size: 22px; }
+html.aurox .ax-ch-name { font-size: 28px !important; line-height: 1.05; }
+html.aurox .ax-ch-meta { gap: 4px 14px; font-size: 13px; }
+html.aurox .ax-ch-id { padding: 0; background: none; color: var(--ax-muted); font-size: 15px; font-weight: 700; }
+html.aurox .ax-ch-fact + .ax-ch-fact::before { content: none; }
+html.aurox .ax-ch-link { border-radius: var(--ax-radius-sm); background: var(--ax-surface); }
+html.aurox .ax-ch-link .ax-svg { color: var(--ax-muted); }
+html.aurox .ax-ch-toggles { border-top-style: solid; }
+html.aurox .ax-toggle { border-radius: var(--ax-radius-sm); background: var(--ax-surface); padding: 6px 10px; gap: 10px; }
+html.aurox .ax-toggle strong { min-width: 0; padding: 0; background: none !important; font-size: 13px; }
+html.aurox .ax-toggle strong.textgreen { color: var(--ax-success) !important; }
+html.aurox .ax-toggle strong.textred { color: var(--ax-danger) !important; }
+html.aurox #clientsummarycontainer .clientssummarybox { border: 1px solid var(--ax-border); }
+html.aurox #clientsummarycontainer .clientssummarybox > .title { font-family: var(--ax-display) !important; font-weight: 700 !important; font-size: 17px !important; }
+html.aurox .ax-box-hint { padding: 0; background: none !important; color: var(--ax-muted) !important; font-family: var(--ax-display); font-size: 15px; }
+html.aurox .ax-totals-tile { border-radius: var(--ax-radius-sm); box-shadow: none !important; }
+html.aurox .ax-totals-tile small { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: var(--ax-muted); }
+html.aurox .ax-totals-tile small::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: rgb(var(--ax-tone)); }
+html.aurox .ax-totals-tile b { font-size: 22px; font-weight: 700; }
+html.aurox .ax-totals-cur { border-radius: var(--ax-radius-sm); font-family: var(--ax-display); letter-spacing: 0; font-size: 15px; }
+html.aurox .ax-tabs-more { border-radius: var(--ax-radius-sm); box-shadow: none; }
+
+/* ------------------------------------------------------------------ */
+/* Phones                                                              */
+/* ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+  html.aurox .ax-status { font-size: 27px !important; max-width: none; }
+  html.aurox .ax-hello { font-size: 13.5px; }
+  html.ax-tpl #contentarea > div > h1 { font-size: 26px !important; }
+  html.aurox .ax-tb-title { font-size: 19px !important; }
+  html.aurox .ax-prio-head { padding: 14px 14px 10px; }
+  html.aurox .ax-prio-list a, html.aurox .ax-prio-foot, html.aurox .ax-prio-empty { padding-left: 14px; padding-right: 14px; }
+  html.aurox .ax-prio-count { font-size: 34px; }
+  html.aurox .ax-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  html.aurox .ax-kpi { padding: 12px 13px; }
+  html.aurox .ax-kpi-value { font-size: 28px; }
+  html.aurox .ax-card { padding: 14px; }
+  html.aurox .ax-list { margin: 0 -14px; }
+  html.aurox .ax-list a { padding: 11px 14px; }
+  html.aurox .ax-ch-name { font-size: 24px !important; }
+  html.aurox .ax-ch-avatar { width: 46px; height: 46px; flex-basis: 46px; font-size: 19px; }
+  html.aurox .ax-totals-tile b { font-size: 17px; }
+  html.aurox table.ax-cardify > tbody > tr { border-radius: var(--ax-radius) !important; box-shadow: none !important; }
+  html.aurox table.ax-cardify > tbody > tr > td.ax-cell-first { font-family: var(--ax-display); font-size: 18px !important; }
+}
+
+/* Ticket header: subject in the display face, status beside it, last reply as plain text */
+html.aurox h2.ticket-subject { float: none !important; width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-family: var(--ax-display) !important; font-weight: 700; font-size: 24px !important; line-height: 1.15; color: var(--ax-text) !important; }
+html.aurox h2.ticket-subject .ticket-status { font-family: var(--ax-font); font-size: 14px; font-weight: 600; width: auto !important; max-width: 220px; }
+html.aurox h2.ticket-subject .close-ticket { font-family: var(--ax-font); font-size: 14px; font-weight: 600; }
+html.aurox .ticketlastreply { float: none !important; clear: both; display: block; width: auto !important; margin: 2px 0 12px !important; padding: 0 !important; background: none !important; color: var(--ax-muted) !important; font-size: 13px !important; text-align: left !important; border-radius: 0; }
+@media (max-width: 767px) { html.aurox h2.ticket-subject { font-size: 21px !important; } html.aurox h2.ticket-subject .ticket-status { max-width: none; flex: 1 1 160px; } }
+
+/* Menu: filtered views sit one step in under the page they filter */
+html.aurox .ax-sub .ax-item.is-child > .ax-link { min-height: 28px; padding-left: 21px; font-size: 12.5px; }
+html.aurox .ax-sub .ax-item.is-child > .ax-link:not(:hover) { color: color-mix(in srgb, var(--ax-side-muted) 82%, transparent); }
+html.aurox .ax-sub .ax-item.is-child.is-active > .ax-link, html.aurox .ax-sub .ax-item.is-child > .ax-link[aria-current="page"] { color: #fff; }
+html.aurox .ax-me-links { display: flex; flex-wrap: wrap; gap: 0 12px; }
+html.aurox .ax-footer .links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; }

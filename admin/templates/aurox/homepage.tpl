@@ -22,22 +22,20 @@
     {* ---------------------------------------------------------------- *}
     <section class="ax-hero">
         <div class="ax-hero-text">
-            <span class="ax-hero-kicker" id="axHomeDate">&nbsp;</span>
-            <h2 class="ax-hero-title"><span id="axHomeGreeting">Welcome back</span>, <span class="ax-hero-name">{$adminFullName|escape}</span></h2>
-            <p class="ax-hero-sub">
+            <p class="ax-hello"><span id="axHomeGreeting">Hello</span>, {$adminFullName|escape}. <span id="axHomeDate"></span></p>
+            <h2 class="ax-status">
                 {if !empty($auroxDash.ok)}
-                    {if $auroxDash.attention > 0}
-                        <b>{$auroxDash.attention}</b> {if $auroxDash.attention == 1}thing needs{else}things need{/if} your attention today.
-                    {else}
-                        You're all caught up. Nothing needs your attention right now.
-                    {/if}
+                    {if $axOrders && $auroxDash.stats.ordersPending > 0}<span class="ax-sp"><b>{$auroxDash.stats.ordersPending}</b> pending {if $auroxDash.stats.ordersPending == 1}order{else}orders{/if}{if $auroxDash.ordersPaidPending > 0} ({$auroxDash.ordersPaidPending} paid){/if}</span>{/if}
+                    {if $axTickets && $auroxDash.stats.ticketsWaiting > 0}<span class="ax-sp"><b>{$auroxDash.stats.ticketsWaiting}</b> {if $auroxDash.stats.ticketsWaiting == 1}ticket{else}tickets{/if} waiting</span>{/if}
+                    {if $axInvoices && $auroxDash.stats.invoicesOverdue > 0}<span class="ax-sp"><b>{$auroxDash.stats.invoicesOverdue}</b> overdue {if $auroxDash.stats.invoicesOverdue == 1}invoice{else}invoices{/if}</span>{/if}
+                    {if in_array("View Cancellation Requests", $admin_perms) && $auroxDash.stats.cancellations > 0}<span class="ax-sp"><b>{$auroxDash.stats.cancellations}</b> cancellation {if $auroxDash.stats.cancellations == 1}request{else}requests{/if}</span>{/if}
+                    {if in_array("View Module Queue", $admin_perms) && $auroxDash.stats.moduleQueue > 0}<span class="ax-sp"><b>{$auroxDash.stats.moduleQueue}</b> failed module {if $auroxDash.stats.moduleQueue == 1}action{else}actions{/if}</span>{/if}
+                    <em class="ax-sp-none">Nothing is waiting on you.</em>
                 {else}
-                    Here's your WHMCS at a glance.
+                    <em class="ax-sp-none is-on">Your WHMCS at a glance.</em>
                 {/if}
-                <span class="ax-hero-meta">
-                    {if !empty($licenseinfo.currentversion)}WHMCS {$licenseinfo.currentversion}{/if}{if !empty($auroxDash.generated)} · updated {$auroxDash.generated}{/if}
-                </span>
-            </p>
+            </h2>
+            <p class="ax-hero-meta">{if !empty($licenseinfo.currentversion)}WHMCS {$licenseinfo.currentversion}{/if}{if !empty($auroxDash.generated)}, figures from {$auroxDash.generated}{/if}</p>
         </div>
         <div class="ax-hero-tools">
             <div id="widgetSettingsDropdown" class="btn-group widget-settings ax-home-customise">
@@ -88,120 +86,105 @@
     {$mixPanelBanner}
 
     {if !empty($auroxDash.ok)}
-        {* ---------------------------------------------------------------- *}
-        {* Priority: what's waiting on you right now                          *}
-        {* ---------------------------------------------------------------- *}
+        {* What's waiting on you: pending orders and tickets *}
         {if $axOrders || $axTickets}
-            <section class="ax-priority{if !($axOrders && $axTickets)} is-single{/if}" aria-label="Needs you now">
+            <section class="ax-priority{if !($axOrders && $axTickets)} is-single{/if}" aria-label="Waiting on you">
                 {if $axOrders}
                     <div class="ax-prio-card is-orders{if !$auroxDash.pendingOrders} is-clear{/if}">
                         <div class="ax-prio-head">
-                            <span class="ax-prio-ico">{include file="$template/aurox/icon.tpl" i="cart"}</span>
                             <div class="ax-prio-title">
                                 <h3>Pending orders</h3>
-                                <p>
-                                    {if $auroxDash.stats.ordersPending > 0}
-                                        {if $auroxDash.ordersPaidPending > 0}<b>{$auroxDash.ordersPaidPending} paid</b> and waiting for you to accept{else}Waiting for you to review{/if}
-                                    {else}
-                                        All caught up
-                                    {/if}
-                                </p>
+                                <p>{if $auroxDash.stats.ordersPending > 0}{if $auroxDash.ordersPaidPending > 0}{$auroxDash.ordersPaidPending} paid and ready to accept{else}None paid yet{/if}{else}None right now{/if}</p>
                             </div>
-                            <a class="ax-prio-count" href="orders.php?status=Pending" aria-label="{$auroxDash.stats.ordersPending} pending orders">{$auroxDash.stats.ordersPending}</a>
+                            <a class="ax-prio-count" href="orders.php?status=Pending" title="Open pending orders">{$auroxDash.stats.ordersPending}</a>
                         </div>
                         {if $auroxDash.pendingOrders}
                             <ul class="ax-prio-list">
                                 {foreach $auroxDash.pendingOrders as $o}
                                     <li>
                                         <a href="orders.php?action=view&amp;id={$o.id}">
-                                            <span class="ax-initials">{$o.initials|escape}</span>
+                                            <span class="ax-lamp is-{$o.paytone}" title="{$o.pay|escape}"></span>
                                             <span class="ax-list-main">
                                                 <b>{$o.client|escape}</b>
                                                 {if $o.items}<small class="ax-list-what">{$o.items|escape}</small>{/if}
-                                                <small>#{$o.num|escape}{if $o.gateway} · {$o.gateway|escape}{/if} · {$o.ago}</small>
+                                                <small class="ax-meta"><span>#{$o.num|escape}</span>{if $o.gateway}<span>{$o.gateway|escape}</span>{/if}<span>{$o.ago}</span></small>
                                             </span>
                                             <span class="ax-list-side">
                                                 <span class="ax-amount">{$o.amount|escape}</span>
-                                                <span class="ax-pill is-{$o.paytone}">{$o.pay|escape}</span>
+                                                <span class="ax-state">{$o.pay|escape}</span>
                                             </span>
                                         </a>
                                     </li>
                                 {/foreach}
                             </ul>
-                            <a class="ax-prio-foot" href="orders.php?status=Pending"><span>Review all pending orders</span>{include file="$template/aurox/icon.tpl" i="arrowright"}</a>
+                            <a class="ax-prio-foot" href="orders.php?status=Pending">All pending orders</a>
                         {else}
-                            <div class="ax-prio-empty">{include file="$template/aurox/icon.tpl" i="checkcircle"}<span>No pending orders. New ones show up here first.</span></div>
+                            <p class="ax-prio-empty">New orders appear here as soon as they're placed.</p>
                         {/if}
                     </div>
                 {/if}
                 {if $axTickets}
                     <div class="ax-prio-card is-tickets{if !$auroxDash.waitingTickets} is-clear{/if}">
                         <div class="ax-prio-head">
-                            <span class="ax-prio-ico">{include file="$template/aurox/icon.tpl" i="support"}</span>
                             <div class="ax-prio-title">
                                 <h3>Tickets waiting</h3>
-                                <p>{if $auroxDash.stats.ticketsWaiting > 0}Customers waiting for a reply, oldest first{else}Every customer has a reply{/if}</p>
+                                <p>{if $auroxDash.stats.ticketsWaiting > 0}Oldest first{else}Every ticket has a reply{/if}</p>
                             </div>
-                            <a class="ax-prio-count" href="supporttickets.php" aria-label="{$auroxDash.stats.ticketsWaiting} tickets waiting">{$auroxDash.stats.ticketsWaiting}</a>
+                            <a class="ax-prio-count" href="supporttickets.php" title="Open the ticket queue">{$auroxDash.stats.ticketsWaiting}</a>
                         </div>
                         {if $auroxDash.waitingTickets}
                             <ul class="ax-prio-list">
                                 {foreach $auroxDash.waitingTickets as $t}
                                     <li>
                                         <a href="supporttickets.php?action=view&amp;id={$t.id}">
-                                            <span class="ax-prio-dot is-{$t.utone}" title="{$t.urgency|escape} priority"></span>
+                                            <span class="ax-lamp is-{$t.wait}" title="Waiting {$t.ago|escape}"></span>
                                             <span class="ax-list-main">
                                                 <b>{$t.title|escape}</b>
-                                                <small>#{$t.tid|escape} · {$t.who|escape}{if $t.dept} · {$t.dept|escape}{/if}</small>
+                                                <small class="ax-meta"><span>#{$t.tid|escape}</span><span>{$t.who|escape}</span>{if $t.dept}<span>{$t.dept|escape}</span>{/if}{if $t.utone == 'red'}<span class="is-high">High priority</span>{/if}</small>
                                             </span>
                                             <span class="ax-list-side">
-                                                <span class="ax-wait is-{$t.wait}">{include file="$template/aurox/icon.tpl" i="clock"}{$t.ago}</span>
-                                                <span class="ax-pill">{$t.status|escape}</span>
+                                                <span class="ax-wait is-{$t.wait}">{$t.ago}</span>
+                                                <span class="ax-state">{$t.status|escape}</span>
                                             </span>
                                         </a>
                                     </li>
                                 {/foreach}
                             </ul>
-                            <a class="ax-prio-foot" href="supporttickets.php"><span>Open the ticket queue</span>{include file="$template/aurox/icon.tpl" i="arrowright"}</a>
+                            <a class="ax-prio-foot" href="supporttickets.php">Ticket queue</a>
                         {else}
-                            <div class="ax-prio-empty">{include file="$template/aurox/icon.tpl" i="checkcircle"}<span>No tickets waiting. Nice work.</span></div>
+                            <p class="ax-prio-empty">New tickets and customer replies appear here.</p>
                         {/if}
                     </div>
                 {/if}
             </section>
         {/if}
 
-        {* ---------------------------------------------------------------- *}
-        {* Key numbers                                                        *}
-        {* ---------------------------------------------------------------- *}
+        {* Key numbers: one readout strip *}
         <section class="ax-kpis" aria-label="Key numbers">
             {if $axIncome}
                 <a class="ax-kpi" href="transactions.php">
-                    <span class="ax-kpi-label">{include file="$template/aurox/icon.tpl" i="chart"} Income today</span>
+                    <span class="ax-kpi-label">Income today</span>
                     <span class="ax-kpi-value">{$auroxDash.income.today|escape}</span>
                     <span class="ax-kpi-foot">{if $auroxDash.income.todayTrend.pct}<span class="ax-trend is-{$auroxDash.income.todayTrend.dir}">{$auroxDash.income.todayTrend.pct}</span> {/if}{$auroxDash.income.todayNote|escape}</span>
-                    {if $auroxDash.income.spark}
-                        <svg class="ax-spark" viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true"><path d="{$auroxDash.income.spark}"/></svg>
-                    {/if}
                 </a>
                 <a class="ax-kpi" href="transactions.php">
-                    <span class="ax-kpi-label">{include file="$template/aurox/icon.tpl" i="wallet"} This month</span>
+                    <span class="ax-kpi-label">This month</span>
                     <span class="ax-kpi-value">{$auroxDash.income.month|escape}</span>
                     <span class="ax-kpi-foot">{if $auroxDash.income.monthTrend.pct}<span class="ax-trend is-{$auroxDash.income.monthTrend.dir}">{$auroxDash.income.monthTrend.pct}</span> {/if}{$auroxDash.income.monthNote|escape}</span>
                 </a>
             {/if}
             {if $axInvoices}
-                <a class="ax-kpi{if $auroxDash.stats.invoicesOverdue > 0} is-alert-red{/if}" href="invoices.php?status=Overdue">
-                    <span class="ax-kpi-label">{include file="$template/aurox/icon.tpl" i="bell"} Overdue invoices</span>
+                <a class="ax-kpi{if $auroxDash.stats.invoicesOverdue > 0} is-alert{/if}" href="invoices.php?status=Overdue">
+                    <span class="ax-kpi-label">{if $auroxDash.stats.invoicesOverdue > 0}<span class="ax-lamp is-red"></span>{/if}Overdue invoices</span>
                     <span class="ax-kpi-value">{$auroxDash.stats.invoicesOverdue}</span>
                     <span class="ax-kpi-foot">{if $auroxDash.overdueAmount}{$auroxDash.overdueAmount|escape} still owed{else}{$auroxDash.stats.invoicesUnpaid} unpaid in total{/if}</span>
                 </a>
             {/if}
             {if $axClients}
                 <a class="ax-kpi" href="clients.php">
-                    <span class="ax-kpi-label">{include file="$template/aurox/icon.tpl" i="users"} Active clients</span>
+                    <span class="ax-kpi-label">Active clients</span>
                     <span class="ax-kpi-value">{$auroxDash.stats.clientsActive}</span>
-                    <span class="ax-kpi-foot">{if $auroxDash.stats.clientsNew > 0}<span class="ax-trend is-up">+{$auroxDash.stats.clientsNew}</span> this month · {/if}{$auroxDash.stats.servicesActive} active services</span>
+                    <span class="ax-kpi-foot">{if $auroxDash.stats.clientsNew > 0}<span class="ax-trend is-up">+{$auroxDash.stats.clientsNew}</span> this month, {/if}{$auroxDash.stats.servicesActive} active services</span>
                 </a>
             {/if}
         </section>
@@ -215,33 +198,33 @@
                             <p class="ax-card-sub"><b id="axRevTotal">{$auroxDash.income.thirty|escape}</b> <span id="axRevLabel">in the last 30 days</span></p>
                         </div>
                         <div class="ax-seg" role="tablist" aria-label="Chart range">
-                            <button type="button" class="ax-seg-btn" data-days="7">7D</button>
-                            <button type="button" class="ax-seg-btn" data-days="14">14D</button>
-                            <button type="button" class="ax-seg-btn is-on" data-days="30">30D</button>
+                            <button type="button" class="ax-seg-btn" data-days="7">7 days</button>
+                            <button type="button" class="ax-seg-btn" data-days="14">14 days</button>
+                            <button type="button" class="ax-seg-btn is-on" data-days="30">30 days</button>
                         </div>
                     </div>
                     <div class="ax-chart{if !$auroxDash.income.hasData} is-empty{/if}" id="axRevenueChart" data-prefix="{$auroxDash.currency.prefix|escape}" data-suffix="{$auroxDash.currency.suffix|escape}" role="img" aria-label="Income per day for the last 30 days"></div>
                     <script type="application/json" id="axRevenueData">{$auroxDash.income.seriesJson}</script>
-                    {if !$auroxDash.income.hasData}<p class="ax-card-empty">No payments in the last 30 days yet. They'll show up here.</p>{/if}
-                    {if $auroxDash.income.sourceNote || $auroxDash.income.converted}<p class="ax-card-note">{include file="$template/aurox/icon.tpl" i="info"}<span>{$auroxDash.income.sourceNote|escape} {$auroxDash.income.converted|escape}</span></p>{/if}
+                    {if !$auroxDash.income.hasData}<p class="ax-card-empty">No payments in the last 30 days.</p>{/if}
+                    {if $auroxDash.income.sourceNote || $auroxDash.income.converted}<p class="ax-card-note">{$auroxDash.income.sourceNote|escape} {$auroxDash.income.converted|escape}</p>{/if}
                 </div>
             {/if}
 
             <div class="ax-card ax-card-attention">
-                <div class="ax-card-head"><h3 class="ax-card-title">Also needs attention</h3>{if $auroxDash.attentionOther > 0}<span class="ax-count-pill">{$auroxDash.attentionOther}</span>{/if}</div>
+                <div class="ax-card-head"><h3 class="ax-card-title">Also check</h3></div>
                 <ul class="ax-todo">
                     {if $axInvoices}
-                        <li><a href="invoices.php?status=Overdue" class="{if $auroxDash.stats.invoicesOverdue > 0}is-on{/if}"><span class="ax-todo-ico is-red">{include file="$template/aurox/icon.tpl" i="receipt"}</span><span class="ax-todo-text">Overdue invoices<small>{if $auroxDash.overdueAmount}{$auroxDash.overdueAmount|escape} to collect{else}Past their due date{/if}</small></span><b>{$auroxDash.stats.invoicesOverdue}</b></a></li>
+                        <li><a href="invoices.php?status=Overdue" class="{if $auroxDash.stats.invoicesOverdue > 0}is-on{/if}"><span class="ax-todo-text">Overdue invoices<small>{if $auroxDash.overdueAmount}{$auroxDash.overdueAmount|escape} to collect{else}Past their due date{/if}</small></span><b>{$auroxDash.stats.invoicesOverdue}</b></a></li>
                     {/if}
                     {if in_array("View Cancellation Requests", $admin_perms)}
-                        <li><a href="cancelrequests.php" class="{if $auroxDash.stats.cancellations > 0}is-on{/if}"><span class="ax-todo-ico is-purple">{include file="$template/aurox/icon.tpl" i="x"}</span><span class="ax-todo-text">Cancellation requests<small>A chance to keep the customer</small></span><b>{$auroxDash.stats.cancellations}</b></a></li>
+                        <li><a href="cancelrequests.php" class="{if $auroxDash.stats.cancellations > 0}is-on{/if}"><span class="ax-todo-text">Cancellation requests<small>Clients asking to cancel a service</small></span><b>{$auroxDash.stats.cancellations}</b></a></li>
                     {/if}
                     {if in_array("View Module Queue", $admin_perms)}
-                        <li><a href="modulequeue.php" class="{if $auroxDash.stats.moduleQueue > 0}is-on{/if}"><span class="ax-todo-ico is-red">{include file="$template/aurox/icon.tpl" i="server"}</span><span class="ax-todo-text">Failed module actions<small>Server tasks that need a retry</small></span><b>{$auroxDash.stats.moduleQueue}</b></a></li>
+                        <li><a href="modulequeue.php" class="{if $auroxDash.stats.moduleQueue > 0}is-on{/if}"><span class="ax-todo-text">Failed module actions<small>Server tasks to retry</small></span><b>{$auroxDash.stats.moduleQueue}</b></a></li>
                     {/if}
                     {if in_array("List Domains", $admin_perms)}
-                        <li><a href="{routePath('admin-domains-index')}" class="{if $auroxDash.stats.domainsPending > 0}is-on{/if}"><span class="ax-todo-ico is-orange">{include file="$template/aurox/icon.tpl" i="globe"}</span><span class="ax-todo-text">Domains pending<small>Registrations and transfers to complete</small></span><b>{$auroxDash.stats.domainsPending}</b></a></li>
-                        <li><a href="{routePath('admin-domains-index')}" class="{if $auroxDash.stats.domainsExpiring > 0}is-on{/if}"><span class="ax-todo-ico is-cyan">{include file="$template/aurox/icon.tpl" i="calendar"}</span><span class="ax-todo-text">Domains expiring soon<small>In the next 30 days</small></span><b>{$auroxDash.stats.domainsExpiring}</b></a></li>
+                        <li><a href="{routePath('admin-domains-index')}" class="{if $auroxDash.stats.domainsPending > 0}is-on{/if}"><span class="ax-todo-text">Domains pending<small>Registrations and transfers to complete</small></span><b>{$auroxDash.stats.domainsPending}</b></a></li>
+                        <li><a href="{routePath('admin-domains-index')}" class="{if $auroxDash.stats.domainsExpiring > 0}is-on{/if}"><span class="ax-todo-text">Domains expiring<small>In the next 30 days</small></span><b>{$auroxDash.stats.domainsExpiring}</b></a></li>
                     {/if}
                 </ul>
             </div>
@@ -254,13 +237,12 @@
                             {foreach $auroxDash.payments as $p}
                                 <li>
                                     <a href="{$p.url|escape}">
-                                        <span class="ax-initials is-green">{$p.initials|escape}</span>
                                         <span class="ax-list-main">
                                             <b>{$p.client|escape}</b>
-                                            <small>{$p.meta|escape}</small>
+                                            <small class="ax-meta">{if $p.invoice}<span>{$p.invoice|escape}</span>{/if}{if $p.gateway}<span>{$p.gateway|escape}</span>{/if}</small>
                                         </span>
                                         <span class="ax-list-side">
-                                            <span class="ax-amount is-in">{$p.amount|escape}</span>
+                                            <span class="ax-amount">{$p.amount|escape}</span>
                                             <span class="ax-age">{$p.ago}</span>
                                         </span>
                                     </a>
@@ -268,7 +250,7 @@
                             {/foreach}
                         </ul>
                     {else}
-                        <div class="ax-empty-state">{include file="$template/aurox/icon.tpl" i="wallet"}<b>No payments yet</b><span>Payments will appear here as they come in.</span></div>
+                        <p class="ax-empty-state">Payments appear here as they come in.</p>
                     {/if}
                 </div>
             {/if}
@@ -281,10 +263,9 @@
                             {foreach $auroxDash.recentOrders as $o}
                                 <li>
                                     <a href="orders.php?action=view&amp;id={$o.id}">
-                                        <span class="ax-initials">{$o.initials|escape}</span>
                                         <span class="ax-list-main">
                                             <b>{if $o.client}{$o.client|escape}{else}Order #{$o.id}{/if}</b>
-                                            <small>#{$o.num|escape} · {$o.ago}</small>
+                                            <small class="ax-meta"><span>#{$o.num|escape}</span><span>{$o.ago}</span></small>
                                         </span>
                                         <span class="ax-list-side">
                                             <span class="ax-amount">{$o.amount|escape}</span>
@@ -295,15 +276,14 @@
                             {/foreach}
                         </ul>
                     {else}
-                        <div class="ax-empty-state">{include file="$template/aurox/icon.tpl" i="cart"}<b>No orders yet</b><span>New orders will appear here.</span></div>
+                        <p class="ax-empty-state">Orders appear here as soon as they're placed.</p>
                     {/if}
                 </div>
             {/if}
         </section>
     {else}
         <div class="ax-tipcard">
-            {include file="$template/aurox/icon.tpl" i="zap"}
-            <div><b>Want a live dashboard?</b> Activate the <em>Aurox Admin</em> addon (Configuration › System Settings › Addon Modules) to see pending orders and waiting tickets first, income charts, what needs attention and recent orders right here.</div>
+            <div><b>Turn on the live dashboard.</b> Activate the <em>Aurox Admin</em> addon in Configuration › System Settings › Addon Modules to see pending orders, waiting tickets, income and overdue invoices here.</div>
         </div>
     {/if}
 
@@ -312,7 +292,7 @@
     {* ---------------------------------------------------------------- *}
     <div class="ax-section-head">
         <h3>{if !empty($auroxDash.ok)}More from WHMCS{else}Overview{/if}</h3>
-        <span>Refresh, shrink or hide these widgets. Use Customise to choose which ones show.</span>
+        <span>Choose which of these show with Customise.</span>
     </div>
 
     <div class="ax-home-static">
@@ -372,7 +352,7 @@
     (function () {ldelim}
         var now = new Date(), h = now.getHours();
         var g = document.getElementById('axHomeGreeting'), d = document.getElementById('axHomeDate');
-        if (g) {ldelim} g.textContent = h < 5 ? 'Working late' : (h < 12 ? 'Good morning' : (h < 17 ? 'Good afternoon' : 'Good evening')); {rdelim}
-        if (d) {ldelim} d.textContent = now.toLocaleDateString(undefined, {ldelim} weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' {rdelim}); {rdelim}
+        if (g) {ldelim} g.textContent = h < 12 ? 'Good morning' : (h < 17 ? 'Good afternoon' : 'Good evening'); {rdelim}
+        if (d) {ldelim} d.textContent = now.toLocaleDateString(undefined, {ldelim} weekday: 'long', day: 'numeric', month: 'long' {rdelim}) + '.'; {rdelim}
     {rdelim})();
 </script>

@@ -72,6 +72,10 @@
                     {/if}
                     {if in_array("List Services", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="{routePath('admin-services-index')}" data-ax-words="hosting vps products"><span class="ax-label">{$_ADMINLANG.services.title}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="{routePath('admin-services-shared')}" data-ax-words="shared hosting cpanel"><span class="ax-label">{$_ADMINLANG.services.listhosting}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="{routePath('admin-services-reseller')}" data-ax-words="reseller"><span class="ax-label">{$_ADMINLANG.services.listreseller}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="{routePath('admin-services-server')}" data-ax-words="vps dedicated servers"><span class="ax-label">{$_ADMINLANG.services.listservers}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="{routePath('admin-services-other')}" data-ax-words="other services"><span class="ax-label">{$_ADMINLANG.services.listother}</span></a></div>
                     {/if}
                     {if in_array("List Addons", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="{routePath('admin-addons-index')}"><span class="ax-label">{$_ADMINLANG.services.listaddons}</span></a></div>
@@ -117,19 +121,29 @@
                 <div class="ax-sub">
                     {if in_array("List Invoices", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="invoices.php"><span class="ax-label">{$_ADMINLANG.invoices.title}</span></a></div>
-                        <div class="ax-item"><a class="ax-link" href="invoices.php?status=Unpaid"><span class="ax-label">{$_ADMINLANG.status.unpaid}</span>{if !empty($auroxCounters.unpaid)}<span class="ax-badge">{$auroxCounters.unpaid}</span>{/if}</a></div>
-                        <div class="ax-item"><a class="ax-link" href="invoices.php?status=Overdue"><span class="ax-label">{$_ADMINLANG.status.overdue}</span>{if !empty($auroxCounters.overdue)}<span class="ax-badge is-hot">{$auroxCounters.overdue}</span>{/if}</a></div>
-                        <div class="ax-item"><a class="ax-link" href="invoices.php?status=Paid"><span class="ax-label">{$_ADMINLANG.status.paid}</span></a></div>
-                        <div class="ax-item"><a class="ax-link" href="invoices.php?status=Draft"><span class="ax-label">{$_ADMINLANG.status.draft}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="invoices.php?status=Unpaid"><span class="ax-label">{$_ADMINLANG.status.unpaid}</span>{if !empty($auroxCounters.unpaid)}<span class="ax-badge">{$auroxCounters.unpaid}</span>{/if}</a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="invoices.php?status=Overdue"><span class="ax-label">{$_ADMINLANG.status.overdue}</span>{if !empty($auroxCounters.overdue)}<span class="ax-badge is-hot">{$auroxCounters.overdue}</span>{/if}</a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="invoices.php?status=Paid"><span class="ax-label">{$_ADMINLANG.status.paid}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="invoices.php?status=Draft"><span class="ax-label">{$_ADMINLANG.status.draft}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="invoices.php?status=Cancelled"><span class="ax-label">{$_ADMINLANG.status.cancelled}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="invoices.php?status=Refunded"><span class="ax-label">{$_ADMINLANG.status.refunded}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="invoices.php?status=Collections"><span class="ax-label">{$_ADMINLANG.status.collections}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="invoices.php?status=Payment%20Pending"><span class="ax-label">{$_ADMINLANG.status.paymentpending}</span></a></div>
                     {/if}
                     {if in_array("List Transactions", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="transactions.php" data-ax-words="payments"><span class="ax-label">{$_ADMINLANG.billing.transactionslist}</span></a></div>
                     {/if}
                     {if in_array("Manage Quotes", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="quotes.php" data-ax-words="estimates"><span class="ax-label">{$_ADMINLANG.quotes.title}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="quotes.php?validity=Valid"><span class="ax-label">{$_ADMINLANG.status.valid}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="quotes.php?validity=Expired"><span class="ax-label">{$_ADMINLANG.status.expired}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="quotes.php?action=manage" data-ax-words="new quote estimate"><span class="ax-label">{$_ADMINLANG.quotes.createnew}</span></a></div>
                     {/if}
                     {if in_array("View Billable Items", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="billableitems.php"><span class="ax-label">{$_ADMINLANG.billableitems.title}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="billableitems.php?status=Uninvoiced"><span class="ax-label">{$_ADMINLANG.billableitems.uninvoiced}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="billableitems.php?status=Recurring"><span class="ax-label">{$_ADMINLANG.billableitems.recurring}</span></a></div>
+                        {if in_array("Manage Billable Items", $admin_perms)}<div class="ax-item is-child"><a class="ax-link" href="billableitems.php?action=manage" data-ax-words="new billable item"><span class="ax-label">{$_ADMINLANG.billableitems.addnew}</span></a></div>{/if}
                     {/if}
                     {if in_array("List Disputes", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="{routePath('admin-billing-disputes-index')}" data-ax-words="chargebacks"><span class="ax-label">{$_ADMINLANG.disputes.title}</span></a></div>
@@ -152,8 +166,9 @@
                 <div class="ax-sub">
                     {if in_array("List Support Tickets", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="supporttickets.php" data-ax-words="awaiting reply queue"><span class="ax-label">{$_ADMINLANG.support.supporttickets}</span>{if !empty($auroxCounters.tickets)}<span class="ax-badge is-accent">{$auroxCounters.tickets}</span>{/if}</a></div>
-                        <div class="ax-item"><a class="ax-link" href="supporttickets.php?view=flagged"><span class="ax-label">{$_ADMINLANG.support.flagged}</span></a></div>
-                        <div class="ax-item"><a class="ax-link" href="supporttickets.php?view=active"><span class="ax-label">{$_ADMINLANG.support.allactive}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="supporttickets.php?view=flagged"><span class="ax-label">{$_ADMINLANG.support.flagged}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="supporttickets.php?view=active"><span class="ax-label">{$_ADMINLANG.support.allactive}</span></a></div>
+                        {foreach $menuticketstatuses as $axTicketStatus}<div class="ax-item is-child"><a class="ax-link" href="supporttickets.php?view={$axTicketStatus|escape:'url'}"><span class="ax-label">{$axTicketStatus|escape}</span></a></div>{/foreach}
                     {/if}
                     {if in_array("Open New Ticket", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="supporttickets.php?action=open" data-ax-words="create new ticket"><span class="ax-label">{$_ADMINLANG.support.opennewticket}</span></a></div>
@@ -175,6 +190,9 @@
                     {/if}
                     {if in_array("Manage Network Issues", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="networkissues.php" data-ax-words="status outage"><span class="ax-label">{$_ADMINLANG.networkissues.title}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="networkissues.php?view=scheduled" data-ax-words="maintenance"><span class="ax-label">{$_ADMINLANG.networkissues.scheduled}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="networkissues.php?view=resolved"><span class="ax-label">{$_ADMINLANG.networkissues.resolved}</span></a></div>
+                        <div class="ax-item is-child"><a class="ax-link" href="networkissues.php?action=manage" data-ax-words="new outage"><span class="ax-label">{$_ADMINLANG.networkissues.addnew}</span></a></div>
                     {/if}
                 </div>
             </div>
@@ -202,12 +220,18 @@
                 </div>
             {/if}
 
-            <div class="ax-item" data-ax-key="utilities" data-ax-also="^(utilities|calendar|todolist|whois|automationstatus|modulequeue|systemdatabase|systemcleanup|systemphpinfo|systemintegrationcode|update|whmcsconnect)">
+            <div class="ax-item" data-ax-key="utilities" data-ax-also="^(utilities|calendar|todolist|whois|automationstatus|modulequeue|systemdatabase|systemcleanup|systemphpinfo|systemintegrationcode|update|whmcsconnect|sitejet|phpcompat)">
                 <button type="button" class="ax-link" data-ax-toggle="1" aria-expanded="false" data-tip="{$_ADMINLANG.utilities.title}" data-ax-icon="grid">
                     {include file="$template/aurox/icon.tpl" i="grid"}<span class="ax-label">{$_ADMINLANG.utilities.title}</span>
                     {include file="$template/aurox/icon.tpl" i="chev" c="ax-chev"}
                 </button>
                 <div class="ax-sub">
+                    {if in_array("WHMCSConnect", $admin_perms)}
+                        <div class="ax-item"><a class="ax-link" href="whmcsconnect.php" data-ax-words="connect remote installations"><span class="ax-label">{$_ADMINLANG.whmcsConnect.whmcsConnectName}</span></a></div>
+                    {/if}
+                    {if in_array('Apps and Integrations', $admin_perms)}
+                        <div class="ax-item"><a class="ax-link" href="{routePath('admin-utilities-sitejet-builder-index')}" data-ax-words="website builder sitejet"><span class="ax-label">{$_ADMINLANG.utilities.sitejetBuilder.title}</span></a></div>
+                    {/if}
                     {if in_array("Calendar", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="calendar.php"><span class="ax-label">{$_ADMINLANG.utilities.calendar}</span></a></div>
                     {/if}
@@ -249,6 +273,7 @@
                     {/if}
                     {if in_array("View PHP Info", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="systemphpinfo.php"><span class="ax-label">{$_ADMINLANG.utilities.phpinfo}</span></a></div>
+                        <div class="ax-item"><a class="ax-link" href="{routePath('admin-utilities-system-phpcompat')}" data-ax-words="php version compatibility"><span class="ax-label">{$_ADMINLANG.utilities.phpcompat}</span></a></div>
                     {/if}
                     {if in_array("Update WHMCS", $admin_perms)}
                         <div class="ax-item"><a class="ax-link" href="update.php" data-ax-words="upgrade"><span class="ax-label">{$_ADMINLANG.update.title}</span></a></div>
@@ -298,6 +323,8 @@
                 <div class="ax-sub">
                     {foreach from=$addon_modules key=module item=displayname}
                         <div class="ax-item"><a class="ax-link" href="addonmodules.php?module={$module}"><span class="ax-label">{$displayname}</span></a></div>
+                    {foreachelse}
+                        <div class="ax-item"><a class="ax-link" href="https://marketplace.whmcs.com" target="_blank" rel="noopener" data-ax-words="buy modules"><span class="ax-label">Visit WHMCS Marketplace</span></a></div>
                     {/foreach}
                     <div class="ax-item"><a class="ax-link" href="{routePath('admin-apps-index')}" data-ax-words="marketplace integrations"><span class="ax-label">{$_ADMINLANG.setup.appsAndIntegrations}</span></a></div>
                 </div>
@@ -352,7 +379,7 @@
         </a>
         <div class="ax-me">
             <b>{$adminFullName}</b>
-            <a href="myaccount.php">{$_ADMINLANG.global.myaccount}</a> · <a href="logout.php">{$_ADMINLANG.global.logout}</a>
+            <span class="ax-me-links"><a href="myaccount.php">{$_ADMINLANG.global.myaccount}</a><a href="logout.php">{$_ADMINLANG.global.logout}</a></span>
         </div>
         <button type="button" class="ax-icon-btn" data-ax-action="mode" aria-label="Switch light or dark" title="Light / dark">{include file="$template/aurox/icon.tpl" i="moon"}</button>
         <button type="button" class="ax-icon-btn" data-ax-action="help" aria-label="Keyboard shortcuts" title="Keyboard shortcuts  ?">{include file="$template/aurox/icon.tpl" i="keyboard"}</button>

@@ -616,8 +616,7 @@
       h('a', { class: 'ax-avatar', href: resolve('myaccount.php'), title: 'My account', text: initials }),
       h('div', { class: 'ax-me' }, [
         h('b', { text: me && me.name ? me.name : 'Administrator' }),
-        h('a', { href: resolve('myaccount.php'), text: 'My account' }), ' · ',
-        h('a', { href: resolve('logout.php'), text: 'Log out' })
+        h('span', { class: 'ax-me-links' }, [h('a', { href: resolve('myaccount.php'), text: 'My account' }), h('a', { href: resolve('logout.php'), text: 'Log out' })])
       ]),
       h('button', { type: 'button', class: 'ax-icon-btn', 'data-ax-action': 'mode', 'aria-label': 'Switch light or dark', title: 'Light / dark  ' + MOD + '+Shift+L' }, [icon('moon')]),
       CFG.shortcuts !== false ? h('button', { type: 'button', class: 'ax-icon-btn', 'data-ax-action': 'help', 'aria-label': 'Keyboard shortcuts', title: 'Keyboard shortcuts  ?' }, [icon('keyboard')]) : null,
@@ -759,11 +758,21 @@
         var parentLink = sub ? sub.parentNode.querySelector('.ax-link') : null;
         var parentLabel = parentLink ? (parentLink.querySelector('.ax-label') || parentLink).textContent.trim() : '';
         var section = a.closest('.ax-group').querySelector('.ax-section-title');
+        // A filtered view ("Paid") is named after the page it filters ("Invoices").
+        var item = a.closest('.ax-item'), pageLabel = '';
+        if (item && item.classList.contains('is-child')) {
+          for (var prev = item.previousElementSibling; prev; prev = prev.previousElementSibling) {
+            if (prev.classList.contains('ax-item') && !prev.classList.contains('is-child')) {
+              var pl = prev.querySelector('.ax-label'); if (pl) { pageLabel = pl.textContent.replace(/\s+/g, ' ').trim(); }
+              break;
+            }
+          }
+        }
         items.push({
           group: 'Go to', title: label, top: !sub,
-          hint: parentLabel || (section ? section.textContent.trim() : ''),
+          hint: pageLabel || parentLabel || (section ? section.textContent.trim() : ''),
           icon: (parentLink || a).getAttribute('data-ax-icon') || 'link',
-          url: a.getAttribute('href'), words: (a.getAttribute('data-ax-words') || '') + ' ' + parentLabel
+          url: a.getAttribute('href'), words: (a.getAttribute('data-ax-words') || '') + ' ' + parentLabel + ' ' + pageLabel
         });
       });
     } else NAV.forEach(function (sec) {
@@ -1049,7 +1058,7 @@
           ]),
           body,
           h('div', { class: 'ax-help-credit' }, [
-            'Aurox Admin v' + (CFG.version || '') + ' · made by ',
+            'Aurox Admin v' + (CFG.version || '') + ', made by ',
             h('a', { href: 'https://github.com/GreatsLab', target: '_blank', rel: 'noopener', text: 'Chimnadindu Great Chibueze' })
           ])
         ])
@@ -1329,7 +1338,7 @@
   }
 
   window.AuroxUI = {
-    version: CFG.version || '3.1.0',
+    version: CFG.version || '3.1.1',
     open: openPalette,
     close: closePalette,
     help: openHelp,

@@ -19,9 +19,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="same-origin">
-    <meta name="generator" content="Aurox Admin 3.1.0 by Chimnadindu Great Chibueze - https://github.com/GreatsLab/aurox">
+    <meta name="generator" content="Aurox Admin 3.1.1 by Chimnadindu Great Chibueze - https://github.com/GreatsLab/aurox">
     <!-- Aurox Admin for WHMCS · designed and built by Chimnadindu Great Chibueze · https://github.com/GreatsLab/aurox -->
-    <title>{$pagetitle} · {if !empty($auroxBrand)}{$auroxBrand|escape}{else}WHMCS{/if}</title>
+    <title>{$pagetitle} - {if !empty($auroxBrand)}{$auroxBrand|escape}{else}WHMCS{/if}</title>
 
     <script>
         {* Apply saved theme, density and menu state before anything paints. *}
@@ -52,12 +52,14 @@
     <link href="{$WEB_ROOT}/assets/fonts/css/fontawesome-light.min.css" rel="stylesheet" />
     <link href="{$WEB_ROOT}/assets/fonts/css/fontawesome-brands.min.css" rel="stylesheet" />
     <link href="{$WEB_ROOT}/assets/fonts/css/fontawesome-duotone.min.css" rel="stylesheet" />
-    <link href="templates/{$template}/aurox/css/aurox-dark.css?v=3.1.0-{$versionHash}" rel="stylesheet" />
-    <link href="templates/{$template}/aurox/css/aurox-admin.css?v=3.1.0-{$versionHash}" rel="stylesheet" />
-    <link href="templates/{$template}/aurox/css/aurox-template.css?v=3.1.0-{$versionHash}" rel="stylesheet" />
-    <link href="templates/{$template}/aurox/css/aurox-dashboard.css?v=3.1.0-{$versionHash}" rel="stylesheet" />
-    <link href="templates/{$template}/aurox/css/aurox-mobile.css?v=3.1.0-{$versionHash}" rel="stylesheet" />
-    <link href="templates/{$template}/aurox/css/aurox-pages.css?v=3.1.0-{$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/aurox/css/aurox-dark.css?v=3.1.1-{$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/aurox/css/aurox-admin.css?v=3.1.1-{$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/aurox/css/aurox-template.css?v=3.1.1-{$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/aurox/css/aurox-dashboard.css?v=3.1.1-{$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/aurox/css/aurox-mobile.css?v=3.1.1-{$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/aurox/css/aurox-pages.css?v=3.1.1-{$versionHash}" rel="stylesheet" />
+    <link href="templates/{$template}/aurox/fonts/aurox-condensed-700.woff" rel="preload" as="font" type="font/woff" crossorigin />
+    <link href="templates/{$template}/aurox/css/aurox-skin.css?v=3.1.1-{$versionHash}" rel="stylesheet" />
     {if !empty($auroxCustomCss)}<style id="aurox-custom">{$auroxCustomCss}</style>{/if}
 
     <script type="text/javascript" src="templates/{$template}/js/vendor.min.js?v={$versionHash}"></script>
@@ -77,7 +79,7 @@
             {$jscode}
         {/if}
 
-        window.AuroxAdminConfig = {if !empty($auroxConfigJson)}{$auroxConfigJson}{else}{ldelim}"version":"3.1.0","brand":"WHMCS","palette":true,"shortcuts":true,"tools":true,"tableTools":true,"guard":true,"tour":true,"counters":{ldelim}{rdelim}{rdelim}{/if};
+        window.AuroxAdminConfig = {if !empty($auroxConfigJson)}{$auroxConfigJson}{else}{ldelim}"version":"3.1.1","brand":"WHMCS","palette":true,"shortcuts":true,"tools":true,"tableTools":true,"guard":true,"tour":true,"counters":{ldelim}{rdelim}{rdelim}{/if};
         window.AuroxAdminConfig.template = true;
         window.AuroxAdminConfig.adminPath = "{$ADMIN_WEB_ROOT}/";
         window.AuroxAdminConfig.routes = {ldelim}
@@ -180,7 +182,7 @@
                     {include file="$template/aurox/icon.tpl" i="help"}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="dropdown-header">Aurox 3.1.0</li>
+                    <li class="dropdown-header">Aurox 3.1.1</li>
                     <li><a href="#" data-ax-action="guide">{include file="$template/aurox/icon.tpl" i="info"} Page guide <kbd>I</kbd></a></li>
                     <li><a href="#" data-ax-action="help">{include file="$template/aurox/icon.tpl" i="keyboard"} Keyboard shortcuts <kbd>?</kbd></a></li>
                     <li><a href="#" data-ax-action="tour">{include file="$template/aurox/icon.tpl" i="compass"} Take the tour</a></li>

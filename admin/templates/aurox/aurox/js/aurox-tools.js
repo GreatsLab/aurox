@@ -242,7 +242,7 @@
       var pct = Math.min(100, bits / 1.28);
       meter.firstChild.style.width = pct + '%';
       meter.className = 'ax-meter ' + (bits < 60 ? 'is-weak' : bits < 90 ? 'is-ok' : 'is-strong');
-      meterText.textContent = (bits < 60 ? 'Weak' : bits < 90 ? 'Good' : 'Very strong') + ' · about ' + bits + ' bits of randomness';
+      meterText.textContent = (bits < 60 ? 'Weak' : bits < 90 ? 'Good' : 'Very strong') + ', about ' + bits + ' bits of randomness';
       lenOut.textContent = String(n);
       store.set('pw-len', n);
       var o = {}; Object.keys(boxes).forEach(function (k) { o[k] = boxes[k].checked; }); store.set('pw-opts', o);
@@ -296,7 +296,7 @@
       var days = Math.round((b - a) / 864e5);
       var abs = Math.abs(days);
       res2.textContent = abs + ' day' + (abs === 1 ? '' : 's') + (days < 0 ? ' before' : '') +
-        '  ·  ' + (abs / 7).toFixed(1) + ' weeks  ·  about ' + (abs / 30.4375).toFixed(1) + ' months';
+        ', or ' + (abs / 7).toFixed(1) + ' weeks, about ' + (abs / 30.4375).toFixed(1) + ' months';
     }
     onAll([start, amount, unit, dir], calc1);
     onAll([from, to], calc2);
@@ -378,7 +378,7 @@
       res.textContent = units.slice(1).map(function (u, i) {
         var v = bytes / Math.pow(b, i + 1);
         return (v >= 100 ? Math.round(v).toLocaleString() : v.toLocaleString(undefined, { maximumFractionDigits: 3 })) + ' ' + u;
-      }).join('  ·  ');
+      }).join(', ');
       var sec = bytes * 8 / (num(speed.value) * 1e6);
       res2.textContent = 'About ' + human(sec) + ' at ' + num(speed.value) + ' Mbps (before overhead)';
     }
@@ -409,7 +409,7 @@
     }
     function fromLocal() {
       var d = new Date(local.value);
-      res2.textContent = isNaN(d) ? 'Pick a date and time.' : 'Unix: ' + Math.floor(d / 1000) + '   ·   ms: ' + d.getTime();
+      res2.textContent = isNaN(d) ? 'Pick a date and time.' : 'Unix time ' + Math.floor(d / 1000) + ', in milliseconds ' + d.getTime();
     }
     function now() {
       var d = new Date();
@@ -578,7 +578,7 @@
 
       return h('div', null, [
         intro('Private notes that only you can see, saved in this browser. Handy for “call this client back Friday” or server details you check often.'),
-        field('Note for this page · ' + _.pageTitle(), pageArea),
+        field('Note for ' + _.pageTitle(), pageArea),
         field('Scratchpad', scratch),
         status,
         others.children.length ? h('h4', { class: 'ax-h4', text: 'Other pages with notes' }) : null,
